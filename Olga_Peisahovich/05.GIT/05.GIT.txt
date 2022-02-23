@@ -1,0 +1,34 @@
+
+*Note: не совсем понимаю рельный тут кейс. Почему-то ветка хотфикс по заданию содержит только 2 коммита из ветки мастер.
+ Но по факту если ситуация prod is down случилось после релиза, то хотфикс же будет от текущего мастера?
+ А он уже должен содержать после релиза все изменения staging и test. В общем, я старалась делать как в задании=)*
+
+## Commits in Branch **'master'** (from git log --oneline) 
+1. ca6b50d (HEAD -> master) commit5 -adding file5 to test
+2. 9ecee31 commit4  -adding file4 to staging
+3. 711526c commit3  -adding file3 to staging
+4. 7009851 (fix/prod_is_down) adding the fix in file1
+5. e53faca commit2 - adding file2 to master
+6. 97e6862 commit1 - adding file1
+
+##Commits in branch **staging**
+
+1. 1fd9ae3 (HEAD -> staging) commit4  -adding file4 to staging
+2. 0ce67e8 commit3  -adding file3 to staging
+3. 7009851 (fix/prod_is_down) adding the fix in file1
+4. e53faca commit2 - adding file2 to master
+5. 97e6862 commit1 - adding file1
+
+##Commits in branch **test**
+1. e98554a (HEAD -> test) commit5 -adding file5 to test
+2. 125dc01 commit4  -adding file4 to staging
+3. e76be14 commit3  -adding file3 to staging
+4. 7009851 (fix/prod_is_down) adding the fix in file1
+5. e53faca commit2 - adding file2 to master
+6. 97e6862 commit1 - adding file1
+
+##Commits in branch **'fix/prod_is_down'**
+
+1. 7009851 (HEAD -> fix/prod_is_down) adding the fix in file1
+2. e53faca commit2 - adding file2 to master
+3. 97e6862 commit1 - adding file1
