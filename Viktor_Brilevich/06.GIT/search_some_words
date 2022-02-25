@@ -1,0 +1,65 @@
+#!/bin/bash
+
+find linux-5.16.11/* -type f > 1.txt
+
+cat 1.txt | while read y
+do
+echo $y
+grep -o -i fuck $y | wc -w >>2.txt
+grep -o -i shit $y | wc -w >>3.txt
+grep -o -i iwai $y | wc -w >>4.txt
+grep -o -i garbage $y | wc -w >>5.txt
+done
+p=0
+cat 2.txt | while read line
+do
+#echo $line
+let p=$(( $p + $line ))
+echo $p > 6.txt
+done
+
+cat 6.txt | while read sum
+do
+echo " Word fuck is " $sum
+done
+
+p=0
+cat 3.txt | while read line
+do
+#echo $line
+let p=$(( $p + $line ))
+echo $p > 6.txt
+done
+
+cat 6.txt | while read sum
+do
+echo " Word shit is " $sum
+done
+
+p=0
+cat 4.txt | while read line
+do
+#echo $line
+let p=$(( $p + $line ))
+echo $p > 6.txt
+done
+
+cat 6.txt | while read sum
+do
+echo " Word iwai is " $sum
+done
+
+p=0
+cat 5.txt | while read line
+do
+#echo $line
+let p=$(( $p + $line ))
+echo $p > 6.txt
+done
+
+cat 6.txt | while read sum
+do
+echo " Word garbage is " $sum
+done
+
+rm *.txt
