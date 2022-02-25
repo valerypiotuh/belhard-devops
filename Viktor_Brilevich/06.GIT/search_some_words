@@ -63,3 +63,4 @@ echo " Word garbage is " $sum
 done
 
 rm *.txt
+
