@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "How many "fuck" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "fuck" | wc -w 
+echo "How many "shit" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "shit" | wc -w
+echo "How many "crap" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "crap" | wc -w
+echo "How many "bastard" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "bastard" | wc -w
+echo "How many "penguin" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "penguin" | wc -w
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+read -rp 'What word are you looking for?: ' name
+grep -r -o -i  $name | wc -w  
