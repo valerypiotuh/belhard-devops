@@ -1,0 +1,26 @@
+#!/bin/bash
+
+read -rp 'Enter word for search: ' word
+read -rp 'Enter directory for search: ' dir
+find $dir -type f > 1.txt
+
+cat 1.txt | while read y
+do
+echo $y
+grep -o -i $word $y | wc -w >>2.txt
+done
+p=0
+cat 2.txt | while read line
+do
+#echo $line
+let p=$(( $p + $line ))
+echo $p > 3.txt
+done
+
+cat 3.txt | while read sum
+do
+echo " Word " $word " is " $sum
+done
+
+rm *.txt
+
