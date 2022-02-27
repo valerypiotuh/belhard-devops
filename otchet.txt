@@ -1,77 +1,24 @@
-* commit 190c923ca1f7cf0550281d530c241f7fa963efa6 (HEAD -> master)
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 12:16:49 2022 -0500
-| 
-|     dop commit 1 dlya staging
-| 
-* commit 6c31831fc1ac4e9d106b067736bb034801f491db
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 13:16:41 2022 -0500
-| 
-|     vse komandi 05.git.txt
-| 
-* commit 58249ba3132b1ae6a0695fa216a56305c4079898
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 12:36:36 2022 -0500
-| 
-|     dop commit vetki fix/prod
-| 
-* commit ac06466f91c6318caa84a8b4331ccd96df65e5bf
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 12:19:24 2022 -0500
-| 
-|     dop commit vetki test
-| 
-* commit ecdf1c7fd0b88f741ecf55df890988088abcea8a
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 12:17:34 2022 -0500
-| 
-|     dop commit 2 dlya staging
-|   
-| * commit d8b011befb82fc32f2fe7d6eaf43031027decf22 (test)
-| | Author: Eduard Danilov <ed.danilov94@gmail.com>
-| | Date:   Sat Feb 26 12:19:24 2022 -0500
-| | 
-| |     dop commit vetki test
-| | 
-| * commit bcbb1d84f7b1db85bf4f40d56ab4d42f02194c77
-| | Author: Eduard Danilov <ed.danilov94@gmail.com>
-| | Date:   Sat Feb 26 12:17:34 2022 -0500
-| | 
-| |     dop commit 2 dlya staging
-| | 
-| * commit c876300d36f31dfb00d7ab76c9a14ee47dc21382
-| | Author: Eduard Danilov <ed.danilov94@gmail.com>
-| | Date:   Sat Feb 26 12:16:49 2022 -0500
-| | 
-| |     dop commit 1 dlya staging
-| |   
-| | * commit b947eccf05d148a5c54599697a0c3104cd23695b (staging)
-| | | Author: Eduard Danilov <ed.danilov94@gmail.com>
-| | | Date:   Sat Feb 26 12:17:34 2022 -0500
-| | | 
-| | |     dop commit 2 dlya staging
-| | | 
-| | * commit 3abc6185c77bbf11e3430aa691a783f59c01f237
-| |/  Author: Eduard Danilov <ed.danilov94@gmail.com>
-| |   Date:   Sat Feb 26 12:16:49 2022 -0500
-| |   
-| |       dop commit 1 dlya staging
-| | 
-| * commit e7e0b408eb2e7757cacb3d7b0b39673d2bfa6df1 (fix/prod_is_down)
-|/  Author: Eduard Danilov <ed.danilov94@gmail.com>
-|   Date:   Sat Feb 26 12:36:36 2022 -0500
-|   
-|       dop commit vetki fix/prod
-| 
-* commit 6d3d4c58f2408a3f641d1eeee5627140aa208b46
-| Author: Eduard Danilov <ed.danilov94@gmail.com>
-| Date:   Sat Feb 26 12:10:21 2022 -0500
-| 
-|     commit 2 vetki master
-| 
-* commit c6477d8515435a3abc80af2d381faf38f0533dcb
-  Author: Eduard Danilov <ed.danilov94@gmail.com>
-  Date:   Sat Feb 26 12:09:10 2022 -0500
-  
-      commit 1 vetki master
+2c60512 ydalil file1, file2
+b6d3db1 05.GIT.txt v2
+65acda0 Spisok kommitov
+190c923 dop commit 1 dlya staging
+6c31831 vse komandi 05.git.txt
+58249ba dop commit vetki fix/prod
+ac06466 dop commit vetki test
+ecdf1c7 dop commit 2 dlya staging
+6d3d4c5 commit 2 vetki master
+c6477d8 commit 1 vetki master
+b947ecc dop commit 2 dlya staging
+3abc618 dop commit 1 dlya staging
+e7e0b40 dop commit vetki fix/prod
+6d3d4c5 commit 2 vetki master
+c6477d8 commit 1 vetki master
+d8b011b dop commit vetki test
+bcbb1d8 dop commit 2 dlya staging
+c876300 dop commit 1 dlya staging
+e7e0b40 dop commit vetki fix/prod
+6d3d4c5 commit 2 vetki master
+c6477d8 commit 1 vetki master
+e7e0b40 dop commit vetki fix/prod
+6d3d4c5 commit 2 vetki master
+c6477d8 commit 1 vetki master
