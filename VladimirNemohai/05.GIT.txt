@@ -1,0 +1,61 @@
+создан файл в мастере и выполнено его изменение:
+2b018ab (HEAD -> master) modified file
+38fc0b4 file start DZ Git
+
+создана ветка staging, выполнено изменение в файле и создан дополнительный файл: 
+9d58c7a (HEAD -> staging) new file directory staging
+034f0f1 modified in directory STAging
+2b018ab (master) modified file
+38fc0b4 file start DZ Git
+
+создана ветка test, выполнено изменение в файле:
+77377ba (HEAD -> test) finish test
+9d58c7a (staging) new file directory staging
+034f0f1 modified in directory STAging
+2b018ab (master) modified file
+38fc0b4 file start DZ Git
+
+создана ветка fix/prod_is_down, выполнено изменение в файле:
+7fb8ac1 (HEAD -> fix/prod_is_down) prod is down
+2b018ab (master) modified file
+38fc0b4 file start DZ Git
+
+все созданные ветки:
+* fix/prod_is_down
+  master
+  staging
+  test
+
+перенесены изменения из ветки test в master:
+77377ba (HEAD -> master, test) finish test
+9d58c7a (staging) new file directory staging
+034f0f1 modified in directory STAging
+2b018ab modified file
+38fc0b4 file start DZ Git
+
+конфлик при выполнении: 
+git rebase fix/prod_is_down
+First, rewinding head to replay your work on top of it...
+Applying: modified in directory STAging
+Using index info to reconstruct a base tree...
+M       VladimirNemohai/05.GIT/file01
+Falling back to patching base and 3-way merge...
+Auto-merging VladimirNemohai/05.GIT/file01
+CONFLICT (content): Merge conflict in VladimirNemohai/05.GIT/file01
+error: Failed to merge in the changes.
+Patch failed at 0001 modified in directory STAging
+hint: Use 'git am --show-current-patch' to see the failed patch
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+конфликтная запись в самом файле:
+DZ 05 Git StartXX
+/VladimirNemohai/05.Git/file01
+<<<<<<< HEAD
+prod_is_down
+=======
+modification
+>>>>>>> modified in directory STAging
+
