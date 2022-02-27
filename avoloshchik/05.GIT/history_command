@@ -1,0 +1,71 @@
+  281  git branch
+  282  git status
+  283  mkdir avoloshchik
+  284  mkdir avoloshchik/05.git
+  285  cd avoloshchik/05.git/
+  286  git init
+  287  ls -la
+  288  git branch
+  289  touch file1_master
+  290  git status
+  291  git add file1_master
+  292  git status
+  293  git commit -m 'added_file1_master'
+  294  git log
+  295  git branch
+  296  touch file2_master
+  297  git status
+  298  git add file2_master
+  299  git status
+  300  git commit -m 'added_file2_master'
+  305  git log
+  307  git checkout -b staging
+  308  git branch
+  309  git log
+  310  touch file1_staging
+  311  git status
+  312  git add file1_staging
+  314  git log
+  315  touch file2_staging
+  316  git status
+  317  git add file2_staging
+  318  git commit -m 'added_file2_staging'
+  319  git log
+  320  git branch
+  321  git checkout -b test
+  322  git log
+  323  touch file1_test
+  324  git status
+  325  git add file1_test
+  326  git commit -m 'added_file1_test'
+  327  git log
+  329  git checkout master
+  330  git branch
+  331  git log
+  332  git checkout -b fix/prod_is_down
+  333  git branch
+  334  git log
+  336  touch file1_fix_prod_is_down
+  337  ls -la
+  338  git add file1_fix_prod_is_down
+  339  git status
+  340  git commit -m 'added_file1_fix_prod_is_down'
+  341  git log
+  342  git branch
+  343  git checkout master
+  344  git branch
+  345  git merge staging test
+  346  git log
+  347  git merge fix/prod_is_down
+  348  git log
+  350  ls -la
+  352  git checkout staging
+  353  git log
+  354  git merge fix/prod_is_down
+  355  git log
+  356  ls -la
+  357  git branch
+  358  git checkout test
+  359  git log
+  360  git merge fix/prod_is_down
+  361  git log
