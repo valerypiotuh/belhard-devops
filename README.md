@@ -1,19 +1,77 @@
-# Курс «DevOps. Системный инженер»
+# GIT-homework
+1. Создаем папку "Домашка": `mkdir domashka`
+2. Делаем папку репозиторием командой `git init`
+3. Находясь в ветке "master", создаем 2 текстовых файла с названиями "file1" и "file2":
+>`nano file1`
+>
+>`nano file2`
+4. Добавляем файлы в контроль: `git add --all`
+5. Создаем коммит: `git commit -m "commit 1 vetki master"`
+6. Далее по аналогии
+>`nano file3`
+>
+>`git add file3`
+>
+>`git commit -m "commit 2 vetki master"`
+7. Создаем новую ветку и автоматически в нее попадаем `git checkout -b staging`
+8. Снова создаем файл и пишем команды по аналогии:
 
-Этот репозиторий будет хранить все практические домашние задания слушателей этого кура.
+>`nano file4`
+>
+>`git add file4`
+>
+>`git commit -m "dop commit 1 dlya staging"`
+>
+>`nano file5`
+>
+>`git add file5`
+>
+>`git commit -m "dop commit 2 dlya staging"`
 
-## Текущая рабочая ветка `bh-devops-01-22`
+9. По аналогии работаем с веткой test
+>`git checkout -b staging`
+>>
+>`nano file6`
+>>
+>`git add file6`
+>
+>`git commit -m "dop commit vetki test"`
 
-### Для того, чтобы корректно загрузить свое домашнее задание в репозиторий нужно:
-1. Форкнуть себе в аккаунт этот репозиторий (см. правый верхний угол, кнопка *Fork*)
-2. Скачать себе на компьютер этот репозиторий командой `git clone https://github.com/YOUR_GITHUB_ACCOUNT/belhard-devops`
-3. Перейти на текущую рабочую ветку (см. выше), например `git checkout bh-devops-01-22`
-4. *Обязательно* нужно загрузить все изменения из главного репозитория ( вот пример https://stackoverflow.com/questions/7244321/how-do-i-update-or-sync-a-forked-repository-on-github )
-5. Создать папку с Вашими именем и фамилией (например, моя папка называлась бы Valery_Piotuh)
-6. Создать внутри папку с названием домашнего задания (например 05.GIT)
-7. Добавить в нее файлы, необходимые для выполнения ДЗ
-8. Добавить эти файлы в SCM командой `git add необходимые_файлы` или `git add --all` для всех файлов
-9. Добавить комментарий командой `git commit -m "краткое описание"` например `git commit -m "05.GIT vpiotuh"`
-10. Загрузить эти файлы на GitHub командой `git push`
-11. В веб интерфейсе Github создать Pull Request для загрузки изменений из своего форка в главный репозиторий
-11. Ждать пока проверится Ваше ДЗ
+10. Переходим в ветку master, создаем ветку fix/prod_is_down и создаем коммит
+
+>`git checkout master`
+>
+>`git checkout -b fix/prod_is_down`
+>
+>`nano file7`
+>
+>`git add --all`
+>
+>`git commit -m "dop commit vetki fix/prod"`
+
+<b>ЗАДАНИЕ 1</b>
+
+Релиз в production - все коммиты должны быть в ветке master (кроме коммитов в ветке fix/prod_is_down)
+
+`git checkout master`
+
+`git cherry-pick staging test`
+
+<b>ЗАДАНИЕ 2</b>
+
+Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках
+
+>git rebase fix/prod_is_down
+>
+>git checkout staging
+>
+>git rebase fix/prod_is_down
+>
+>git checkout test
+>
+>git rebase fix/prod_is_down
+
+В конце этих сценариев Вы должны предоставить список коммитов в вышеуказанных ветках в качестве отчета о выполненном ДЗ
+
+`git log --all --graph --decorate > otchet.txt`
+
