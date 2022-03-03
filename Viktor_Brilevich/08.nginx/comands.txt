@@ -1,0 +1,4 @@
+belhard@ubuntu2:~/nginx/1$ docker build . -t nginx1
+belhard@ubuntu2:~/nginx/2$ docker build . -t nginx2
+docker run -d -p 8100:80 nginx1
+docker run -d -p 8200:80 nginx2
