@@ -1,0 +1,2 @@
+586a65875e85   docker_compose_compose-nginx2   "/docker-entrypoint.…"   16 seconds ago   Up 15 seconds   0.0.0.0:8200->80/tcp, :::8200->80/tcp   docker_compose_compose-nginx2_1
+c6dead628670   docker_compose_compose-nginx1   "/docker-entrypoint.…"   16 seconds ago   Up 15 seconds   0.0.0.0:8100->80/tcp, :::8100->80/tcp   docker_compose_compose-nginx1_1
