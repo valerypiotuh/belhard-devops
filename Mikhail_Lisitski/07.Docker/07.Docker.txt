@@ -1,0 +1,20 @@
+docker pull mlisitski86/alpine_linux
+
+Dockerfile
+	FROM alpine
+
+	RUN apk add --no-cache bash
+
+	WORKDIR /app
+
+	COPY . /app
+
+	ENTRYPOINT ./entrypoint.sh
+
+entrypoint.sh
+	#!/bin/bash
+
+	apk update && apk add --no-cache curl wget git py-pip
+	pip install speedtest-cli
+
+	speedtest-cli > /app/data/log-speedtest
