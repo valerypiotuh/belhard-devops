@@ -1,0 +1,10 @@
+-rw-r--r--   1 root root       26K Mar 10 17:56 ld.so.cache
+-rw-r--r--   1 root root       24K Oct 18  2019 mime.types
+-rw-r--r--   1 root root       15K Feb  1  2019 ltrace.conf
+-rw-r--r--   1 root root       15K Feb 16  2020 services
+-rw-r--r--   1 root root       11K Feb  7  2020 login.defs
+-rw-r--r--   1 root root      9.9K Feb  7  2020 nanorc
+-rw-r--r--   1 root root      9.3K Mar  1 21:45 locale.gen
+-rw-r--r--   1 root root      6.8K Nov  2 14:33 overlayroot.conf
+-rw-r--r--   1 root root      6.5K Feb 23 08:52 ca-certificates.conf
+-rw-r--r--   1 root root      5.6K Feb 23 08:51 ca-certificates.conf.dpkg-old
