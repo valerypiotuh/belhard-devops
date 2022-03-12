@@ -1,0 +1,24 @@
+### Содержимое dockerfile
+FROM alpine:latest
+LABEL maintainer="klimoff@tut.by"
+RUN mkdir /app
+WORKDIR /app
+RUN mkdir /log
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+### Содержимое entrypoint.sh (файл находится в одной папке с докерфайлом)
+#!/bin/sh
+apk update && apk add curl wget git bash speedtest-cli
+speedtest-cli > speddtest.log
+
+### Содержимое speddtest.log
+Retrieving speedtest.net configuration...
+Testing from Mobile TeleSystems JLLC (134.17.24.178)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by Mobile TeleSystems JLLC (Minsk) [0.29 km]: 3.627 ms
+Testing download speed................................................................................
+Download: 93.86 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 95.39 Mbit/s
