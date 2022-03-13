@@ -1,0 +1,26 @@
+belhard@debian:~/belhard-devops/Artsiom_Beladzedau/08.Nginx/docker-compose$ docker-compose build
+Building compose-nginx1
+Sending build context to Docker daemon  3.584kB
+Step 1/2 : FROM nginx:latest
+ ---> c919045c4c2b
+Step 2/2 : COPY index.html /usr/share/nginx/html
+ ---> 2d882f6b8fe5
+Successfully built 2d882f6b8fe5
+Successfully tagged docker-compose_compose-nginx1:latest
+Building compose-nginx2
+Sending build context to Docker daemon  3.584kB
+Step 1/2 : FROM nginx:latest
+ ---> c919045c4c2b
+Step 2/2 : COPY index.html /usr/share/nginx/html
+ ---> 65e4d08378e3
+Successfully built 65e4d08378e3
+Successfully tagged docker-compose_compose-nginx2:latest
+belhard@debian:~/belhard-devops/Artsiom_Beladzedau/08.Nginx/docker-compose$ docker-compose up -d
+Recreating docker-compose_compose-nginx1_1 ... done
+Recreating docker-compose_compose-nginx2_1 ... done
+belhard@debian:~/belhard-devops/Artsiom_Beladzedau/08.Nginx/docker-compose$ docker-compose ps
+             Name                            Command               State                  Ports
+---------------------------------------------------------------------------------------------------------------
+docker-compose_compose-nginx1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8100->80/tcp,:::8100->80/tcp
+docker-compose_compose-nginx2_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8200->80/tcp,:::8200->80/tcp
+belhard@debian:~/belhard-devops/Artsiom_Beladzedau/08.Nginx/docker-compose$
