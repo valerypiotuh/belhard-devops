@@ -1,0 +1,37 @@
+# Use postgres/example user/password credentials
+
+version: "3.1"
+  
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  db_2:
+    image: postgres
+    restart: always
+    container_name: postgres_2
+    volumes:
+      - postgres-data_2:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  adminer:
+    image: dpage/pgadmin4
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+volumes:
+  postgres-data:
+    driver: local
+  postgres-data_2:
+    driver: local
