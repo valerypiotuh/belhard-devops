@@ -12,8 +12,8 @@ resource "docker_container" "nginx1" {
     ]
     [1m[0menv[0m[0m               = []
     [1m[0mgateway[0m[0m           = "172.19.0.254"
-    [1m[0mhostname[0m[0m          = "vbril_{var.customer_subname1}"
-    [1m[0mid[0m[0m                = "f22968cfbda174a964ca25269ce85f79d15926724adb0ec614bf42610145f1a7"
+    [1m[0mhostname[0m[0m          = "vbril_docker_nginx1"
+    [1m[0mid[0m[0m                = "37d4c37d6e224b0b1f1e9743ead0c60952918e2fe0b9d923f4b5624c9cac8a71"
     [1m[0mimage[0m[0m             = "sha256:a82e4ea4a60321e8f664dbe0ed9ff4170bc6958b4e06562102a0e01295ef83f1"
     [1m[0minit[0m[0m              = false
     [1m[0mip_address[0m[0m        = "172.19.0.1"
@@ -78,8 +78,8 @@ resource "docker_container" "nginx2" {
     ]
     [1m[0menv[0m[0m               = []
     [1m[0mgateway[0m[0m           = "172.20.0.254"
-    [1m[0mhostname[0m[0m          = "vbril_{var.customer_subname2}"
-    [1m[0mid[0m[0m                = "a848d6b53a8f380f41ce2d8223c506279f2b8feb1fd061bd6103e07867b94e2a"
+    [1m[0mhostname[0m[0m          = "vbril_docker_nginx2"
+    [1m[0mid[0m[0m                = "d5f30cedd2cdab61eb348a3119b998aa3b3825556e1c82104913add31beb30a1"
     [1m[0mimage[0m[0m             = "sha256:d50bd5ff86bf1acd7554cf6e305820a57bb4ac29097200e3ec4b56cb0bffab90"
     [1m[0minit[0m[0m              = false
     [1m[0mip_address[0m[0m        = "172.20.0.1"
@@ -168,7 +168,7 @@ resource "docker_image" "nginx2" {
 resource "docker_network" "my_local_network1" {
     [1m[0mattachable[0m[0m  = false
     [1m[0mdriver[0m[0m      = "bridge"
-    [1m[0mid[0m[0m          = "8ccf0aa9ae3d22fc3c10b32c14cbe231ad80ede69600b8b70ec3b7e11060db70"
+    [1m[0mid[0m[0m          = "aaa0aae93e4298c6ed39c46210faf4ffb8ef468c4f303c04c2224314aace5961"
     [1m[0mingress[0m[0m     = false
     [1m[0minternal[0m[0m    = false
     [1m[0mipam_driver[0m[0m = "default"
@@ -187,7 +187,7 @@ resource "docker_network" "my_local_network1" {
 resource "docker_network" "my_local_network2" {
     [1m[0mattachable[0m[0m  = false
     [1m[0mdriver[0m[0m      = "bridge"
-    [1m[0mid[0m[0m          = "09210d0f8933702d62ca4c96840283a340276066c729b84cdd63b48c32d16d4c"
+    [1m[0mid[0m[0m          = "3ad24d52312b273f9cf7d1c29cb9e926eb3f13eb04cb4ca1726f2d739d6073d3"
     [1m[0mingress[0m[0m     = false
     [1m[0minternal[0m[0m    = false
     [1m[0mipam_driver[0m[0m = "default"
