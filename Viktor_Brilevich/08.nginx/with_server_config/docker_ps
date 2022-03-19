@@ -1,2 +1,0 @@
-0ea90fa1a209   docker_compose_compose-nginx1   "/docker-entrypoint.…"   34 minutes ago   Up 34 minutes   0.0.0.0:8101->80/tcp, :::8101->80/tcp   docker_compose_compose-nginx1_1
-f945b4c6c6ab   docker_compose_compose-nginx2   "/docker-entrypoint.…"   34 minutes ago   Up 34 minutes   0.0.0.0:8201->80/tcp, :::8201->80/tcp   docker_compose_compose-nginx2_1

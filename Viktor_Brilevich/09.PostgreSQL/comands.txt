@@ -1,6 +1,0 @@
-docker build . -f Dockerfile.1 -t postgrebd
-docker build . -f Dockerfile.2 -t postgreadmin4
-docker build . -f Dockerfile.3 -t postgrebdnew
-docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust -v ~/postgre/dump:/dump  postgrebd
-docker run -p 8888:80 -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root -d postgreadmin4
-docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust -v ~/postgre/dump:/dump  postgrebdnew

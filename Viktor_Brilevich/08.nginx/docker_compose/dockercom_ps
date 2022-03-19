@@ -1,4 +1,0 @@
-             Name                            Command               State                  Ports
----------------------------------------------------------------------------------------------------------------
-docker_compose_compose-nginx1_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8100->80/tcp,:::8100->80/tcp
-docker_compose_compose-nginx2_1   /docker-entrypoint.sh ngin ...   Up      0.0.0.0:8200->80/tcp,:::8200->80/tcp
