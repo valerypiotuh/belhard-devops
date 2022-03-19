@@ -1,0 +1,6 @@
+#!/bin/bash
+
+read -rp 'Enter name of directory for search: ' word
+
+find $word -type f -exec du -sh {} ';' | sort -rh | head -n 10
+
