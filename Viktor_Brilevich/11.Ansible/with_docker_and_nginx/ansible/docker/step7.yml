@@ -1,0 +1,25 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: java
+  become: yes
+  vars:
+    container_name: my_docker
+    image_name: my_image
+    tag_name: my_tag
+    image_dockerfile: /home/belhard/docker/Dockerfile
+    image_path: /home/belhard/docker
+
+  tasks:
+
+    - name: create Docker image
+      command: docker build {{ image_path }} -f {{ image_dockerfile }} -t {{ image_name }}:{{ tag_name }}     
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}:{{ tag_name }}"
+        volumes: 
+          - /home/belhard/docker/docker_test:/app
+    

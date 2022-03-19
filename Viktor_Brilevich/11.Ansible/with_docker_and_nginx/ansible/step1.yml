@@ -1,0 +1,33 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1100
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1200
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+

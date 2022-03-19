@@ -1,0 +1,22 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == 'ansible-2'
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes
+
+

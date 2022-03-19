@@ -1,0 +1,24 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: nginx
+  become: yes
+  vars:
+    container_name: my_docker2
+    image_name: my_image2
+    tag_name: my_tag2
+    image_dockerfile: /home/belhard/docker/nginx2/Dockerfile
+    image_path: /home/belhard/docker/nginx2
+
+  tasks:
+
+    - name: create Docker image nginx1
+      command: docker build {{ image_path }} -f {{ image_dockerfile }} -t {{ image_name }}:{{ tag_name }}     
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}:{{ tag_name }}"
+        published_ports:
+          - 8210:80
