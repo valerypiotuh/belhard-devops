@@ -1,0 +1,1 @@
+docker pull uladzimirh/first:07.docker

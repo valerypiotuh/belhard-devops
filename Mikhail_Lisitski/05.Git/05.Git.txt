@@ -1,0 +1,176 @@
+# git Mikhail Lisitski
+
+## Command
+
+0. echo "*.md" > .gitignire (README.md is in current directory)
+1. touch m1 m2
+2. git add --all
+3. git commit --all -m "add m1 and m2"
+4. git checkout -b "staging"
+5. touch s1 s2
+6. git add --all
+7. git commit --all -m "add s1 and s2"
+8. git checkout -b "test"
+9. touch t1
+10. git add t1
+11. git commit -m "add t1"
+12. git checkout bh-devops-01-22
+12. git checkout -b "fix/prod_is_down"
+13. touch f1
+14. git add f1
+15. git commit -m "add f1"
+
+
+# 1. Task - release to production
+16. git rebase staging bh-devops-01-22
+17. git rebase test bh-devops-01-22
+
+## 1. Result
+----------------------------
+4084445 (**HEAD -> bh-devops-01-22, test**) add t1
+95fd93c (staging) add s1 and s2
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 06:57 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:02 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 06:57 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s2
+-rw-r--r--  1 belhard devops    0 Feb 25 06:57 t1
+----------------------------
+95fd93c (**HEAD -> staging**) add s1 and s2
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:10 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:13 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:10 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s2
+----------------------------
+4084445 (**HEAD -> test, bh-devops-01-22**) add t1
+95fd93c (staging) add s1 and s2
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:14 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:13 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:14 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:56 s2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:14 t1
+----------------------------
+e313f9d (**HEAD -> fix/prod_is_down**) add f1
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:17 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:18 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:17 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 07:17 f1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+
+
+# 2. Task - deployment fix/prod_is_down
+18. git rebase fix/prod_is_down bh-devops-01-22
+19. git rebase fix/prod_is_down staging
+20. git rebase fix/prod_is_down test
+
+## 2. Result
+----------------------------
+dafd703 (**HEAD -> bh-devops-01-22**) add t1
+af5bf1a add s1 and s2
+e313f9d (fix/prod_is_down) add f1
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:34 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:34 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:34 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 07:29 f1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 t1
+----------------------------
+a1b1c31 (**HEAD -> staging**) add s1 and s2
+e313f9d (fix/prod_is_down) add f1
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:35 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:36 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:35 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 07:29 f1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s2
+-----------------------------
+bacd53d (**HEAD -> test**) add t1
+7c05d71 add s1 and s2
+e313f9d (fix/prod_is_down) add f1
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:37 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:37 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:37 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 07:29 f1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s1
+-rw-r--r--  1 belhard devops    0 Feb 25 07:34 s2
+-rw-r--r--  1 belhard devops    0 Feb 25 07:37 t1
+----------------------------
+e313f9d (HEAD -> fix/prod_is_down) add f1
+c53da3b add m1 and m2
+599a169 (origin/master, origin/bh-devops-01-22, origin/HEAD) initial commit
+
+total 24
+drwxr-xr-x  4 belhard devops 4096 Feb 25 07:39 .
+drwxr-xr-x 20 belhard devops 4096 Feb 25 07:39 ..
+drwxr-xr-x  8 belhard devops 4096 Feb 25 07:39 .git
+-rw-r--r--  1 belhard devops    5 Feb 25 06:44 .gitignore
+drwxr-xr-x  2 belhard devops 4096 Feb 25 06:44 Mikhail_Lisitski
+-rw-r--r--  1 belhard devops 2146 Feb 25 06:43 README.md
+-rw-r--r--  1 belhard devops    0 Feb 25 07:29 f1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m1
+-rw-r--r--  1 belhard devops    0 Feb 25 06:45 m2

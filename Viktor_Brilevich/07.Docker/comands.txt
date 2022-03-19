@@ -1,0 +1,6 @@
+docker build . -t homework:speedtest
+docker run -d -v ~/Docker/Docker_test:/app homework:speedtest
+docker login
+docker tag homework:speedtest vbrilik/docker_test:speedtest
+docker push vbrilik/docker_test:speedtest
+cat Docker_test/speedtest.log

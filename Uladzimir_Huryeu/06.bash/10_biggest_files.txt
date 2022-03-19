@@ -1,0 +1,15 @@
+10 biggest files in directory
+/usr/bin
+-rwxr-xr-x  1 root   root      93M Dec 13 11:43 dockerd
+-rwxr-xr-x  1 root   root      60M Dec 13 11:43 docker
+-rwxr-xr-x  1 root   root      47M Nov 17 18:48 containerd
+-rwxr-xr-x  1 root   root      25M Nov 17 18:48 ctr
+-rwxr-xr-x  1 root   root      24M Feb 23 18:25 snap
+-rwxr-xr-x  1 root   root      12M Dec 13 11:43 rootlesskit
+-rwxr-xr-x  1 root   root      11M Nov 17 18:48 runc
+-rwxr-xr-x  1 root   root     8.3M Nov 17 18:48 containerd-shim-runc-v2
+-rwxr-xr-x  1 root   root     8.3M Nov 17 18:48 containerd-shim-runc-v1
+-rwxr-xr-x  1 root   root     7.7M Dec 13 11:43 rootlesskit-docker-proxy
+
+All resuls saved to 10_biggest_files.txt
+

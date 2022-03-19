@@ -1,0 +1,3 @@
+sudo ln -s /etc/nginx/sites-available/0001-default.conf 0001-default.conf
+sudo ln -s /etc/nginx/sites-available/0002-default.conf 0002-default.conf
+sudo nginx -s reload

@@ -1,0 +1,6 @@
+belhard@ubuntu2:~/devops$ git log --oneline
+f5712f4 (HEAD -> master, test) Modified file 321
+208ec05 (staging) Modified file 123
+186f0c2 Created file 321
+3b40a85 Modified file 123
+8adaca6 Created file 123
