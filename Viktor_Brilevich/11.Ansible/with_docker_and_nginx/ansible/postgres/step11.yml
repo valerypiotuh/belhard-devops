@@ -1,0 +1,86 @@
+---
+
+- name: postgresql_database
+  hosts: all
+  become: yes
+  vars:
+    db_user1: belhard1
+    db_name1: test1
+    db_password1: "1"
+    db_user2: belhard2
+    db_name2: test2
+    db_password2: "2"
+
+  tasks:
+
+    - name: Create the database host 1 specified in vars
+      become: true
+      become_user: postgres
+      postgresql_db: name={{ db_name1 }}
+        template='template1'
+        state=present
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Create the database host 2 specified in vars
+      become: true
+      become_user: postgres
+      postgresql_db: name={{ db_name2 }}
+        template='template1'
+        state=present
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: Ensure user has access to the new database host 1
+      become: true
+      become_user: postgres
+      postgresql_user: db={{ db_name1 }}
+        name={{ db_user1 }}
+        password={{ db_password1 }}
+        priv=ALL
+        state=present
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Ensure user has access to the new database host 2
+      become: true
+      become_user: postgres
+      postgresql_user: db={{ db_name2 }}
+        name={{ db_user2 }}
+        password={{ db_password2 }}
+        priv=ALL
+        state=present
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: Create postgres directory
+      file:
+        path: /home/belhard/docker/postgres
+        state: directory
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=rx
+      become: yes
+
+    - name: Copy sql with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/docker/postgres/dump.sql
+        dest: /home/belhard/docker/postgres/dump.sql
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      become: yes
+
+    - name: Add table and rows data to my database host 1
+      become: yes
+      become_user: postgres
+      shell: psql {{ db_name1 }} < /home/belhard/docker/postgres/dump.sql
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Add table and rows data to my database host 2
+      become: yes
+      become_user: postgres
+      shell: psql {{ db_name2 }} < /home/belhard/docker/postgres/dump.sql
+      when:
+        - ansible_hostname == 'ansible-2'

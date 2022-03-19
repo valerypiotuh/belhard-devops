@@ -1,0 +1,31 @@
+---
+
+- name: backup DB
+  gather_facts: true
+  hosts: all
+  become: yes
+  vars:
+    db_name1: test1
+    db_name2: test2
+
+  tasks:
+
+    - name: adding user postgres to group devops
+      user:
+        name: postgres
+        groups: devops
+        append: yes
+
+    - name: dump database host 1
+      become: yes
+      become_user: postgres
+      command: pg_dump -U postgres -d {{ db_name1 }} -f /home/belhard/docker/postgres/dumpfull.sql
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: dump database host 2
+      become: yes
+      become_user: postgres
+      command: pg_dump -U postgres -d {{ db_name2 }} -f /home/belhard/docker/postgres/dumpfull.sql
+      when:
+        - ansible_hostname == 'ansible-2'

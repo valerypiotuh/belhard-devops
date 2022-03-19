@@ -7,3 +7,6 @@ ansible-playbook -i hosts docker/step6.yml
 ansible-playbook -i hosts docker/step7.yml
 ansible-playbook -i hosts docker/step8.yml
 ansible-playbook -i hosts docker/step9.yml
+ansible-playbook -i hosts postgres/step10.yml
+ansible-playbook -i hosts postgres/step11.yml
+ansible-playbook -i hosts postgres/step12.yml
