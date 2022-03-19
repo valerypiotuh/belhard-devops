@@ -1,10 +1,0 @@
-
-   Speedtest by Ookla
-
-     Server: BYFLY.BY - Minsk (id = 25480)
-        ISP: A1 Belarus
-    Latency:     1.65 ms   (0.21 ms jitter)
-   Download:    90.84 Mbps (data used: 71.4 MB )                               
-     Upload:    93.78 Mbps (data used: 45.8 MB )                               
-Packet Loss:     0.0%
- Result URL: https://www.speedtest.net/result/c/868912d1-d21e-4bc5-80a5-c91e0c43a659
