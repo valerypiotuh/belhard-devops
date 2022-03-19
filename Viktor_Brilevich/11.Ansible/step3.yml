@@ -1,0 +1,18 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
