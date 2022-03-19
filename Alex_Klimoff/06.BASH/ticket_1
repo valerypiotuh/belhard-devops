@@ -1,4 +1,0 @@
-#!/bin/bash
-
-read -rp 'What word are you looking for?: ' name
-grep -r -o -i  $name  /home/god/belhard-devops-old/linux-5.16.11/ | wc -w  
