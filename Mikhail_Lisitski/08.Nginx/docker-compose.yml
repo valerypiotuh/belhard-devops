@@ -1,0 +1,10 @@
+version: '3'
+services:
+  nginx1:
+    container_name: nginx1
+    build: ~/docker-compose/nginx1
+  nginx2:
+    container_name: nginx2
+    build: ~/docker-compose/nginx2
+
+  

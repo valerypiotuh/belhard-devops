@@ -1,0 +1,5 @@
+4,0K	./scriptcountwords.sh
+4,0K	./rez.txt
+4,0K	./biggestfiles.sh
+4,0K	./badwords.txt
+0	./result.txt
