@@ -4,9 +4,9 @@
 *vagrant@ansible-master:~$*
 
 *~/ansible/*
-  drwxrwxr-x   Docker_ansible
-  -rw-rw-r--   hosts
-  -rw-rw-r--   playbook.yml
+drwxrwxr-x   Docker_ansible
+-rw-rw-r--   hosts
+-rw-rw-r--   playbook.yml
 
 *~/ansible/Docker_ansible/*
   -rw-rw-r--   .dockerignore
