@@ -1,0 +1,38 @@
+---
+
+- name: backup DB
+  gather_facts: true
+  hosts: all
+  become: yes
+  vars:
+    container_name1: my_docker_old
+    image_name1: my_image_old
+    tag_name1: my_tag_old
+    container_name2: my_docker_new
+    image_name2: my_image_new
+    tag_name2: my_tag_new
+    image_dockerfile: /home/belhard/docker/postgres2/Dockerfile
+    image_path: /home/belhard/docker/postgres2
+
+  tasks:
+
+    - name: create Docker image
+      command: docker build {{ image_path }} -f {{ image_dockerfile }} -t {{ image_name1 }}:{{ tag_name1 }}
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name1 }}"
+        image: "{{ image_name1 }}:{{ tag_name1 }}"
+        volumes:
+          - /home/belhard/docker/postgres2/dump:/dump
+
+    - name: create Docker image
+      command: docker build {{ image_path }} -f {{ image_dockerfile }} -t {{ image_name2 }}:{{ tag_name2 }}
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name2 }}"
+        image: "{{ image_name2 }}:{{ tag_name2 }}"
+        volumes:
+          - /home/belhard/docker/postgres2/dump:/dump
+

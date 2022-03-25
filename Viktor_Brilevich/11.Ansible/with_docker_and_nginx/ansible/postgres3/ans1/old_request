@@ -1,0 +1,7 @@
+ id | firstname | lastname |      email       | age 
+----+-----------+----------+------------------+-----
+  1 | Ivan      | Ivanov   | ivanov@test.com  |  30
+  2 | Petr      | Petrov   | petrov@test.com  |  35
+  3 | Ivan      | Sidorov  | sidorov@test.com |  40
+(3 rows)
+

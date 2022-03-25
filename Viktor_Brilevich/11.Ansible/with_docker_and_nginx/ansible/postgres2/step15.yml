@@ -1,0 +1,12 @@
+---
+
+- name: runscript
+  hosts: all
+  gather_facts: true
+  become: yes
+  user: belhard
+
+  tasks:
+
+    - name: run script image
+      command: sh /home/belhard/docker/postgres2/dump/sc.sh

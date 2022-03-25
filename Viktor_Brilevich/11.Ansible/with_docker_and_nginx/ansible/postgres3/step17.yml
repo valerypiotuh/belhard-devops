@@ -1,0 +1,80 @@
+---
+
+- name: backup DB
+  gather_facts: true
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Create postgres directory
+      file:
+        path: /home/belhard/docker/postgres3
+        state: directory
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=rx
+      become: yes
+
+    - name: Create dump directory
+      file:
+        path: /home/belhard/docker/postgres3/dump
+        state: directory
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=rx
+      become: yes
+
+    - name: Copy dockerfile with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/Dockerfile
+        dest: /home/belhard/docker/postgres3/Dockerfile
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      become: yes
+
+
+    - name: Copy script with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/sc_create.sh
+        dest: /home/belhard/docker/postgres3/dump/sc_create.sh
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=r
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Copy script with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/sc_recreate.sh
+        dest: /home/belhard/docker/postgres3/dump/sc_recreate.sh
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=r
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: Copy create script with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/create.sh
+        dest: /home/belhard/docker/postgres3/dump/create.sh
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=r
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Copy recreate script with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/recreate.sh
+        dest: /home/belhard/docker/postgres3/dump/recreate.sh
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=r
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-2'

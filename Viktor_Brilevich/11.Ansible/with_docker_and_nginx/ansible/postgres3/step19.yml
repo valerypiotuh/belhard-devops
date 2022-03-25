@@ -1,0 +1,39 @@
+---
+
+- name: runscript
+  hosts: all
+  gather_facts: true
+  become: yes
+  user: belhard
+
+  tasks:
+
+    - name: run script image
+      command: sh /home/belhard/docker/postgres3/dump/sc_create.sh
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Copy backup from ansible 1 host to localhost
+      fetch:
+        src: /home/belhard/docker/postgres3/dump/dumpfull
+        dest: /home/vagrant/ansible/postgres3/
+        flat: yes
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Copy backup t0 ansible2 with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/postgres3/dumpfull
+        dest: /home/belhard/docker/postgres3/dump/dumpfull
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      become: yes
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: run script image
+      command: sh /home/belhard/docker/postgres3/dump/sc_recreate.sh
+      when:
+        - ansible_hostname == 'ansible-2'
