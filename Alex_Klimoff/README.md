@@ -34,6 +34,7 @@
 ##  Запускаем docker-compose build && docker swarm init && docker-compose up
 
 # Домашнее Задание 09.PostgreSQL
+
 ## Создаём папку 09.PostgreSQL, создаю скрипт для запуска контейнеров script (сам скрипт запуска прилагается)
 ## Командой docker ps -a смотрим ид контейнера postgres сервера  и входим в его терминал docker exec -it CONTAINER_ID /bin/bash, там вводим комманды:
 ### psql -U postgres
