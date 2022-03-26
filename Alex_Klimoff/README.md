@@ -31,7 +31,8 @@
 ## Запускаем оба контейнера коммандой docker run -d -p 8100:80 www1 && docker run -d  -p 8200:80 www2
 # Доп Задание сделать все тоже самое, только используя docker-compose и кастомную сеть
 ## Создал папку 08.5.Nginx, скопировал туда содержимое папки 08.Nginx, установил docker-compose на хост системе, создал yml файл для запуска docker-compose, в нем прописал запуск обоих докер файлов и кастомнуб сеть 172.28.0.0/24
-##  Запускаем docker-compose up -d
+##  Запускаем docker-compose build && docker swarm init && docker-compose up
+
 # Домашнее Задание 09.PostgreSQL
 ## Создаём папку 09.PostgreSQL, создаю скрипт для запуска контейнеров script (сам скрипт запуска прилагается)
 ## Командой docker ps -a смотрим ид контейнера postgres сервера  и входим в его терминал docker exec -it CONTAINER_ID /bin/bash, там вводим комманды:
@@ -52,4 +53,31 @@
 ### С помощью mc копируем по ssh файл на хост систему
 ### Запускаем еще 1 контейнер с postgresql docker run  -p 5433:5432 -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres, заходим аналогично первого контейнера на него и устанавливаем mc и ssh
 ### Копируем с хост системы файл dump_all в папку /home и восстанавливаем БД командой psql -U postgres -f /home/dump_all postgres
-### Зоходим в pgadmin, делаем новое подключени на порт 5433 и сравниваем 2 сервера , проверяем наличие БД belhard  и наличие данных в таблице devops  
+### Заходим в pgadmin, делаем новое подключени на порт 5433 и сравниваем 2 сервера , проверяем наличие БД belhard  и наличие данных в таблице devops  
+
+# Домашнее Задание 10.Terraform
+## Создаём 4 файла main.tf  provader.tf  res.tf  variables.tf
+###  main.tf - описание VM
+###  provader.tf - описание провайдера
+###  res.tf - параметры конфигурации  
+###  variables.tf - описание переменных
+## Дополнительно создана папка docker там скопированы файлы из домашнего задания  08.Nginx
+### Созданы файлы  docker.tf    main.tf      provader.tf 
+### main.tf - описание VM
+### provader.tf - описание провайдера
+### docker.tf - параметры и ключи запуска контейнеров docker
+
+# Домашнее Задание 11.Ansible
+##  
+### Подняты 3 виртуальные машины (использовано из прошлого ДЗ по Terraform)
+### Установил на одну из них Ansible и изменил hostname на ansible-master
+### На остальных двух виртуальных машинах изменил hostname на ansible-1 и ansible-2
+### сгенерировал на ansible-master новую пару SSH ключей
+### Закинул public ключ на ansible-1 и ansible-2 и проверил, что можно подключиться по SSH с ansible-master на ansible-1 и ansible-2
+### Создаём файлы для ansible hosts.yml     playbook.yml
+### hosts.yml - описание хостов (ansible-1 и ansible-2)
+### playbook.yml сам плейбук в котором создается группа devops и пользователь belhard на ansible-1 и ansible-2, устанавливаются пакеты curl, wget, unzip, zip на ansible-1 и ansible-2, устанавливается Java 11 на ansible-1, устанавливается nginx на ansible-2
+## Дополнительно создана папка docker в которой созданы файлы  hosts.yml     playbook.yml  vars.yml     
+### hosts.yml  - описание хостов (ansible-1 и ansible-2)
+### vars.yml - переменные для плейбука
+### playbook.yml сам плейбук который обновляет апт, устанавливает транспортные пакеты и  ключи репозиториев докера, устанавливает докер с зависимостями из репозитория, добвляет пользователя в группу docker для запуска докера без судо, стягивает образ с docker-hub и запускает его на всех хостах  
