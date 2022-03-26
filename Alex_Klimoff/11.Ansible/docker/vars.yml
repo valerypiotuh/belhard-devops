@@ -1,0 +1,6 @@
+---
+create_containers: 1
+default_container_name: klimoff
+default_container_image: klimoff/belhard
+default_container_command: 
+docker_users: vagrant
