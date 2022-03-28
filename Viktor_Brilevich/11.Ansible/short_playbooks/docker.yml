@@ -1,0 +1,191 @@
+---
+
+- name: Setting up my VMs
+  gather_facts: true
+  hosts: all
+  vars:
+    container_name: my_docker
+    image_name: my_image
+    tag_name: my_tag
+    image_dockerfile: /home/belhard/docker/Dockerfile
+    image_path: /home/belhard/docker
+    container_name1: my_docker1
+    image_name1: my_image1
+    tag_name1: my_tag1
+    image_dockerfile1: /home/belhard/docker/nginx1/Dockerfile
+    image_path1: /home/belhard/docker/nginx1
+    container_name2: my_docker2
+    image_name2: my_image2
+    tag_name2: my_tag2
+    image_dockerfile2: /home/belhard/docker/nginx2/Dockerfile
+    image_path2: /home/belhard/docker/nginx2
+
+  tasks:
+
+    - name: Create docker directory
+      file:
+        path: /home/belhard/docker
+        state: directory
+        owner: belhard
+        group: devops
+      become: yes
+
+    - name: Create docker directory
+      file:
+        path: /home/belhard/docker/docker_test
+        state: directory
+        owner: belhard
+        group: devops
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
+
+    - name: Copy docfile with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/short_playbooks/docker/Dockerfile
+        dest: /home/belhard/docker/Dockerfile
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
+
+    - name: Copy docfile with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/short_playbooks/docker/entrypoint.sh
+        dest: /home/belhard/docker/entrypoint.sh
+        owner: belhard
+        group: devops
+        mode: u=rwx,g=rwx,o=r
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
+
+    - name: Create nginx1 directory
+      file:
+        path: /home/belhard/docker/nginx1
+        state: directory
+        owner: belhard
+        group: devops
+      when:
+        - ansible_hostname == 'ansible-2'
+      become: yes
+
+    - name: Create nginx2 directory
+      file:
+        path: /home/belhard/docker/nginx2
+        state: directory
+        owner: belhard
+        group: devops
+      when:
+        - ansible_hostname == 'ansible-2'
+      become: yes
+
+    - name: Copy docfile and index.html with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/short_playbooks/nginx1/
+        dest: /home/belhard/docker/nginx1/
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      when:
+        - ansible_hostname == 'ansible-2'
+      become: yes
+
+
+    - name: Copy docfile and index.html with owner and permission
+      ansible.builtin.copy:
+        src: /home/vagrant/ansible/short_playbooks/nginx2/
+        dest: /home/belhard/docker/nginx2/
+        owner: belhard
+        group: devops
+        mode: u=rw,g=rw,o=r
+      when:
+        - ansible_hostname == 'ansible-2'
+      become: yes
+
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Add user vagrant to group docker
+      user:
+        name: vagrant
+        shell: /bin/bash
+        groups: docker
+        state: present
+        remove: yes
+      become: yes
+
+    - name: Add user belhard to group docker
+      user:
+        name: belhard
+        shell: /bin/bash
+        groups: docker
+        state: present
+        remove: yes
+      become: yes
+
+
+    - name: create Docker image
+      command: docker build {{ image_path }} -f {{ image_dockerfile }} -t {{ image_name }}:{{ tag_name }}
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}:{{ tag_name }}"
+        volumes:
+          - /home/belhard/docker/docker_test:/app
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: create Docker image nginx1
+      command: docker build {{ image_path1 }} -f {{ image_dockerfile1 }} -t {{ image_name1 }}:{{ tag_name1 }}
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name1 }}"
+        image: "{{ image_name1 }}:{{ tag_name1 }}"
+        published_ports:
+          - 8110:80
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: create Docker image nginx1
+      command: docker build {{ image_path2 }} -f {{ image_dockerfile2 }} -t {{ image_name2 }}:{{ tag_name2 }}
+      when:
+        - ansible_hostname == 'ansible-2'
+
+    - name: Create and start container
+      docker_container:
+        name: "{{ container_name2 }}"
+        image: "{{ image_name2 }}:{{ tag_name2 }}"
+        published_ports:
+          - 8210:80
+      when:
+        - ansible_hostname == 'ansible-2'
