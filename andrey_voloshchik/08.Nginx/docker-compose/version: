@@ -1,0 +1,10 @@
+services:
+  compose-nginx1:          # Имя сервиса
+    build: ./1    # dockerfile
+    ports:      # Проброс портов
+      - "8100:80"
+
+  compose-nginx2:
+    build: ./2
+    ports:          # Проброс портов
+      - "8200:80"
