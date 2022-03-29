@@ -1,0 +1,114 @@
+---
+
+ - name: Setting up our VMs
+   gather_facts: true
+   hosts: all
+
+   tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: "devops"
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+    
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD: ALL
+      become: yes
+
+    - name: work with docker without sudo
+      file:
+        dest: /usr/bin/docker 
+        mode: ug+s
+      become: yes
+
+    - name: Add vagrant user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/vagrant"
+        content: |
+          vagrant ALL = NOPASSWD: ALL
+          vagrant ALL = (ALL) NOPASSWD: ALL
+      become: yes
+ 
+    - name: Create directory for ssh
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkU0ioTIte3Z9HBNPNWjnipzuKlcCCzbqT3JDBbanrtJHeLY69zYIzWb7w4gPcaW+CQ8c+sL/YtgHr9uvkBA7TQy2XYZoZSK8zbEQPO/mfVnCohKHVSDYtZSl2jG9UEi8kqSr/t16d2xOyFm/nZD417rFtsZOffrruOdCemOsK2Dm+RmYuaFKvtmPkF0iAMPCY92P9Nio+8PbUErVvmmqRyWYyKT8F+O+2J6ieCZZugm4WMf1GRivFd151EeahjCDtuJnUeoS3hSKXmbVg9Tdi3VKzZrTajF5ahethpDi//EazFTP1hR6FZgMYoeypeO9O3y63ZD1c3PpSUh4HGh39 vagrant@ubuntu-bionic
+      become: yes
+
+    - name: install curl, unzip, zip
+      apt:
+         update_cache: yes
+         pkg:
+         - curl
+         - wget
+         - unzip
+         - zip
+         autoclean: yes
+         autoremove: yes
+      become: yes
+
+    - name: install java 11
+      apt:
+         update_cache: yes
+         pkg:
+         - openjdk-11-jre-headless
+         autoclean: yes
+         autoremove: yes
+      when:
+        - ansible_facts['hostname'] == 'ansible-1' 
+      become: yes
+
+    - name: install nginx
+      apt:
+         update_cache: yes
+         pkg:
+         - nginx
+         autoclean: yes
+         autoremove: yes
+      when:
+        - ansible_facts['hostname'] == 'ansible-2'
+      notify:
+        - restart nginx
+      become: yes
+
+    - name: copy directory with Dockerfile
+      copy:
+        src: ~/ansible/Docker_ansible
+        mode: 0777
+        dest: ~/ 
+
+    - name: Execute the script
+      command: bash ~/Docker_ansible/docker.sh
+
+   handlers:
+    - name: restart nginx
+      ansible.builtin.service: 
+        name: nginx
+        state: reloaded
+      when:
+        - ansible_facts['hostname'] == 'ansible-2'
+      become: yes
+
