@@ -1,10 +1,23 @@
 pipeline {
-  agent {
+    agent {
         docker { 
             image 'alpine'
         }
     }
-  stages {
+
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+    }
+
+    stages {
+        stage("Verify deploy confirmation") {
+            steps {
+                timeout(time: 60, unit: 'SECONDS') {
+                    input "Вы уверены?"
+                }
+            }
+
+        }
         stage("Initial config") {
             steps {
                 script {
@@ -14,7 +27,7 @@ pipeline {
         }
         stage("Checkout Git") {
             steps {
-                git branch: 'bh-devops-01-22', url: 'https://github.com/valerypiotuh/belhard-devops.git' 
+                git branch: "${params.BRANCH}", url: 'https://github.com/valerypiotuh/belhard-devops.git' 
             }
         }
         stage("List repository") {
