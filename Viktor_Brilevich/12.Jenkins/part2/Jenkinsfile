@@ -35,7 +35,7 @@ pipeline {
         stage("Build and run conteiner") {
             steps {
                 sh '''
-                docker build ./Viktor_Brilevich/12.Jenkins/part2/ -t homework:speedtest
+                docker build $(pwd)/Viktor_Brilevich/12.Jenkins/part2/ -t homework:speedtest
                 mkdir -p ./Viktor_Brilevich/12.Jenkins/part2/log
                 if docker ps 
 		then
@@ -45,7 +45,7 @@ pipeline {
 		then
 		docker rm $(docker ps -aq)
 		fi
-		docker run -d --volume /log:/app homework:speedtest
+		docker run -d --volume $(pwd)/Viktor_Brilevich/12.Jenkins/part2/log:/app homework:speedtest
                 '''
             }
         }
