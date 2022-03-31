@@ -1,3 +1,3 @@
 #!/bin/sh
 apk update && apk add --no-cach curl wget git bash speedtest-cli
-speedtest-cli >> speedtest.log
+date > speedtest.log && speedtest-cli >> speedtest.log
