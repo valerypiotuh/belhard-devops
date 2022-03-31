@@ -27,6 +27,11 @@ pipeline {
                 '''
             }
         }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/vbrilik/belhard-devops.git' 
+            }
+        }
         stage("Build and run conteiner") {
             steps {
                 sh '''
