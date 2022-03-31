@@ -37,7 +37,15 @@ pipeline {
                 sh '''
                 docker build ./Viktor_Brilevich/12.Jenkins/part2/ -t homework:speedtest
                 mkdir -p ./Viktor_Brilevich/12.Jenkins/part2/log
-                docker run -d --volume /log:/app homework:speedtest
+                if docker ps 
+		then
+		docker stop $(docker ps -aq)
+		fi
+		if docker ps -a
+		then
+		docker rm $(docker ps -aq)
+		fi
+		docker run -d --volume /log:/app homework:speedtest
                 '''
             }
         }
