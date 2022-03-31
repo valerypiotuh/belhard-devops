@@ -1,0 +1,43 @@
+pipeline {
+  agent {
+        docker { 
+            label 'slave3'
+            image 'alpine'
+            args '-v /home/vagrant/log:/log -w /log -u root'
+        }
+    }
+  stages {
+        stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }
+        stage("ADD pkgs") {
+            steps {
+                sh '''
+                apk update && apk add --no-cach curl wget git bash speedtest-cli
+                date > /log/speedtest.log && speedtest-cli >> /log/speedtest.log
+                '''
+            }
+        }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/vbrilik/belhard-devops.git' 
+            }
+        }
+        stage("List repository du") {
+            steps {
+                sh '''
+                du -ah
+                '''
+            }
+        }
+    }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+}
