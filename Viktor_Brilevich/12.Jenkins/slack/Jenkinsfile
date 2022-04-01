@@ -1,0 +1,73 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+    'ABORTED': 'warning',
+]
+
+pipeline {
+    agent {
+        docker {
+            image 'alpine'
+            args '-v /home/vagrant/log:/log -w /log -u root'
+            label 'slave1'
+        }
+    }
+    stages {
+        /*stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }*/
+        stage("ADD pkgs") {
+            steps {
+                sh '''
+                apk update && apk add --no-cach curl wget git bash speedtest-cli
+                date > /log/speedtest.log && speedtest-cli >> /log/speedtest.log
+                '''
+            }
+        }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/vbrilik/belhard-devops.git' 
+            }
+        }
+        stage("List du") {
+            steps {
+                sh '''
+                pwd
+                du -ah
+                '''
+            }
+        }
+    }    
+        post { 
+            success { 
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: """*Отчёт:*\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+                     sh """
+                     curl -X POST -H 'Content-type: application/json' \
+                     --data '{"text":"*Отчёт:* *Project name :* ${currentBuild.projectName} *Version* :* ${currentBuild.displayName} *Status :* ${currentBuild.result} *Time :* ${currentBuild.durationString}"}' https://hooks.slack.com/services/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"""
+            }
+            unsuccessful {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: """*Отчёт:*\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Ve\r
+                      rsion :* ${currentBuild.displayName}\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+                      sh """
+                     curl -X POST -H 'Content-type: application/json' \
+                     --data '{"text":"*Отчёт:* *Project name :* ${currentBuild.projectName} *Version* :* ${currentBuild.displayName} *Status :* ${currentBuild.result} *Time :* ${currentBuild.durationString}"}' https://hooks.slack.com/services/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"""
+            
+            }
+            always {
+                cleanWs()
+            }
+        
+        }
+}
