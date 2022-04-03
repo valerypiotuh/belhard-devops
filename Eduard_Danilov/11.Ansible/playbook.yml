@@ -1,0 +1,150 @@
+---
+
+- name: Setting up VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: true
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: true
+    
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: true
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+           ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAQTSC6qNKQQExWZBcj25fQgwKKqiHIrle4iyG24CkRMI35oMs2dmzizMm40luuoC4JjPj40KUe8Z/idpXaTWpjO+I6hHSB6aJWA$
+      become: true
+    
+    - name: Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Update repositories cache and install "curl" package
+      become: true
+      apt:
+        name: curl
+        update_cache: yes
+
+    - name: Update repositories cache and install "wget" package
+      become: true
+      apt:
+        name: wget
+        update_cache: yes
+   
+    - name: Update repositories cache and install "unzip" package
+      become: true
+      apt:
+        name: unzip
+        update_cache: yes
+
+    - name: Update repositories cache and install "zip" package
+      become: true
+      apt:
+        name: zip
+        update_cache: yes
+
+- name: Install WEB-server
+  hosts: web
+
+  tasks:
+
+    - name: Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+    
+    - name: Install Java using Ansible
+      become: true
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+           - openjdk-11-jdk
+
+- name: Install DB
+  hosts: db
+  become: true
+
+  tasks:
+
+    - name: update
+      apt: update_cache=yes
+
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      notify:
+        - restart nginx
+  
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+
+- name: Install Docker
+  hosts: all
+  become: true
+  vars_files:
+    - vars/default.yml
+ 
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+    
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Pull default Docker image
+      docker_image:
+        name: "{{ default_container_image }}"
+        source: pull
+  # Creates the number of containers defined by the variable create_containers, using values from vars file
+    - name: Create default containers
+      docker_container:
+        name: "{{ default_container_name }}{{ item }}"
+        image: "{{ default_container_image }}"
+        volumes: /home:/app
+       # command: "{{ default_container_command }}"
+        state: started
+      with_sequence: count={{ create_containers }}
