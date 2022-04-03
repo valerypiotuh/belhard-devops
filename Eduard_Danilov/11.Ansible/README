@@ -1,0 +1,27 @@
+Команда для запуска плейбука: ansible-playbook -i hosts playbook.yml
+
+
+Описание сборки:
+
+hosts
+inventory файл с группами
+
+playbook.yml
+конфигурационный файл
+
+vars/default.yml
+в файле содержатся значения переменных
+
+
+Описание плейбука
+
+1. Создается группа devops и пользователь belhard на ansible-1 и ansible-2
+2. Устанавливаются пакеты curl, wget, unzip, zip на ansible-1 и ansible-2
+3. На ansible-1 в группе [db] устанавливается Java
+4. На ansible-2 в группе [web] устанавливается Nginx
+5. На ansible-1 и ansible-2 устанавливается Docker
+ 5.1. На обеих машинах Docker спуливает image (speedtest) с частного репозитория (eduarddanilov/speedtest:1.0)
+ 5.2. Запускается сборка контейнеров на базе названного образа
+ 5.3. К контейнеру монтируются локальные папки (по умолчанию /home)
+ 5.4. Контейнеры стартуют и отрабатывают команду speedtest-cli
+ 5.5. Вывод команды speedtest-cli сохраняется в файле speedtest.txt в примонтированной папке
