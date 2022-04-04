@@ -1,0 +1,108 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.2 (Debian 14.2-1.pgdg110+1)
+-- Dumped by pg_dump version 14.2 (Debian 14.2-1.pgdg110+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: devops; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.devops (
+    id integer NOT NULL,
+    firstname character varying(30),
+    lastname character varying(30),
+    email character varying(30),
+    age integer
+);
+
+
+ALTER TABLE public.devops OWNER TO postgres;
+
+--
+-- Name: devops_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.devops_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.devops_id_seq OWNER TO postgres;
+
+--
+-- Name: devops_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.devops_id_seq OWNED BY public.devops.id;
+
+
+--
+-- Name: devops id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.devops ALTER COLUMN id SET DEFAULT nextval('public.devops_id_seq'::regclass);
+
+
+--
+-- Data for Name: devops; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.devops (id, firstname, lastname, email, age) FROM stdin;
+1	Dmitry	Potapov	ivanov@test.com	30
+2	Petr	Sidorov	petrov@test.com	35
+3	Maman	Sidorov	sidorov@test.com	40
+4	Ivan	Ivanov	ivanov@test.com	30
+5	Petr	Petrov	petrov@test.com	35
+6	Ivan	Sidorov	sidorov@test.com	40
+7	Ivan	Ivanov	ivanov@test.com	30
+8	Petr	Petrov	petrov@test.com	35
+9	Ivan	Sidorov	sidorov@test.com	40
+10	Ivan	Ivanov	ivanov@test.com	30
+11	Petr	Petrov	petrov@test.com	35
+12	Ivan	Sidorov	sidorov@test.com	40
+13	Ivan	Ivanov	ivanov@test.com	30
+14	Petr	Petrov	petrov@test.com	35
+15	Ivan	Sidorov	sidorov@test.com	40
+\.
+
+
+--
+-- Name: devops_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.devops_id_seq', 15, true);
+
+
+--
+-- Name: devops devops_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.devops
+    ADD CONSTRAINT devops_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
