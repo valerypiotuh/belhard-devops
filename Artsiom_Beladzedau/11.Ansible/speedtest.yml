@@ -1,0 +1,89 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+  become: true  
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create docker directory
+      file:
+        path: /home/Docker
+        state: directory
+        owner: vagrant
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC50NttWQwpo591+xEB5Hm1Xvih/TcJBSrdEmoEFBjZ9HGVzgEqYZNJagf2R43ODhC9LT9bHCKag+eCighpNQ/Wz5CpeEpU3VPuH8d71cfKXc6nBHS9JkQeNI0Aze+joRyUxDAOt6XA6+HkV+SkVFtjEWaccsGGtZWkmSvOb/sie1b9TdoM6SeMSDxSloszQZCAHioh31gIHV4HPz+WAofbxKwgWUgCzNl7gYMO+bTNZlDG4ea3S/W4t3giVKcD6HvR7NiQXzIlfsGuADWudBPsF6d2ziF+2nQiImVuacBBJJg0mQPSLN9bStrymFKvwRS0Oz09ZO1s/x51NPTfOlwupjSFtWQDUm5N+BcBhkx5aG400fShNrF55RjgWdsRLBoSNutOscVTje4ixH+DQVyzOHKnYPSyEplapFkDL4HbDqYliRGOkDT00RKX3OTOnKUCRZlQZU4zddk8wwFgi6NO8YChUn3AwUg9URmk3Wsc8LyC0HyvjRLZRlD/zlsQ3uU= belhard@belhard-X507UB
+      become: yes
+
+    - name: Copy docfile with owner and permission
+      ansible.builtin.copy:
+        src: /home/belhard-devops/Artsiom_Beladzedau/07.Docker/Dockerfile1
+        dest: /home/Docker/Dockerfile1
+        owner: vagrant
+        group: root
+        mode: u=rw,g=rw,o=r
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
+
+    - name: Copy docfile with owner and permission
+      ansible.builtin.copy:
+        src: /home/belhard-devops/Artsiom_Beladzedau/07.Docker/entrypoint.sh
+        dest: /home/Docker/entrypoint.sh
+        owner: vagrant
+        group: root
+        mode: u=rwx,g=rwx,o=r
+      when:
+        - ansible_hostname == 'ansible-1'
+      become: yes
+    
+    - name: create Docker image
+      command: docker build /home/Docker -f /home/Docker/Dockerfile1 -t speedtest
+      when:
+        - ansible_hostname == 'ansible-1'
+
+    - name: Create and start container
+      docker_container:
+        name: "Myspeedtest"
+        image: "speedtest"
+        volumes:
+        - /home/Docker/:/app
+      when:
+        - ansible_hostname == 'ansible-1'
