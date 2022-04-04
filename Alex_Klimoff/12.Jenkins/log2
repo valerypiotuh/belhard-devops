@@ -1,0 +1,110 @@
+Started by user Alex Klimoff
+Lightweight checkout support not available, falling back to full checkout.
+Checking out git https://github.com/klimoffgod/jenkins.git into /var/lib/jenkins/workspace/11.1.Jenkins@script/af5a25e7b2d0b7dc8e2211180f3aa8d5f9ed85428cecc28b05a042cf773f9401 to read jenkinsfile
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/11.1.Jenkins@script/af5a25e7b2d0b7dc8e2211180f3aa8d5f9ed85428cecc28b05a042cf773f9401/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/klimoffgod/jenkins.git # timeout=10
+Fetching upstream changes from https://github.com/klimoffgod/jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+ > git fetch --tags --force --progress -- https://github.com/klimoffgod/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/main
+Seen 1 remote branch
+ > git show-ref --tags -d # timeout=10
+Checking out Revision 4bf532fd35ae5f05edde3eb22edcf8569f32615f (origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4bf532fd35ae5f05edde3eb22edcf8569f32615f # timeout=10
+Commit message: "Update jenkinsfile"
+ > git rev-list --no-walk 4bf532fd35ae5f05edde3eb22edcf8569f32615f # timeout=10
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/11.1.Jenkins
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/11.1.Jenkins/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/klimoffgod/jenkins.git # timeout=10
+Fetching upstream changes from https://github.com/klimoffgod/jenkins.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+ > git fetch --tags --force --progress -- https://github.com/klimoffgod/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/main
+Seen 1 remote branch
+ > git show-ref --tags -d # timeout=10
+Checking out Revision 4bf532fd35ae5f05edde3eb22edcf8569f32615f (origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 4bf532fd35ae5f05edde3eb22edcf8569f32615f # timeout=10
+Commit message: "Update jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Pull and run docker 07.belhard and output docker ps -a)
+[Pipeline] sh
++ docker pull klimoff/belhard:latest
+latest: Pulling from klimoff/belhard
+Digest: sha256:ed1fa64961eaeabdfc54f22cdfb37fade998005d8a5d5e4d7022296f13bee312
+Status: Image is up to date for klimoff/belhard:latest
+docker.io/klimoff/belhard:latest
++ docker run klimoff/belhard:latest
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+v3.15.3-20-g45cfa62a39 [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+v3.15.3-17-ge0ce01e898 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+OK: 15861 distinct packages available
+(1/25) Installing ncurses-terminfo-base (6.3_p20211120-r0)
+(2/25) Installing ncurses-libs (6.3_p20211120-r0)
+(3/25) Installing readline (8.1.1-r0)
+(4/25) Installing bash (5.1.16-r0)
+Executing bash-5.1.16-r0.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r5)
+(7/25) Installing nghttp2-libs (1.46.0-r0)
+(8/25) Installing libcurl (7.80.0-r0)
+(9/25) Installing curl (7.80.0-r0)
+(10/25) Installing expat (2.4.7-r0)
+(11/25) Installing pcre2 (10.39-r0)
+(12/25) Installing git (2.34.1-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.22-r0)
+(16/25) Installing xz-libs (5.2.5-r0)
+(17/25) Installing libgcc (10.3.1_git20211027-r0)
+(18/25) Installing libstdc++ (10.3.1_git20211027-r0)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.36.0-r0)
+(21/25) Installing python3 (3.9.7-r4)
+(22/25) Installing speedtest-cli (2.1.3-r1)
+(23/25) Installing libunistring (0.9.10-r1)
+(24/25) Installing libidn2 (2.3.2-r0)
+(25/25) Installing wget (1.21.2-r2)
+Executing busybox-1.34.1-r3.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 73 MiB in 39 packages
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
++ docker ps -a
+CONTAINER ID   IMAGE                    COMMAND            CREATED          STATUS                              PORTS     NAMES
+da5e7c0605f0   klimoff/belhard:latest   "/entrypoint.sh"   14 seconds ago   Exited (0) Less than a second ago             flamboyant_agnesi
+cdae9a82f38a   klimoff/belhard:latest   "/entrypoint.sh"   2 minutes ago    Exited (0) 2 minutes ago                      interesting_pascal
+d25b4c91f9f8   klimoff/belhard:latest   "/entrypoint.sh"   3 minutes ago    Exited (0) 3 minutes ago                      stoic_mcclintock
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
