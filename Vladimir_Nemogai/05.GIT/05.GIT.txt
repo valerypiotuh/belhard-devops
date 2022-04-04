@@ -1,0 +1,98 @@
+Git DZ
+Vladimir Nemagai
+
+userub@ubuntu:~$ git branch -a
+* master
+userub@ubuntu:~$ git log --oneline
+730a095 (HEAD -> master) modified file DZ
+4625eff start DZ Git, commit 1
+
+userub@ubuntu:~$ git log --oneline
+088516d (HEAD -> staging, master) 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+
+userub@ubuntu:~$ git log --oneline
+bf0a5a7 (HEAD -> staging) two commit in staging
+f823f05 modified file txt in staging
+088516d (master) 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+
+userub@ubuntu:~$ git log --oneline
+3077b62 (HEAD -> test) checkout test, one commit
+642f42d (staging) branch creation test
+bf0a5a7 two commit in staging
+f823f05 modified file txt in staging
+088516d (master) 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+
+релиз в production
+
+userub@ubuntu:~$ git log --oneline
+642f42d (HEAD -> master, staging) branch creation test
+bf0a5a7 two commit in staging
+f823f05 modified file txt in staging
+088516d 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+userub@ubuntu:~$ git rebase test
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to test.
+userub@ubuntu:~$ git log --oneline
+5224dcf (HEAD -> master, test) creating and moving to a branch fix/prod_is_down
+3077b62 checkout test, one commit
+642f42d (staging) branch creation test
+bf0a5a7 two commit in staging
+f823f05 modified file txt in staging
+088516d 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+
+добавление во все ветки из fix
+
+userub@ubuntu:~$ git branch -a
+  fix/prod_is_down
+  master
+* staging
+  test
+userub@ubuntu:~$ git log --oneline
+dae9c4b (HEAD -> staging) branch creation test
+cd89d19 two commit in staging
+2e83cc4 modified file txt in staging
+56a8823 (fix/prod_is_down) add newFile in fix_prod_is_down
+088516d 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+userub@ubuntu:~$ git checkout test
+Switched to branch 'test'
+userub@ubuntu:~$ git rebase fix/prod_is_down
+First, rewinding head to replay your work on top of it...
+Applying: modified file txt in staging
+Applying: two commit in staging
+Applying: branch creation test
+Applying: checkout test, one commit
+Applying: creating and moving to a branch fix/prod_is_down
+userub@ubuntu:~$ git log --oneline
+888dcc1 (HEAD -> test) creating and moving to a branch fix/prod_is_down
+c416e58 checkout test, one commit
+1b3adae branch creation test
+c4468f1 two commit in staging
+f4ed768 modified file txt in staging
+56a8823 (fix/prod_is_down) add newFile in fix_prod_is_down
+088516d 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
+userub@ubuntu:~$ git checkout master
+Switched to branch 'master'
+userub@ubuntu:~$ git log --oneline
+2816851 (HEAD -> master) end DZ
+5224dcf creating and moving to a branch fix/prod_is_down
+3077b62 checkout test, one commit
+642f42d branch creation test
+bf0a5a7 two commit in staging
+f823f05 modified file txt in staging
+088516d 2 commita in master
+730a095 modified file DZ
+4625eff start DZ Git, commit 1
