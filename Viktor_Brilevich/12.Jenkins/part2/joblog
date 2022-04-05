@@ -1,0 +1,106 @@
+Вывод на консоль
+Started by user user_test
+Obtained Viktor_Brilevich/12.Jenkins/part2/Jenkinsfile from git https://github.com/vbrilik/belhard-devops.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave1 in /home/vagrant/workspace/hwpipe2
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: git
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/vagrant/workspace/hwpipe2/.git # timeout=10
+ > git config remote.origin.url https://github.com/vbrilik/belhard-devops.git # timeout=10
+Fetching upstream changes from https://github.com/vbrilik/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/vbrilik/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 9af2ed6fc5618aa2527468379cfae8f007bd8121 (refs/remotes/origin/bh-devops-01-22)
+Commit message: "12Jenkins mod Jen file 2"
+ > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9af2ed6fc5618aa2527468379cfae8f007bd8121 # timeout=10
+ > git rev-list --no-walk fab9ec77058ff357c4908e5f0669f880c64f3777 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (ADD docker)
+[Pipeline] sh
++ docker -v
+Docker version 20.10.14, build a224086
++ echo docker installed
+docker installed
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout Git)
+[Pipeline] git
+The recommended git tool is: git
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision 9af2ed6fc5618aa2527468379cfae8f007bd8121 (refs/remotes/origin/bh-devops-01-22)
+Commit message: "12Jenkins mod Jen file 2"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build and run conteiner)
+[Pipeline] sh
+ > git rev-parse --resolve-git-dir /home/vagrant/workspace/hwpipe2/.git # timeout=10
+ > git config remote.origin.url https://github.com/vbrilik/belhard-devops.git # timeout=10
+Fetching upstream changes from https://github.com/vbrilik/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/vbrilik/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9af2ed6fc5618aa2527468379cfae8f007bd8121 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D bh-devops-01-22 # timeout=10
+ > git checkout -b bh-devops-01-22 9af2ed6fc5618aa2527468379cfae8f007bd8121 # timeout=10
++ pwd
++ docker build /home/vagrant/workspace/hwpipe2/Viktor_Brilevich/12.Jenkins/part2/ -t homework:speedtest
+Sending build context to Docker daemon  6.144kB
+
+Step 1/5 : FROM alpine:latest
+ ---> 76c8fb57b6fc
+Step 2/5 : RUN mkdir /app
+ ---> Using cache
+ ---> de8b2c8e6184
+Step 3/5 : WORKDIR /app
+ ---> Using cache
+ ---> 32526acc3abd
+Step 4/5 : COPY entrypoint.sh /entrypoint.sh
+ ---> cce12c9b8bf1
+Step 5/5 : ENTRYPOINT ["/entrypoint.sh"]
+ ---> Running in 61833652c2f5
+Removing intermediate container 61833652c2f5
+ ---> 151e49e5aeea
+Successfully built 151e49e5aeea
+Successfully tagged homework:speedtest
++ mkdir -p ./Viktor_Brilevich/12.Jenkins/part2/log
++ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
++ docker ps -aq
++ docker stop aca6e5c876e7
+aca6e5c876e7
++ docker ps -a
+CONTAINER ID   IMAGE          COMMAND            CREATED          STATUS                      PORTS     NAMES
+aca6e5c876e7   940455a70729   "/entrypoint.sh"   49 minutes ago   Exited (0) 48 minutes ago             quizzical_bassi
++ docker ps -aq
++ docker rm aca6e5c876e7
+aca6e5c876e7
++ pwd
++ docker run -d --volume /home/vagrant/workspace/hwpipe2/Viktor_Brilevich/12.Jenkins/part2/log:/app homework:speedtest
+e6efca83f86467787c732868a64bb27c4e76ba028fd84760d2167678aa2d1646
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

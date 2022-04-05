@@ -1,0 +1,46 @@
+
+Релиз в production
+[user@CentOS dz-git]$ git checkout master
+Switched to branch 'master'
+[user@CentOS dz-git]$ git merge test
+Updating e1dcc03..907afd6
+Fast-forward
+ samofile3.txt | 1 +
+ samofile4.txt | 1 +
+ samofile5.txt | 1 +
+ 3 files changed, 3 insertions(+)
+ create mode 100644 samofile3.txt
+ create mode 100644 samofile4.txt
+ create mode 100644 samofile5.txt
+[user@CentOS dz-git]$ git log --oneline
+907afd6 first file in test
+80ecda1 second file in staging
+b4e8c08 first file in staging
+e1dcc03 second file
+d4bb655 first file
+
+накатываем фикс
+[user@CentOS dz-git]$ git checkout staging
+[user@CentOS dz-git]$ git log --oneline
+889adcc second file in staging
+4ea3045 first file in staging
+0e7551d first file in fix
+e1dcc03 second file
+d4bb655 first file
+[user@CentOS dz-git]$ git checkout test
+[user@CentOS dz-git]$ git log --oneline
+108e39c first file in test
+1a471ce second file in staging
+aa3e8eb first file in staging
+0e7551d first file in fix
+e1dcc03 second file
+d4bb655 first file
+[user@CentOS dz-git]$
+[user@CentOS dz-git]$ git checkout master
+[user@CentOS dz-git]$ git log --oneline
+9d0bdb8 first file in test
+fb602ae second file in staging
+ce10c29 first file in staging
+0e7551d first file in fix
+e1dcc03 second file
+d4bb655 first file
