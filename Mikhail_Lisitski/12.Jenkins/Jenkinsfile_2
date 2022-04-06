@@ -37,7 +37,7 @@ pipeline{
         }
         stage ("TelegramBot"){
             steps {
-                sendTelegram("SUCCESS_2")
+                sendTelegram("Success_2")
             }
         }
     }
