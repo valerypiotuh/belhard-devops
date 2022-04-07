@@ -1,0 +1,44 @@
+pipeline {
+  agent {
+        docker {
+            label 'slave-1'
+            image 'alpine'
+            args '-u root'
+        }
+    }
+  stages {
+    stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }
+    stage("Shell script") {
+         steps {
+             sh '''
+              apk update && apk add --no-cach curl wget git bash speedtest-cli
+    speedtest-cli    
+        '''
+      }
+    } 
+     
+             stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/ArtsiomBeladzedau/belhard-devops.git'
+            }
+        }
+        stage("List repository") {
+            steps {
+                sh '''
+                ls -la
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+  }
