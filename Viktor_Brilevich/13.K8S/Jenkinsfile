@@ -1,0 +1,220 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+    'ABORTED': 'warning',
+]
+
+def MESS(STATE,STAGE) {
+    def now = new Date()
+    if ( """$STATE""" == 'SUCCESS' )
+    {mes="""*Отчёт:*\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      $STAGE\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+    }
+    if ( """$STATE""" != 'SUCCESS' )
+    {mes="""*Отчёт:*\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      $STAGE\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+    }
+    return mes
+    
+}
+
+pipeline {
+    agent {
+        label 'project'
+    }
+    stages {
+        stage("rm docker conteiners on slave") {
+            steps {
+                    sh '''
+                    if sudo docker version
+                    then
+                        if [ $(sudo docker ps | wc -l) -gt 1 ] 
+                        then
+                            sudo docker stop $(sudo docker ps -aq)
+                        fi
+                        if [ $(sudo docker ps -a | wc -l) -gt 1 ]
+                        then
+                            sudo docker rm $(sudo docker ps -aq)
+                        fi
+                    fi
+                    '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 1 :* rm docker conteiners on slave") 
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 1 :* rm docker conteiners on slave")}'
+                    """
+                    }
+                }
+                
+            }
+        }
+        stage("ADD kuber") {
+            steps {
+                sh '''
+                curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+                chmod +x ./kubectl
+                sudo mv ./kubectl /usr/local/bin/kubectl
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 2 :* ADD kuber")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 2 :* ADD kuber")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("ADD minikube") {
+            steps {
+                sh '''
+                mkdir -p ~/.kube
+                touch ~/.kube/config
+                curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+                mkdir -p /usr/local/bin/
+                sudo install minikube /usr/local/bin/
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 3 :* ADD minikube") 
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 3 :* ADD minikube")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("ADD helm") {
+            steps {
+                sh '''
+                    curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+                    sudo apt-get install apt-transport-https --yes
+                    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+                    sudo apt-get update
+                    sudo apt-get install helm
+                    '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 4 :* ADD helm")
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 4 :* ADD helm")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("run minikube") {
+            steps {
+                sh '''
+                minikube start --driver=docker
+                sleep 5
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 5 :* run minikube")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 5 :* run minikube")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("create namespaces") {
+            steps {
+                sh '''
+                kubectl create namespace mydocker1
+                kubectl create namespace mydocker2
+                helm create /home/vagrant/helm/docker
+                mv /home/vagrant/helm/values.yaml /home/vagrant/helm/docker/
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 6 :* create namespaces")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 6 :* create namespaces")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("run kuberctl") {
+            steps {
+                sh '''
+                kubectl apply -f /home/vagrant/helm/docker.yml
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 7 :* run kuberctl")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 7 :* run kuberctl")}'
+                    """
+                    }
+                }
+            }      
+        }
+        stage("run helm") {
+            steps {
+                sh '''
+                helm install my-docker-app /home/vagrant/helm/docker -n mydocker2
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 8 :* run helm") 
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 8 :* run helm")}'
+                    """
+                    }
+                }
+            }      
+        }
+    }
+    post { 
+        always {
+            slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step last :* project is built") 
+            withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step last :* project is built")}'
+                    """
+            }
+            cleanWs()
+        }
+        
+    }
+    
+}
