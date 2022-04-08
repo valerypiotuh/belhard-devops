@@ -18,7 +18,7 @@ pipeline {
                 sudo docker rmi speedtest -f
                 sudo docker build /home/Docker -f /home/Docker/Dockerfile1 -t speedtest
                 sudo docker run speedtest
-                curl -X POST https://api.telegram.org/bot5225721637:AAGxHahiWY-ZW022mgtoLsMNJS6CjoFCT6o/sendMessage -d "chat_id=1108837141" -d text="Job Jenkins speedtest complite"
+                curl -X POST https://api.telegram.org/bot_serret/sendMessage -d "chat_id=chat_id" -d text="Job Jenkins speedtest complite"
                 docker ps -a
                 '''
             }
