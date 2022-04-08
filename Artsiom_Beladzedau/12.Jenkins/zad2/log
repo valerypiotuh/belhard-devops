@@ -1,0 +1,169 @@
+Started by user user
+Obtained Artsiom_Beladzedau/Jenkinsfile from git https://github.com/ArtsiomBeladzedau/belhard-devops.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave-1 in /home/vagrant/workspace/9. Homework
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/ArtsiomBeladzedau/belhard-devops.git
+ > git init /home/vagrant/workspace/9. Homework # timeout=10
+Fetching upstream changes from https://github.com/ArtsiomBeladzedau/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/ArtsiomBeladzedau/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git config remote.origin.url https://github.com/ArtsiomBeladzedau/belhard-devops.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
+Checking out Revision 78f06a7c57770a04851485e3ea99debfd0e05d4a (refs/remotes/origin/bh-devops-01-22)
+Commit message: "Jenkins file upload"
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 78f06a7c57770a04851485e3ea99debfd0e05d4a # timeout=10
+ > git rev-list --no-walk 78f06a7c57770a04851485e3ea99debfd0e05d4a # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Install docker)
+[Pipeline] sh
++ sudo apt update
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:1 http://archive.ubuntu.com/ubuntu bionic InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu bionic-updates InRelease
+Hit:3 https://download.docker.com/linux/ubuntu bionic InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Hit:5 http://security.ubuntu.com/ubuntu bionic-security InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+8 packages can be upgraded. Run 'apt list --upgradable' to see them.
++ sudo apt install docker
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+docker is already the newest version (1.5-1build1).
+The following packages were automatically installed and are no longer required:
+  linux-headers-4.15.0-171 linux-headers-4.15.0-171-generic
+  linux-image-4.15.0-171-generic linux-modules-4.15.0-171-generic
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 8 not upgraded.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build docker container)
+[Pipeline] sh
++ sudo docker rmi speedtest -f
+Untagged: speedtest:latest
+Deleted: sha256:a076619ef49b8067e0539bf2c104e3ae5e83e46d908a6462f091ff9a472e357f
+Deleted: sha256:48c868a901ca8166f07bf42892ebfa9065552b942e14d2e79ea4e0246e8cc4f2
+Deleted: sha256:f29dbc45db6d80286a82f76fef7da44b7b14c1700dfdc03adb18bef3ff1609c3
+Deleted: sha256:20c159b14d2bd3f86684bd83e78dd26dd27671d8c9bd4c629d4e79df9398ec02
++ sudo docker build /home/Docker -f /home/Docker/Dockerfile1 -t speedtest
+Sending build context to Docker daemon   5.12kB
+
+Step 1/5 : FROM alpine:latest
+ ---> 76c8fb57b6fc
+Step 2/5 : RUN mkdir /app
+ ---> Running in 2e49decdb492
+Removing intermediate container 2e49decdb492
+ ---> 51a3c0b3e65b
+Step 3/5 : WORKDIR /app
+ ---> Running in 2997de2c0e1c
+Removing intermediate container 2997de2c0e1c
+ ---> e2d7de1e757e
+Step 4/5 : COPY entrypoint.sh /entrypoint.sh
+ ---> 5d88d637b749
+Step 5/5 : ENTRYPOINT ["/entrypoint.sh"]
+ ---> Running in 6734ba480bb2
+Removing intermediate container 6734ba480bb2
+ ---> 932aeb2d1712
+Successfully built 932aeb2d1712
+Successfully tagged speedtest:latest
++ sudo docker run speedtest
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+v3.15.4-2-g3643179f8d [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+v3.15.4-1-g2fa37fc144 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+OK: 15856 distinct packages available
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+(1/25) Installing ncurses-terminfo-base (6.3_p20211120-r0)
+(2/25) Installing ncurses-libs (6.3_p20211120-r0)
+(3/25) Installing readline (8.1.1-r0)
+(4/25) Installing bash (5.1.16-r0)
+Executing bash-5.1.16-r0.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r5)
+(7/25) Installing nghttp2-libs (1.46.0-r0)
+(8/25) Installing libcurl (7.80.0-r0)
+(9/25) Installing curl (7.80.0-r0)
+(10/25) Installing expat (2.4.7-r0)
+(11/25) Installing pcre2 (10.39-r0)
+(12/25) Installing git (2.34.1-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.22-r0)
+(16/25) Installing xz-libs (5.2.5-r0)
+(17/25) Installing libgcc (10.3.1_git20211027-r0)
+(18/25) Installing libstdc++ (10.3.1_git20211027-r0)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.36.0-r0)
+(21/25) Installing python3 (3.9.7-r4)
+(22/25) Installing speedtest-cli (2.1.3-r1)
+(23/25) Installing libunistring (0.9.10-r1)
+(24/25) Installing libidn2 (2.3.2-r0)
+(25/25) Installing wget (1.21.2-r2)
+Executing busybox-1.34.1-r4.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 73 MiB in 39 packages
++ curl -X POST https://api.telegram.org/bot5225721637:AAGxHahiWY-ZW022mgtoLsMNJS6CjoFCT6o/sendMessage -d chat_id=1108837141 -d text=Job Jenkins speedtest complite
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100   302  100   248  100    54    485    105 --:--:-- --:--:-- --:--:--   589
+{"ok":true,"result":{"message_id":12,"from":{"id":5225721637,"is_bot":true,"first_name":"aaaa","username":"Jenkinsjobsbot"},"chat":{"id":1108837141,"first_name":"Artsiom","type":"private"},"date":1649349414,"text":"Job Jenkins speedtest complite"}}+ docker ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                      PORTS     NAMES
+0bd909a5b752   speedtest      "/entrypoint.sh"         41 seconds ago   Exited (0) 8 seconds ago              focused_gould
+064b59a979fb   a076619ef49b   "/entrypoint.sh"         3 minutes ago    Exited (0) 2 minutes ago              mystifying_kirch
+f2621d18cb10   fdbc3eb0dc0b   "/entrypoint.sh"         23 minutes ago   Exited (0) 23 minutes ago             goofy_edison
+10054a5758d8   6b839ca732ca   "/entrypoint.sh"         28 minutes ago   Exited (0) 28 minutes ago             fervent_wiles
+5691fecd8228   499c692dc214   "/entrypoint.sh"         20 hours ago     Exited (0) 20 hours ago               hopeful_boyd
+10e5348906c5   fa526b239052   "/entrypoint.sh"         28 hours ago     Exited (0) 28 hours ago               gifted_fermi
+2ee1faf090b2   2d720eeeab3c   "/entrypoint.sh"         28 hours ago     Exited (0) 28 hours ago               distracted_boyd
+dfec9ff1a370   f96524d3ce1a   "/entrypoint.sh"         28 hours ago     Exited (0) 28 hours ago               upbeat_bartik
+8afa219172c9   f96524d3ce1a   "/entrypoint.sh"         28 hours ago     Exited (0) 28 hours ago               wizardly_torvalds
+100e4b17f6aa   238550c335d1   "/entrypoint.sh"         29 hours ago     Exited (0) 29 hours ago               nervous_sammet
+62596ea54393   238550c335d1   "/entrypoint.sh"         6 days ago       Exited (0) 6 days ago                 Myspeedtest
+5951503e60e0   ubuntu         "sleep 1d"               6 days ago       Exited (255) 2 days ago               docker
+534c3678be60   ubuntu         "run 'ls- la > dirst…"   6 days ago       Created                               docker1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+
