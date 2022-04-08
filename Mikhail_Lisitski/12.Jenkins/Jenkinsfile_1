@@ -1,0 +1,71 @@
+def sendTelegram(message) {
+    def encodedMessage = URLEncoder.encode(message, "UTF-8")
+
+    withCredentials([string(credentialsId: 'telegramToken', variable: 'TOKEN'),
+    string(credentialsId: 'telegramChatId', variable: 'CHAT_ID')]) {
+
+        response = httpRequest (consoleLogResponseBody: true,
+                contentType: 'APPLICATION_JSON',
+                httpMode: 'GET',
+                url: "https://api.telegram.org/bot$TOKEN/sendMessage?text=$encodedMessage&chat_id=$CHAT_ID&disable_web_page_preview=true",
+                validResponseCodes: '200')
+        return response
+    }
+}
+
+
+pipeline{
+    agent {
+        docker {
+            image 'alpine'
+            args '-u root'
+        }
+    }
+    stages {
+        stage ("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+            
+        }
+        stage ("install curl, wget, git, bash, speedtest-cli") {
+            steps {
+                sh '''
+                apk update && apk add curl wget git bash speedtest-cli
+                '''
+            }
+        }
+        stage ("Get Git"){
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/m-lisitski/belhard-devops.git'
+            }
+        }
+        stage ("Checkout folder with Git") {
+            steps {
+                sh '''
+                ls -la
+                '''
+            }
+        }
+        stage ("run speedtest-cli") {
+            steps{
+                sh '''
+                cd ..
+                speedtest-cli
+                '''
+            }
+        }
+        stage ("TelegramBot"){
+            steps{
+                sendTelegram("Success_1")
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
