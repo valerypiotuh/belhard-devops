@@ -1,0 +1,10 @@
+1.7G	/home/mak
+1.7G	/home
+1.3G	/home/mak/linux-5.17-rc5
+779M	/home/mak/linux-5.17-rc5/drivers
+320M	/home/mak/linux-5.17-rc5/drivers/gpu
+319M	/home/mak/linux-5.17-rc5/drivers/gpu/drm
+270M	/home/mak/linux-5.17-rc5/drivers/gpu/drm/amd
+243M	/home/mak/linux-5.17-rc5/drivers/gpu/drm/amd/include
+239M	/home/mak/linux-5.17-rc5/drivers/gpu/drm/amd/include/asic_reg
+193M	/home/mak/linux-5.17-rc5.tar.gz
