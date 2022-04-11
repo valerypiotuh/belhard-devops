@@ -1,0 +1,88 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: backdrop
+  become: yes
+  vars:
+    proj: backdropcms
+
+  tasks:
+
+    - name: set hostname
+      command: hostnamectl set-hostname {{ proj }}
+
+    - name: Create backdrop directory
+      file:
+        path: /home/vagrant/backdrop_project
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
+
+    - name: Create web directory
+      file:
+        path: /home/vagrant/backdrop_project/web
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
+
+    - name: Create web directory
+      file:
+        path: /home/vagrant/backdrop_project/web/backup
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
+
+    - name: Copy dc file
+      become_user: vagrant
+      ansible.builtin.copy:
+        src: /home/belhard/demo/dc_backdrop/docker-compose.yml
+        dest: /home/vagrant/backdrop_project/web/docker-compose.yml
+        owner: vagrant
+        group: vagrant
+        mode: u=rwx,g=rx,o=r
+
+    - name: down db and web
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose down"
+
+    - name: rm dir
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo rm -rf volumes/ &&
+        sudo rm -rf content"
+
+    - name: up db and web
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose up -d"
+ 
+    - name: rm backdrop folder
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose exec backdrop rm -rf /var/www/html/*"
+
+
+    - name: mv backdrop folder
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose exec backdrop mv -f /var/www/backdrop/ /var/www/html/"
+
+    - name: chown
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose exec backdrop chown -R www-data:www-data /var/www/html/backdrop"
+
+    - name: start services
+      become_user: vagrant
+      shell: "cd ~/backdrop_project/web &&\
+        sudo docker-compose exec backdrop service nginx start &&\
+        sudo docker-compose exec backdrop service php7.0-fpm start"
+
+#    - name: backup db
+#      become_user: vagrant
+#      shell: 'cd /home/vagrant/backdrop_project/web && sudo docker-compose exec mydb  /home/backup.sh'

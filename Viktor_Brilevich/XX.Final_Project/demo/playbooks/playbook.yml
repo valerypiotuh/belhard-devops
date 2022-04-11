@@ -1,0 +1,85 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+  become: yes
+
+  tasks:
+
+
+    - name: Add jenkins SSH key
+      copy:
+        dest: "/home/vagrant/.ssh/authorized_keys"
+        content:
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDjvFE1HIu2kbB8Y1vRVp7BGImQ30EMnCJZW8HLwEZSwC5yefe8ewsZm/HJ8EvHI/NMHhhr6el02MnaSuT6XHUis+TOt8TSlBLVQWHu7Kj69+idbV2G3KQhYNW/9Jj2CRZzOj+4qPcZITmTHewIiAAKVe3O6sC3fT7o3gOW49fIjrjnPmB0YJNUwzw77nDqDxgd3rS7wiVyqIhz0RA2v2+GpvzIxMQJE01O6yykPzPYWkyAv8vq5A7FFipCSAZx/LrV1QjJHGYHWCsfejN72xcnhC180gy0vMaeJX1QTS/8pgJVbYY70W3mt7C4Kt6yzFu+84zWluDoWavybOIHca18djPA7hTpzBeKK9JDuDMp49mFBrIaYHNdaLbLd7Q/lqOG3FrexukNAKC4pRYPEyXURTivgo0uF47aIBP9ENv+uzBYbOK4D6ZIRW59VOTULZS+cArbQxYuO2w2PcEvyoVIbNuG8ghebju8GjvCuP2DoXPV71MUvYC/CUw/22D93sE= jenkins@a546b7ae72c7\n
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEZPPlAl+DC0XUWa+/J+2C2/qVck3m2p8AOiE8akKKsucMksOnkBHOrI4KSCS8ecKKi+dC7AjGAj1FUK43x5zCXtVnMqsv2sNtQQuGmfBe+sdto4sj2TfBIdPxi+Muy/s/jO9P8g53/brTZ1FasRWsO4zuPUD+6Za0Caa0wsAgApkfyrtVl6kCx1hmoMqod4jZnvCRSOwOs1F9OhP9ddQQ6FFSChzwnmlCfA+aDiQZqfxz+TvxNzumqM3NZF70OutG2/ucETfzTwDh4X9i6oqfhXHIROO++vMjnPfjU63obojy4/GWGl8v7za41caA0mj3Rs3ftE0ko+i+sF+pb9AObHcVYGJWuyQcSwf4v2B0MNNEmx1vNDY4rCLRJyhm7qVaJcGPX2YwpkhCkn5sTrNElWiqRlmBl13lGLi8RKDlP0TWLN38HxOE3x2hb2UPbnsrC6L6g7QSI0XIl0rC17zpeJmHo48zdfq8THgVeP2XtEcZ2YnfKUvtJCDj+jdPiVs= belhard@ubuntubig"
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - default-jre
+ 
+    - name: Copy script swap
+      ansible.builtin.copy:
+        src: /home/belhard/demo/start_scripts/s.sh
+        dest: /home/vagrant/s.sh
+        owner: vagrant
+        group: vagrant
+        mode: u=rwx,g=r,o=r
+
+    - name: run script
+      command: sh /home/vagrant/s.sh
+
+    - name: Copy scrip swap cron
+      ansible.builtin.copy:
+        src: /home/belhard/demo/start_scripts/cron.sh
+        dest: /home/vagrant/cron.sh
+        owner: vagrant
+        group: vagrant
+        mode: u=rwx,g=r,o=r
+
+    - name: run script cron swap
+      become_user: vagrant
+      command: sh /home/vagrant/cron.sh
+
+
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Add user vagrant to group docker
+      user:
+        name: vagrant
+        shell: /bin/bash
+        groups: docker
+        state: present
+        remove: yes
+      become: yes
+
+    - name: Install docker-compose
+      get_url: 
+        url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x,o+rx'
