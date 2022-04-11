@@ -102,7 +102,7 @@
       shell: 'sudo rm -rf /home/vagrant/backdrop_project/web/backup/*'
 
 
-    - name: backup db
-      become: yes
-      become_user: vagrant
-      shell: 'cd /home/vagrant/backdrop_project/web && docker-compose exec mydb mysqldump -u back --password="local" --all-databases > /home/vagrant/backdrop_project/web/backup/mydata-backup.sql'
+#    - name: backup db
+#      become: yes
+#      become_user: vagrant
+#      shell: 'cd /home/vagrant/backdrop_project/web && docker-compose exec mydb mysqldump -u back --password="local" --all-databases > /home/vagrant/backdrop_project/web/backup/mydata-backup.sql'
