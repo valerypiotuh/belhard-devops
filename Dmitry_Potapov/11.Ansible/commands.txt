@@ -1,0 +1,10 @@
+#команда для запуска playbook
+ansible-playbook -i ~/ansible/hosts /ansible/playbook.yml
+
+#команда для пинга хоста с установленной java
+ansible -i ansible/hosts -m ping java
+
+#команда для пинга хоста с установленным nginx
+ansible -i ansible/hosts -m ping nginx
+
+#файлы playbook.yml и hosts находятся в домашней директории в папке ansible

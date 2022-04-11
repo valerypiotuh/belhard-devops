@@ -1,0 +1,8 @@
+[java]
+#10.0.2.9
+ansible-1 ansible_ssh_host=10.0.2.9 ansible_ssh_user=vagrant
+
+[nginx]
+#10.0.2.10
+ansible-2 ansible_ssh_host=10.0.2.10 ansible_ssh_user=vagrant
+
