@@ -12,6 +12,9 @@
     - name: set hostname
       command: hostnamectl set-hostname {{ proj }}
 
+    - name: rm directory
+      command: sudo rm -rf /home/vagrant/backdrop_project/
+
     - name: Create backdrop directory
       file:
         path: /home/vagrant/backdrop_project
@@ -48,13 +51,23 @@
     - name: down db and web
       become_user: vagrant
       shell: "cd ~/backdrop_project/web &&\
-        sudo docker-compose down"
+        sudo docker-compose down &&\
+        docker rmi $(docker images -q) -f"
 
     - name: rm dir
       become_user: vagrant
       shell: "cd ~/backdrop_project/web &&\
         sudo rm -rf volumes/ &&
-        sudo rm -rf content"
+        sudo rm -rf content/ &&
+        sudo rm -rf backup/"
+
+    - name: Create web directory
+      file:
+        path: /home/vagrant/backdrop_project/web/backup
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
 
     - name: up db and web
       become_user: vagrant
@@ -83,6 +96,13 @@
         sudo docker-compose exec backdrop service nginx start &&\
         sudo docker-compose exec backdrop service php7.0-fpm start"
 
-#    - name: backup db
-#      become_user: vagrant
-#      shell: 'cd /home/vagrant/backdrop_project/web && sudo docker-compose exec mydb  /home/backup.sh'
+    - name: rm db backup
+      become: yes
+      become_user: vagrant
+      shell: 'sudo rm -rf /home/vagrant/backdrop_project/web/backup/*'
+
+
+    - name: backup db
+      become: yes
+      become_user: vagrant
+      shell: 'cd /home/vagrant/backdrop_project/web && docker-compose exec mydb mysqldump -u back --password="local" --all-databases > /home/vagrant/backdrop_project/web/backup/mydata-backup.sql'

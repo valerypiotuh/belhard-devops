@@ -49,7 +49,9 @@
 
     - name: stop dc
       become_user: vagrant
-      shell: "cd ~/project_octobercms && sudo docker-compose down"
+      shell: "cd ~/project_octobercms &&\
+        sudo docker-compose down &&\
+        docker rmi $(docker images -q) -f"
 
     - name: up db
       become_user: vagrant
@@ -72,6 +74,6 @@
       shell: "cd ~/project_octobercms && \
         sudo docker-compose exec web php artisan october:up"
 
-#    - name: backup db
-#      become_user: vagrant
-#      shell: 'cd ~/project_octobercms && sudo docker-compose exec db mysqldump -u octobercms --password="local" --all-databases > /home/vagrant/project_octobercms/backup/mydata-backup.sql'
+    - name: backup db
+      become_user: vagrant
+      shell: 'cd ~/project_octobercms && sudo docker-compose exec db mysqldump -u octobercms --password="local" --all-databases > /home/vagrant/project_octobercms/backup/mydata-backup.sql'

@@ -1,5 +1,5 @@
 [october]
-ansible-1 ansible_ssh_host=10.0.2.14 ansible_ssh_user=vagrant
+ansible-1 ansible_ssh_host=10.0.4.14 ansible_ssh_user=vagrant
 
 [backdrop]
 ansible-2 ansible_ssh_host=10.0.4.15 ansible_ssh_user=vagrant
