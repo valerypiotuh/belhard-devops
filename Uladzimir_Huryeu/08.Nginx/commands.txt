@@ -1,0 +1,4 @@
+docker build . -f dockerfile_1 -t nginx_1
+docker run -d -p 8100:80 nginx_1
+docker build . -f dockerfile_2 -t nginx_2
+docker run -d -p 8200:80 nginx_2

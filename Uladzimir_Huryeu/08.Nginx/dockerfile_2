@@ -1,0 +1,2 @@
+FROM nginx
+COPY ./second/ /usr/share/nginx/html

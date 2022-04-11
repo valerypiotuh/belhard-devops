@@ -1,0 +1,59 @@
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+    - name: install nginx
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        - nginx
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-2"
+      become: yes

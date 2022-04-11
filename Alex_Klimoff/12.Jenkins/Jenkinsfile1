@@ -1,0 +1,42 @@
+pipeline {
+   agent {
+        label 'slave-1'
+        }
+   stages {
+        stage("Pull docker and run") {
+            steps {
+            sh '''
+            docker pull klimoff/belhard:latest
+            docker run klimoff/belhard:latest
+            '''
+            }
+        }
+        stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/klimoffgod/belhard-devops.git' 
+            }
+        }
+        stage("List repository") {
+            steps {
+                sh '''
+                ls -la
+                '''
+            }
+    }
+        stage("apt update and install") {
+            steps {
+            sh '''
+            docker run --tty klimoff/belhard speedtest-cli
+            curl -X POST https://api.telegram.org/bot5198577811:AAFUlwJy71UPIrQX58MMXgMX-rmP9AFT9hc/sendMessage -d "chat_id=-1001570035437" -d text="Job Jenkins success"
+            '''
+            }
+        }
+    }
+}

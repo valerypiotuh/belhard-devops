@@ -1,0 +1,17 @@
+pipeline {
+   agent {
+        label 'master'
+        }
+   stages {
+        stage("Pull and run docker 07.belhard and output docker ps -a") {
+            steps {
+            sh '''
+            docker pull klimoff/belhard:latest
+            docker run klimoff/belhard:latest
+            docker ps -a
+            '''
+          }
+      }
+   }
+}
+© 2022 GitHub, Inc.
