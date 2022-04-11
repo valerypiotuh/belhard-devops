@@ -1,5 +1,5 @@
-kernel linux include word fuck=0
-kernel linux include word crap=0
-kernel linux include word shit=0
-kernel linux include word bastard=0
-kernel linux include word penguin=0
+kernel linux include word fuck=1017
+kernel linux include word crap=331
+kernel linux include word shit=147
+kernel linux include word bastard=13
+kernel linux include word penguin=31
