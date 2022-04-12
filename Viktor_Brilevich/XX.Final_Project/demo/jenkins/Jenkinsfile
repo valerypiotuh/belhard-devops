@@ -26,9 +26,9 @@ pipeline {
         stage("Initial config") {
             steps {
                 slackSend color: 'good', message: MESS('SUCCESS', "*Project building has begun*")
-                script {
+               /* script {
                     properties([pipelineTriggers([pollSCM('* * * * *')])])
-                }
+                }*/
             }
             post { 
                 unsuccessful {
