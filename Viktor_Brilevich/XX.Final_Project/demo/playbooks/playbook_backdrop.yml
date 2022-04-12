@@ -13,7 +13,7 @@
       command: hostnamectl set-hostname {{ proj }}
 
     - name: set TZ
-      shell: export TZ=Europe/Minsk
+      shell: timedatectl set-timezone Europe/Minsk
 
     - name: rm directory
       command: sudo rm -rf /home/vagrant/backdrop_project/
