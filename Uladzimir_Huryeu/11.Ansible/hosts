@@ -1,0 +1,6 @@
+[first]
+ansible-1 ansible_ssh_host=10.0.2.8 ansible_ssh_user=vagrant
+
+[second]
+ansible-2 ansible_ssh_host=10.0.2.9 ansible_ssh_user=vagrant
+
