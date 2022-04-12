@@ -48,6 +48,15 @@
         group: vagrant
         mode: u=rwx,g=rx,o=r
 
+    - name: Copy start services script
+      become_user: vagrant
+      ansible.builtin.copy:
+        src: /home/belhard/demo/start_web.sh
+        dest: /home/vagrant/backdrop_project/web/start_web.sh
+        owner: vagrant
+        group: vagrant
+        mode: u=rwx,g=rx,o=r
+
     - name: down db and web
       become_user: vagrant
       shell: "cd ~/backdrop_project/web &&\
