@@ -1,0 +1,86 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+    'ABORTED': 'warning',
+]
+
+def MESS(STATE, STAGE) {
+    def now = new Date()
+    mes="""*Отчёт:*\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      $STAGE\r
+                      *Status :* ${STATE}\r
+                      *Time :* ${currentBuild.durationString}"""
+    return mes
+}
+
+pipeline {
+  agent {
+        
+            label 'local'
+        
+    }
+  stages {
+        stage("Initial config") {
+            steps {
+                slackSend color: 'good', message: MESS('SUCCESS', "*Project building has begun*")
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+            post { 
+                unsuccessful {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 1 :* Initial config error")  
+                }
+            }
+        }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/vbrilik/belhard-devops.git' 
+            }
+             post { 
+                unsuccessful {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 2 :* Checkout Git error")  
+                }
+            }
+        }
+        stage("renew webs") {
+            steps {
+                script {    
+                    try {
+                        sh """
+                        rm -rf /home/belhard/demo
+                        cp -pr /home/belhard/workspace/${currentBuild.projectName}/Viktor_Brilevich/XX.Final_Project/demo /home/belhard/
+                        /home/belhard/demo/modify_script.sh
+                        """
+                        slackSend color: 'good', message: MESS('SUCCESS', "*Update done. End job.*")
+                    }
+                    catch(err_base) {
+                        try {
+                           /* sh '''cd /home/belhard/workspace/myproject/ && git config --global user.email "you@example.com" && git config --global user.name "ViktorB" && git revert HEAD'''
+                            */sh """
+                            rm -rf /home/belhard/demo
+                            cp -pr /home/belhard/workspace/${currentBuild.projectName}/Viktor_Brilevich/XX.Final_Project/demo /home/belhard/
+                            /home/belhard/demo/modify_script.sh
+                            """
+                            slackSend color: 'good', message: MESS('SUCCESS', "*Git revert done. End job.*")
+                        }
+                        catch (err_back) {
+                            slackSend color: 'danger', message: MESS('FAILURE', "*Somthing wrong in renew webs step. End job.*")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        unsuccessful { 
+            slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*End job*")  
+        }
+        always {
+            cleanWs()
+        }
+    }
+}

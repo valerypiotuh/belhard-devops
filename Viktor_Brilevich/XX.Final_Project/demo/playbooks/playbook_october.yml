@@ -12,6 +12,9 @@
     - name: set hostname
       command: hostnamectl set-hostname {{ proj }}
 
+    - name: set TZ
+      shell: export TZ=Europe/Minsk
+
     - name: Create octobercms directory
       file:
         path: /home/vagrant/project_octobercms
