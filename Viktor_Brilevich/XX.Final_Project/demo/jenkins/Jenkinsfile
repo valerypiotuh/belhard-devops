@@ -59,8 +59,8 @@ pipeline {
                     }
                     catch(err_base) {
                         try {
-                           /* sh '''cd /home/belhard/workspace/myproject/ && git config --global user.email "you@example.com" && git config --global user.name "ViktorB" && git revert HEAD'''
-                            */sh """
+                            sh """cd /home/belhard/workspace/${currentBuild.projectName}/ && git config --global user.email "you@example.com" && git config --global user.name "ViktorB" && git revert HEAD"""
+                            sh """
                             rm -rf /home/belhard/demo
                             cp -pr /home/belhard/workspace/${currentBuild.projectName}/Viktor_Brilevich/XX.Final_Project/demo /home/belhard/
                             /home/belhard/demo/modify_script.sh
