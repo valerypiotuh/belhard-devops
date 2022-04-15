@@ -1,0 +1,86 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqsmeodEceBIvgEUc7gCGZJAkTDCcAJ+d0tYpolcUq+JH7obijiE44Z3fx14Rbsdrp0DKosEQzkMoDrfuK51B77AAFn8CBXbYP4I8L264jp+X+bfu6qFAqPIJGQgTtlmn+OaCfpg8841ngjG/1QWPdRwgr6drqB8BCijjpVkrvIlKcbgSTOW1B0bXExGnvwqxqgDOhK4qMNlWp5UqPUQ8aB2oGtJdYeHEU3hCFPs2IzCgEqg+eVh2knBjq2QCHusp1Vcw030o27eXnfEHncnhAJquHjAY6dmuWugNxS2xynPcZ9sCNkq4e9ekfOJ5wrFSKNh/TRxRw4r7ddzm22cnZ vagrant@ansible-master
+      become: yes
+
+    - name: Install curl wget unzip zip
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "node-2"
+      become: yes
+
+    - name: update
+      apt:
+        update_cache=yes
+      become: yes
+
+    - name: Install Nginx
+      apt:
+        name=nginx state=latest
+      when:
+        - ansible_hostname == "node-3"
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name=nginx state=reloaded
+      become: yes

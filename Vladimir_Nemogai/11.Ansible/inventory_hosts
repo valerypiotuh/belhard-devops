@@ -1,0 +1,8 @@
+[db]
+node-2 ansible_ssh_host=10.0.2.6 ansible_ssh_user=vagrant
+
+[web]
+node-3 ansible_ssh_host=10.0.2.5 ansible_ssh_user=vagrant
+
+#10.0.2.6
+#10.0.2.5
