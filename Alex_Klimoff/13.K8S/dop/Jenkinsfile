@@ -1,0 +1,71 @@
+pipeline {
+  agent {
+  label'ansible-1'
+  }
+  stages {
+    stage("apt update and install") {
+        steps {
+            sh '''
+            sudo apt update && sudo apt install -y apt-transport-https software-properties-common curl  git
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+            '''
+        }
+        post { 
+          always {
+            sh '''
+                curl -X POST https://api.telegram.org/bot5198577811:AAFUlwJy71UPIrQX58MMXgMX-rmP9AFT9hc/sendMessage -d "chat_id=-1001570035437" -d text="Install cubectl"
+            '''
+                    }
+                }
+        }
+    stage("install minikube") {
+        steps {
+            sh '''
+            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube
+            sudo mkdir -p /usr/local/bin/
+            sudo install minikube /usr/local/bin/
+            '''
+        }
+        post { 
+          always {
+            sh '''
+                curl -X POST https://api.telegram.org/bot5198577811:AAFUlwJy71UPIrQX58MMXgMX-rmP9AFT9hc/sendMessage -d "chat_id=-1001570035437" -d text="Install minikube"
+            '''
+                    }        
+              }
+        }      
+    stage("clone helm from git") {
+        steps {
+            sh '''
+            git clone git@github.com:klimoffgod/helm.git
+            cd helm && cd klimoff
+            '''
+        }
+        post { 
+          always {
+            sh '''
+                curl -X POST https://api.telegram.org/bot5198577811:AAFUlwJy71UPIrQX58MMXgMX-rmP9AFT9hc/sendMessage -d "chat_id=-1001570035437" -d text="pull helm done"
+            '''
+                    }
+             }
+        }     
+    stage("run minikube") {
+        steps {
+            sh '''
+            minikube start --driver=kvm2
+            kubectl create namespace klimoff
+            helm install klimoff-helm /home/vagrant/k8/helm/klimoff/ --values /home/vagrant/k8/helm/klimoff/values.yaml -n klimoff
+            '''
+        }    
+        post { 
+          always {
+            sh '''
+            curl -X POST https://api.telegram.org/bot5198577811:AAFUlwJy71UPIrQX58MMXgMX-rmP9AFT9hc/sendMessage -d "chat_id=-1001570035437" -d text="Great Jobs ;)"
+            '''
+                   }
+             }          
+        }   
+    }
+}    
