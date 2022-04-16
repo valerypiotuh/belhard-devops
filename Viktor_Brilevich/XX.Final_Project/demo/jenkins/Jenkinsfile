@@ -7,7 +7,7 @@ def COLOR_MAP = [
 def MESS(STATE, STAGE) {
     def now = new Date()
     mes="""*Отчёт:*\r
-                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss", TimeZone.getTimeZone('GMT+3'))}\r
                       *Project name :* ${currentBuild.projectName}\r
                       *Version :* ${currentBuild.displayName}\r
                       $STAGE\r
