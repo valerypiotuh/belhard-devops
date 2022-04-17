@@ -1,0 +1,26 @@
+pipeline{
+     agent {
+        docker { 
+            image 'alpine'
+        }
+    }
+    stages{
+        stage ("Run docker"){
+            steps {
+                script {
+                    sh '''
+                    mkdir log
+                    docker run -v ~/log:/app/data dmitryp/alpine_linux
+                    docker ps -a
+                    docker system prune -af
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
