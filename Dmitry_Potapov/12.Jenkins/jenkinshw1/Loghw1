@@ -1,4 +1,6 @@
-tarted by an SCM change
+Console Output
+
+Started by an SCM change
 [Pipeline] Start of Pipeline
 [Pipeline] node
 Still waiting to schedule task
@@ -16,7 +18,7 @@ Running on slave-1 in /home/vagrant/workspace/HW
 [Pipeline] withDockerContainer
 slave-1 does not seem to be running inside a container
 $ docker run -t -d -u 1000:1000 -u root -w /home/vagrant/workspace/HW -v /home/vagrant/workspace/HW:/home/vagrant/workspace/HW:rw,z -v /home/vagrant/workspace/HW@tmp:/home/vagrant/workspace/HW@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** alpine cat
-$ docker top c520d13223b60bba90a085cc0b91cd684a0191eba036f1e35a6ad11a873a8d7b -eo pid,comm
+$ docker top 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c -eo pid,comm
 [Pipeline] {
 [Pipeline] stage
 [Pipeline] { (Initial config)
@@ -33,8 +35,8 @@ $ docker top c520d13223b60bba90a085cc0b91cd684a0191eba036f1e35a6ad11a873a8d7b -e
 + apk update
 fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
 fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
-v3.15.4-41-g06dd15e33d [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
-v3.15.4-44-g5277559668 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+v3.15.4-49-g2d9f01a977 [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+v3.15.4-50-g4e14d7ac94 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
 OK: 15855 distinct packages available
 + apk add curl wget git bash speedtest-cli
 (1/25) Installing ncurses-terminfo-base (6.3_p20211120-r0)
@@ -73,7 +75,7 @@ OK: 73 MiB in 39 packages
 [Pipeline] git
 The recommended git tool is: git
 No credentials specified
-Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@e886474; decorates RemoteLauncher[hudson.remoting.Channel@7b71949b:slave-1] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@67da3e8b; decorates RemoteLauncher[hudson.remoting.Channel@5c42013a:slave-1] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
 Cloning the remote Git repository
 Cloning repository https://github.com/megaton20111/belhard-devops-1.git
  > git init /home/vagrant/workspace/HW # timeout=10
@@ -82,16 +84,16 @@ Fetching upstream changes from https://github.com/megaton20111/belhard-devops-1.
  > git --version # 'git version 2.17.1'
  > git fetch --tags --progress -- https://github.com/megaton20111/belhard-devops-1.git +refs/heads/*:refs/remotes/origin/* # timeout=10
 Avoid second fetch
-Checking out Revision fd0ef4d9536ec75636313135724bad17c7bebd6f (refs/remotes/origin/bh-devops-01-22)
-Commit message: "add jenkinshw1"
+Checking out Revision ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb (refs/remotes/origin/bh-devops-01-22)
+Commit message: "add screenshots jenkinshw2"
  > git config remote.origin.url https://github.com/megaton20111/belhard-devops-1.git # timeout=10
  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
  > git config core.sparsecheckout # timeout=10
- > git checkout -f fd0ef4d9536ec75636313135724bad17c7bebd6f # timeout=10
+ > git checkout -f ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
  > git branch -a -v --no-abbrev # timeout=10
- > git checkout -b bh-devops-01-22 fd0ef4d9536ec75636313135724bad17c7bebd6f # timeout=10
- > git rev-list --no-walk 77c7a5403a1c98e3e3a86b9e9eb6e0cf7c8f98e2 # timeout=10
+ > git checkout -b bh-devops-01-22 ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
+ > git rev-list --no-walk ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -99,17 +101,17 @@ Commit message: "add jenkinshw1"
 [Pipeline] sh
 + ls -la
 total 44
-drwxrwxr-x   10 1000     1000          4096 Apr 17 10:09 .
-drwxr-xr-x    4 root     root          4096 Apr 17 10:07 ..
-drwxrwxr-x    8 1000     1000          4096 Apr 17 10:09 .git
-drwxrwxr-x    4 1000     1000          4096 Apr 17 10:09 Artsiom_Beladzedau
-drwxrwxr-x   10 1000     1000          4096 Apr 17 10:09 Dmitry_Potapov
-drwxrwxr-x    6 1000     1000          4096 Apr 17 10:09 Eduard_Danilov
-drwxrwxr-x    3 1000     1000          4096 Apr 17 10:09 Olga_Peisahovich
--rw-rw-r--    1 1000     1000          2355 Apr 17 10:09 README.md
-drwxrwxr-x    6 1000     1000          4096 Apr 17 10:09 Viktor_Brilevich
-drwxrwxr-x    4 1000     1000          4096 Apr 17 10:09 avoloshchik
-drwxrwxr-x    2 1000     1000          4096 Apr 17 10:09 jenkins
+drwxrwxr-x   10 1000     1000          4096 Apr 20 19:02 .
+drwxr-xr-x    4 root     root          4096 Apr 20 19:00 ..
+drwxrwxr-x    8 1000     1000          4096 Apr 20 19:02 .git
+drwxrwxr-x    4 1000     1000          4096 Apr 20 19:02 Artsiom_Beladzedau
+drwxrwxr-x   10 1000     1000          4096 Apr 20 19:02 Dmitry_Potapov
+drwxrwxr-x    6 1000     1000          4096 Apr 20 19:02 Eduard_Danilov
+drwxrwxr-x    3 1000     1000          4096 Apr 20 19:02 Olga_Peisahovich
+-rw-rw-r--    1 1000     1000          2355 Apr 20 19:02 README.md
+drwxrwxr-x    6 1000     1000          4096 Apr 20 19:02 Viktor_Brilevich
+drwxrwxr-x    4 1000     1000          4096 Apr 20 19:02 avoloshchik
+drwxrwxr-x    2 1000     1000          4096 Apr 20 19:02 jenkins
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -118,14 +120,14 @@ drwxrwxr-x    2 1000     1000          4096 Apr 17 10:09 jenkins
 + cd ..
 + speedtest-cli
 Retrieving speedtest.net configuration...
-Testing from Beltelecom (178.120.67.246)...
+Testing from Beltelecom (178.120.68.177)...
 Retrieving speedtest.net server list...
 Selecting best server based on ping...
-Hosted by Amigo.Minsk (Minsk) [133.61 km]: 18.995 ms
+Hosted by TVK Hajnowka s.j. (Hajnowka) [71.84 km]: 37.947 ms
 Testing download speed................................................................................
-Download: 30.48 Mbit/s
+Download: 14.12 Mbit/s
 Testing upload speed......................................................................................................
-Upload: 28.49 Mbit/s
+Upload: 11.78 Mbit/s
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -137,12 +139,11 @@ Upload: 28.49 Mbit/s
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] }
-$ docker stop --time=1 c520d13223b60bba90a085cc0b91cd684a0191eba036f1e35a6ad11a873a8d7b
-
-$ docker rm -f c520d13223b60bba90a085cc0b91cd684a0191eba036f1e35a6ad11a873a8d7b
+$ docker stop --time=1 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c
+$ docker rm -f 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c
 [Pipeline] // withDockerContainer
 [Pipeline] }
 [Pipeline] // node
-
 [Pipeline] End of Pipeline
 Finished: SUCCESS
+
