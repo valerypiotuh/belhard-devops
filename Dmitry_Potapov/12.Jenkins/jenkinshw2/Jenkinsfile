@@ -1,26 +1,23 @@
-pipeline{
-     agent {
-        docker { 
-            image 'alpine'
+pipeline {
+   agent {
+        label 'slave-1'
         }
-    }
-    stages{
-        stage ("Run docker"){
+   stages {
+        stage("Pull and run homework 07.Docker from Dmitry1potapov repo and output docker ps -a") {
             steps {
-                script {
-                    sh '''
-                    mkdir log
-                    docker run -v ~/log:/app/data dmitryp/alpine_linux
-                    docker ps -a
-                    docker system prune -af
-                    '''
-                }
-            }
-        }
-    }
-    post {
+            sh '''
+            docker pull dmitry1potapov/speedtest
+            docker run dmitry1potapov/speedtest
+            docker ps -a
+            '''
+          }
+      }
+      
+   }
+   post {
+       
         always {
             cleanWs()
+            }
         }
-    }
 }
