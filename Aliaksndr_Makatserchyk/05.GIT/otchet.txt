@@ -1,0 +1,60 @@
+* commit 27c532ce33818baee90163ae2377d5b114641472 (HEAD -> staging)
+| Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| Date:   Fri Apr 8 08:50:51 2022 +0000
+| 
+|     dop commit 2 for staging
+| 
+* commit 1bb2a5fdb6e0d6b37ce2e540a0bd09f22445ecd0
+| Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| Date:   Fri Apr 8 08:49:28 2022 +0000
+| 
+|     dop commit 1 for staging
+|   
+| * commit e95ae9c05992a1578de3858f42c3fdee24143366 (master)
+| | Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| | Date:   Fri Apr 8 08:52:42 2022 +0000
+| | 
+| |     dop commit for test
+| | 
+| * commit dce80df7483ee1a3c35453708032dddf802f658d
+|/  Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+|   Date:   Fri Apr 8 08:50:51 2022 +0000
+|   
+|       dop commit 2 for staging
+| 
+* commit 6efa6d4a880e0e3ad2769db963443a07fba9bb34 (fix/prod_is_down)
+| Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| Date:   Fri Apr 8 12:01:44 2022 +0000
+| 
+|     dop commit for branch fix/prod_is_down
+|   
+| * commit cac5b228ca992c9e5624ea1f3b942b22af14130b (test)
+| | Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| | Date:   Fri Apr 8 08:52:42 2022 +0000
+| | 
+| |     dop commit for test
+| | 
+| * commit 27bfb000c75fa55d04fccdc47dcb4d0a26ac8778
+| | Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| | Date:   Fri Apr 8 08:50:51 2022 +0000
+| | 
+| |     dop commit 2 for staging
+| | 
+| * commit 040f2590019071bab427fdce4d6b5209aec2f20d
+|/  Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+|   Date:   Fri Apr 8 08:49:28 2022 +0000
+|   
+|       dop commit 1 for staging
+| 
+* commit bf5a3099a022531c378e16a9fe1b183172f83d30
+| Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+| Date:   Fri Apr 8 08:47:50 2022 +0000
+| 
+|     commit 2 vetki master
+| 
+* commit c1ff9025c0108f6220b6d9a2c65d4867e848c29b
+  Author: AliaksandrMakatserchyk <makatserchyk203610@gmail.com>
+  Date:   Fri Apr 8 08:45:57 2022 +0000
+  
+      commit 1 vetki master
+

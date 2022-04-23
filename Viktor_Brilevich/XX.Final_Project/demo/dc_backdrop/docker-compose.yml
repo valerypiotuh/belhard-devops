@@ -1,0 +1,23 @@
+version: '2.2'
+services:
+  backdrop:
+    container_name: web-app
+    tty: true
+    image: vbrilik/project:backdropweb
+    ports:
+      - 8099:80
+    volumes:
+      - $HOME/backdrop_project/web/content:/var/www/html
+
+  mydb:
+    image: vbrilik/project:backdropdb
+    container_name: db-app
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: backdropdb
+      MYSQL_USER: back
+      MYSQL_PASSWORD: local
+    volumes:
+       - $HOME/backdrop_project/web/volumes/mariadb/data:/var/lib/mysql
+       - $HOME/backdrop_project/web/backup:/home/backup

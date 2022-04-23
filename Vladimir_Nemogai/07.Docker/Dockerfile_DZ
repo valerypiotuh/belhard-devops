@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint_DZ.sh /entrypoint_DZ.sh
+ENTRYPOINT ["/entrypoint_DZ.sh"]
+
+
+

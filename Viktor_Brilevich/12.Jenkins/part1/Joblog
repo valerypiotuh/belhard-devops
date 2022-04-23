@@ -1,0 +1,302 @@
+Вывод на консоль
+Started by an SCM change
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Still waiting to schedule task
+Waiting for next available executor on ‘slave3’
+Running on slave3 in /home/vagrant/workspace/hwpipe1@2
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+slave3 does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -v /home/vagrant/log:/log -w /log -u root -w /home/vagrant/workspace/hwpipe1@2 -v /home/vagrant/workspace/hwpipe1@2:/home/vagrant/workspace/hwpipe1@2:rw,z -v /home/vagrant/workspace/hwpipe1@2@tmp:/home/vagrant/workspace/hwpipe1@2@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** alpine cat
+$ docker top 64fd92502fc97cd976cf5632a5adb5f10ab4247744de0f726a7d90833a423b12 -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Initial config)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] properties
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (ADD pkgs)
+[Pipeline] sh
++ apk update
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+v3.15.3-2-g9717d71770 [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+v3.15.3-9-g5eb6d69174 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+OK: 15854 distinct packages available
++ apk add --no-cach curl wget git bash speedtest-cli
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+(1/25) Installing ncurses-terminfo-base (6.3_p20211120-r0)
+(2/25) Installing ncurses-libs (6.3_p20211120-r0)
+(3/25) Installing readline (8.1.1-r0)
+(4/25) Installing bash (5.1.16-r0)
+Executing bash-5.1.16-r0.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r5)
+(7/25) Installing nghttp2-libs (1.46.0-r0)
+(8/25) Installing libcurl (7.80.0-r0)
+(9/25) Installing curl (7.80.0-r0)
+(10/25) Installing expat (2.4.7-r0)
+(11/25) Installing pcre2 (10.39-r0)
+(12/25) Installing git (2.34.1-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.22-r0)
+(16/25) Installing xz-libs (5.2.5-r0)
+(17/25) Installing libgcc (10.3.1_git20211027-r0)
+(18/25) Installing libstdc++ (10.3.1_git20211027-r0)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.36.0-r0)
+(21/25) Installing python3 (3.9.7-r4)
+(22/25) Installing speedtest-cli (2.1.3-r1)
+(23/25) Installing libunistring (0.9.10-r1)
+(24/25) Installing libidn2 (2.3.2-r0)
+(25/25) Installing wget (1.21.2-r2)
+Executing busybox-1.34.1-r4.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 73 MiB in 39 packages
++ date
++ speedtest-cli
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout Git)
+[Pipeline] git
+The recommended git tool is: git
+No credentials specified
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@7f91b6ec; decorates RemoteLauncher[hudson.remoting.Channel@6d8054a1:slave3] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Cloning the remote Git repository
+Cloning repository https://github.com/vbrilik/belhard-devops.git
+ > git init /home/vagrant/workspace/hwpipe1@2 # timeout=10
+Fetching upstream changes from https://github.com/vbrilik/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/vbrilik/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 3d616d3f60a0b8e7a62bd3a91ff72cdc5b2b2ab6 (refs/remotes/origin/bh-devops-01-22)
+Commit message: "12.Jenkins part 1 push"
+ > git config remote.origin.url https://github.com/vbrilik/belhard-devops.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 3d616d3f60a0b8e7a62bd3a91ff72cdc5b2b2ab6 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b bh-devops-01-22 3d616d3f60a0b8e7a62bd3a91ff72cdc5b2b2ab6 # timeout=10
+ > git rev-list --no-walk 3d616d3f60a0b8e7a62bd3a91ff72cdc5b2b2ab6 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (List repository du)
+[Pipeline] sh
++ du -ah
+4.0K	./.git/config
+4.0K	./.git/hooks/fsmonitor-watchman.sample
+4.0K	./.git/hooks/pre-push.sample
+4.0K	./.git/hooks/post-update.sample
+8.0K	./.git/hooks/pre-rebase.sample
+4.0K	./.git/hooks/applypatch-msg.sample
+4.0K	./.git/hooks/pre-receive.sample
+4.0K	./.git/hooks/commit-msg.sample
+4.0K	./.git/hooks/pre-commit.sample
+4.0K	./.git/hooks/pre-applypatch.sample
+4.0K	./.git/hooks/update.sample
+4.0K	./.git/hooks/prepare-commit-msg.sample
+52.0K	./.git/hooks
+4.0K	./.git/description
+16.0K	./.git/index
+4.0K	./.git/refs/tags
+4.0K	./.git/refs/remotes/origin/master
+4.0K	./.git/refs/remotes/origin/bh-devops-01-22
+12.0K	./.git/refs/remotes/origin
+16.0K	./.git/refs/remotes
+4.0K	./.git/refs/heads/bh-devops-01-22
+8.0K	./.git/refs/heads
+32.0K	./.git/refs
+4.0K	./.git/info/exclude
+8.0K	./.git/info
+4.0K	./.git/logs/refs/remotes/origin/master
+4.0K	./.git/logs/refs/remotes/origin/bh-devops-01-22
+12.0K	./.git/logs/refs/remotes/origin
+16.0K	./.git/logs/refs/remotes
+4.0K	./.git/logs/refs/heads/bh-devops-01-22
+8.0K	./.git/logs/refs/heads
+28.0K	./.git/logs/refs
+4.0K	./.git/logs/HEAD
+36.0K	./.git/logs
+4.0K	./.git/FETCH_HEAD
+4.0K	./.git/branches
+4.0K	./.git/HEAD
+2.1M	./.git/objects/pack/pack-4046ed135f951fa8a3e931a45292685b59543dd4.idx
+214.5M	./.git/objects/pack/pack-4046ed135f951fa8a3e931a45292685b59543dd4.pack
+216.6M	./.git/objects/pack
+4.0K	./.git/objects/info
+216.6M	./.git/objects
+216.8M	./.git
+4.0K	./Viktor_Brilevich/07.Docker/Readme.md
+4.0K	./Viktor_Brilevich/07.Docker/comands.txt
+4.0K	./Viktor_Brilevich/07.Docker/Dockerfile
+4.0K	./Viktor_Brilevich/07.Docker/entrypoint.sh
+4.0K	./Viktor_Brilevich/07.Docker/speedtest.log
+24.0K	./Viktor_Brilevich/07.Docker
+8.0K	./Viktor_Brilevich/09.PostgreSQL/dump_full
+4.0K	./Viktor_Brilevich/09.PostgreSQL/Readme.md
+4.0K	./Viktor_Brilevich/09.PostgreSQL/comands.txt
+232.0K	./Viktor_Brilevich/09.PostgreSQL/newbd.png
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/Readme.md
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/2/Dockerfile
+8.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/2
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/auto_recreate_db/create.sh
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/auto_recreate_db/Readme.md
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/auto_recreate_db/recreate.sh
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/auto_recreate_db/sc.sh
+20.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/auto_recreate_db
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/docker-compose.yml
+4.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/1/Dockerfile
+8.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose/1
+48.0K	./Viktor_Brilevich/09.PostgreSQL/docker_compose
+236.0K	./Viktor_Brilevich/09.PostgreSQL/basebd.png
+4.0K	./Viktor_Brilevich/09.PostgreSQL/Dockrefile.1
+4.0K	./Viktor_Brilevich/09.PostgreSQL/Dockrefile.3
+4.0K	./Viktor_Brilevich/09.PostgreSQL/Dockrefile.2
+548.0K	./Viktor_Brilevich/09.PostgreSQL
+4.0K	./Viktor_Brilevich/11.Ansible/Readme.md
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/create.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/dump.sql
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/hosts
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/recreate.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/Dockerfile
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx1/index.html
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx1/Dockerfile
+12.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx1
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/recreate1.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/base.yml
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/docker/Dockerfile
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/docker/entrypoint.sh
+12.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/docker
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/playbooks.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/sc_recreate.sh
+8.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/postgres3.yml
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/sc.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx2/index.html
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx2/Dockerfile
+12.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/nginx2
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/sc_create.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/create1.sh
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/postgres2.yml
+8.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/docker.yml
+4.0K	./Viktor_Brilevich/11.Ansible/short_playbooks/postgres.yml
+112.0K	./Viktor_Brilevich/11.Ansible/short_playbooks
+120.0K	./Viktor_Brilevich/11.Ansible
+4.0K	./Viktor_Brilevich/06.Bash/search_word_in_dir
+4.0K	./Viktor_Brilevich/06.Bash/search_some_words
+4.0K	./Viktor_Brilevich/06.Bash/search_10_bigfiles_in_dir
+16.0K	./Viktor_Brilevich/06.Bash
+4.0K	./Viktor_Brilevich/08.nginx/Readme.md
+4.0K	./Viktor_Brilevich/08.nginx/comands.txt
+4.0K	./Viktor_Brilevich/08.nginx/docker_nginx2/index.html
+4.0K	./Viktor_Brilevich/08.nginx/docker_nginx2/Dockerfile
+12.0K	./Viktor_Brilevich/08.nginx/docker_nginx2
+4.0K	./Viktor_Brilevich/08.nginx/base_nginx/index.html
+8.0K	./Viktor_Brilevich/08.nginx/base_nginx
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/Readme.md
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/comands.txt
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/docker-compose.yml
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/default
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/docker_ps
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/sites-available/comands.txt
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/sites-available/0002-default.conf
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/sites-available/default
+4.0K	./Viktor_Brilevich/08.nginx/with_server_config/sites-available/0001-default.conf
+20.0K	./Viktor_Brilevich/08.nginx/with_server_config/sites-available
+44.0K	./Viktor_Brilevich/08.nginx/with_server_config
+4.0K	./Viktor_Brilevich/08.nginx/docker_compose/Readme.md
+4.0K	./Viktor_Brilevich/08.nginx/docker_compose/comands.txt
+4.0K	./Viktor_Brilevich/08.nginx/docker_compose/dockercom_ps
+4.0K	./Viktor_Brilevich/08.nginx/docker_compose/docker-compose.yml
+4.0K	./Viktor_Brilevich/08.nginx/docker_compose/docker_ps
+24.0K	./Viktor_Brilevich/08.nginx/docker_compose
+4.0K	./Viktor_Brilevich/08.nginx/docker_nginx1/index.html
+4.0K	./Viktor_Brilevich/08.nginx/docker_nginx1/Dockerfile
+12.0K	./Viktor_Brilevich/08.nginx/docker_nginx1
+112.0K	./Viktor_Brilevich/08.nginx
+4.0K	./Viktor_Brilevich/10.Terraform/Readme.md
+4.0K	./Viktor_Brilevich/10.Terraform/var2/variables.tf
+4.0K	./Viktor_Brilevich/10.Terraform/var2/main.tf
+4.0K	./Viktor_Brilevich/10.Terraform/var2/vbox.tf
+16.0K	./Viktor_Brilevich/10.Terraform/var2
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/variables.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/nginx2.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/net.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/2/index.html
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/2/Dockerfile
+12.0K	./Viktor_Brilevich/10.Terraform/with_nginx/2
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/docker_conteiner1.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/docker_conteiner2.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/nginx1.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/1/index.html
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/1/Dockerfile
+12.0K	./Viktor_Brilevich/10.Terraform/with_nginx/1
+4.0K	./Viktor_Brilevich/10.Terraform/with_nginx/main.tf
+56.0K	./Viktor_Brilevich/10.Terraform/with_nginx
+4.0K	./Viktor_Brilevich/10.Terraform/var1/variables.tf
+4.0K	./Viktor_Brilevich/10.Terraform/var1/main.tf
+4.0K	./Viktor_Brilevich/10.Terraform/var1/vbox.tf
+16.0K	./Viktor_Brilevich/10.Terraform/var1
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/variables.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/nginx2.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/Readme.md
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/2/index.html
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/2/Dockerfile
+12.0K	./Viktor_Brilevich/10.Terraform/with_subnets/2
+8.0K	./Viktor_Brilevich/10.Terraform/with_subnets/terraform_show.txt
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/docker_conteiner1.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/net_conteiner2.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/docker_conteiner2.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/nginx1.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/1/index.html
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/1/Dockerfile
+12.0K	./Viktor_Brilevich/10.Terraform/with_subnets/1
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/net_conteiner1.tf
+4.0K	./Viktor_Brilevich/10.Terraform/with_subnets/main.tf
+72.0K	./Viktor_Brilevich/10.Terraform/with_subnets
+168.0K	./Viktor_Brilevich/10.Terraform
+4.0K	./Viktor_Brilevich/05.GIT/05.GIT.txt.save
+4.0K	./Viktor_Brilevich/05.GIT/05.GIT.txt
+4.0K	./Viktor_Brilevich/05.GIT/05gitlog
+16.0K	./Viktor_Brilevich/05.GIT
+1008.0K	./Viktor_Brilevich
+4.0K	./README.md
+217.8M	.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 64fd92502fc97cd976cf5632a5adb5f10ab4247744de0f726a7d90833a423b12
+$ docker rm -f 64fd92502fc97cd976cf5632a5adb5f10ab4247744de0f726a7d90833a423b12
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+

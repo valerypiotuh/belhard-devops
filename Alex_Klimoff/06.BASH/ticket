@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "How many "fuck" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "fuck" /home/god/belhard-devops-old/linux-5.16.11/ | wc -w
+echo "How many "shit" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "shit" /home/god/belhard-devops-old/linux-5.16.11/  | wc -w
+echo "How many "crap" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "crap" /home/god/belhard-devops-old/linux-5.16.11/  | wc -w
+echo "How many "bastard" in linux kernel linux-5.16.11 ? "  && grep -r -o -i  "bastard" /home/god/belhard-devops-old/linux-5.16.11/  | wc -w
+echo "How many "penguin" in linux kernel linux-5.16.11 ? "  && grep -r -o -i "penguin" /home/god/belhard-devops-old/linux-5.16.11/  | wc -w

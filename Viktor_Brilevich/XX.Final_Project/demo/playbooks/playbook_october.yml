@@ -1,0 +1,79 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: october
+  become: yes
+  vars:
+    proj: octobercms
+
+  tasks:
+
+    - name: set hostname
+      command: hostnamectl set-hostname {{ proj }}
+
+    - name: Create octobercms directory
+      file:
+        path: /home/vagrant/project_octobercms
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
+
+    - name: rm files
+      become_user: vagrant
+      shell: sudo rm -rf ~/project_octobercms/*
+
+    - name: rm files
+      become_user: vagrant
+      shell: sudo rm -rf ~/volumes/
+
+
+    - name: Copy dc file
+      become_user: vagrant
+      ansible.builtin.copy:
+        src: /home/belhard/demo/dc_october/docker-compose.yml
+        dest: /home/vagrant/project_octobercms/docker-compose.yml
+        owner: vagrant
+        group: vagrant
+        mode: u=rwx,g=rx,o=r
+
+    - name: Create backup directory
+      file:
+        path: /home/vagrant/project_octobercms/backup
+        state: directory
+        owner: vagrant
+        group: vagrant
+      become: yes
+
+
+    - name: stop dc
+      become_user: vagrant
+      shell: "cd ~/project_octobercms &&\
+        sudo docker-compose down &&\
+        docker rmi $(docker images -q) -f"
+
+    - name: up db
+      become_user: vagrant
+      shell: "cd ~/project_octobercms && sudo docker-compose up -d db"
+
+    - name: up web
+      become_user: vagrant
+      shell: "cd ~/project_octobercms && sudo docker-compose up -d web"
+
+    - name: chown
+      become_user: vagrant
+      shell: "cd ~/project_octobercms && \
+        sudo docker-compose exec web chown -R www-data /var/www/html/plugins &&\
+        sudo docker-compose exec web chown -R www-data /var/www/html/storage/app &&\
+        sudo docker-compose exec web chown -R www-data /var/www/html/storage/logs &&\
+        sudo docker-compose exec web chown -R www-data /var/www/html/themes"
+
+    - name: up php
+      become_user: vagrant
+      shell: "cd ~/project_octobercms && \
+        sudo docker-compose exec web php artisan october:up"
+
+    - name: backup db
+      become_user: vagrant
+      shell: 'cd ~/project_octobercms && sudo docker-compose exec db mysqldump -u octobercms --password="local" --all-databases > /home/vagrant/project_octobercms/backup/mydata-backup.sql'

@@ -4,7 +4,16 @@ pipeline {
             image 'alpine'
         }
     }
+bh-devops-01-22
   stages {
+
+
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
+    }
+
+   
+bh-devops-01-22
         stage("Initial config") {
             steps {
                 script {
@@ -14,6 +23,7 @@ pipeline {
         }
         stage("Checkout Git") {
             steps {
+bh-devops-01-22
                 git branch: 'bh-devops-01-22', url: 'https://github.com/megaton20111/belhard-devops-1.git' 
             }
         }

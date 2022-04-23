@@ -1,0 +1,112 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+    'ABORTED': 'warning',
+]
+
+def MESS(STATE,STAGE) {
+    def now = new Date()
+    if ( """$STATE""" == 'SUCCESS' )
+    {mes="""*Отчёт:*\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      $STAGE\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+    }
+    if ( """$STATE""" != 'SUCCESS' )
+    {mes="""*Отчёт:*\r
+                      *Date :* ${now.format("dd.MM.yyyy HH:mm:ss")}\r
+                      *Project name :* ${currentBuild.projectName}\r
+                      *Version :* ${currentBuild.displayName}\r
+                      $STAGE\r
+                      *Status :* ${currentBuild.result}\r
+                      *Time :* ${currentBuild.durationString}"""
+    }
+    return mes
+    
+}
+
+pipeline {
+  agent {
+        
+            label 'local'
+        
+    }
+  stages {
+        stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 1 :* Initial config")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 1 :* Initial config")}'
+                    """
+                    }
+                }
+            }
+        }
+        stage("Checkout Git") {
+            steps {
+                git branch: 'bh-devops-01-22', url: 'https://github.com/vbrilik/belhard-devops.git' 
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 2 :* Checkout Git")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 2 :* Checkout Git")}'
+                    """
+                    }
+                }
+            }
+        }
+        stage("renew webs") {
+            steps {
+                sh '''
+                rm -rf /home/belhard/demo
+                cp -pr /home/belhard/workspace/myproject/Viktor_Brilevich/XX.Final_Project/demo /home/belhard/
+                /home/belhard/demo/start_web.sh
+                '''
+            }
+            post { 
+                always {
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step 3 :* renew webs")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step 3 :* renew webs")}'
+                    """
+                    }
+                }
+            }
+        }
+    }
+    post { 
+        unsuccessful { 
+                    
+                    sh '''cd /home/belhard/workspace/myproject/ && git config --global user.email "you@example.com" && git config --global user.name "ViktorB" && git revert HEAD'''
+                    sh '''
+                      rm -rf /home/belhard/demo
+                      cp -pr /home/belhard/workspace/myproject/Viktor_Brilevich/XX.Final_Project/demo /home/belhard/
+                      /home/belhard/demo/start_web.sh
+                    '''    
+                    slackSend color: COLOR_MAP[currentBuild.currentResult], message: MESS(currentBuild.currentResult, "*Step last :* end job")  
+                    withCredentials([string(credentialsId: 'tel_secret', variable: 'TOKEN'),string(credentialsId: 'tel_chat_id', variable: 'CHAT_ID')]) {
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TOKEN}/sendMessage -d chat_id=${CHAT_ID} -d parse_mode=markdown -d\
+                    text='${MESS(currentBuild.currentResult, "*Step last :* end job")}'
+                    """
+                    }
+                    //cleanWs()
+        }
+    }
+}

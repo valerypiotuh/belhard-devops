@@ -1,0 +1,8 @@
+fuck* = 13
+shit* = 37
+crap* = 199
+bastard = 13
+penguin = 30
+
+All results saved to result.txt
+

@@ -1,0 +1,123 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+  become: true  
+  vars_files:
+    - p_docker.yml
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC50NttWQwpo591+xEB5Hm1Xvih/TcJBSrdEmoEFBjZ9HGVzgEqYZNJagf2R43ODhC9LT9bHCKag+eCighpNQ/Wz5CpeEpU3VPuH8d71cfKXc6nBHS9JkQeNI0Aze+joRyUxDAOt6XA6+HkV+SkVFtjEWaccsGGtZWkmSvOb/sie1b9TdoM6SeMSDxSloszQZCAHioh31gIHV4HPz+WAofbxKwgWUgCzNl7gYMO+bTNZlDG4ea3S/W4t3giVKcD6HvR7NiQXzIlfsGuADWudBPsF6d2ziF+2nQiImVuacBBJJg0mQPSLN9bStrymFKvwRS0Oz09ZO1s/x51NPTfOlwupjSFtWQDUm5N+BcBhkx5aG400fShNrF55RjgWdsRLBoSNutOscVTje4ixH+DQVyzOHKnYPSyEplapFkDL4HbDqYliRGOkDT00RKX3OTOnKUCRZlQZU4zddk8wwFgi6NO8YChUn3AwUg9URmk3Wsc8LyC0HyvjRLZRlD/zlsQ3uU= belhard@belhard-X507UB
+      become: yes
+
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: users | adding docker users (for use without sudo)
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        append: yes
+        groups: docker
+      with_items: '{{ docker_users }}'
+
+    - name: Pull and run docker containers
+      docker_container:
+        name: "{{ default_container_name }}"
+        image: "{{ default_container_image }}"
+        command: "{{ default_container_command }}"
+
+    - name: install zip, unzip, wget, curl
+      apt:
+         update_cache: yes
+         pkg:
+         - zip
+         - unzip
+         - wget
+         - curl  
+         autoclean: yes
+         autoremove: yes
+      become: yes
+
+    - name: install java 11
+      apt:
+         update_cache: yes
+         pkg:
+         - openjdk-11-jre-headless
+         autoclean: yes
+         autoremove: yes
+      when:
+        - ansible_hostname  == 'ansible-2'
+      become: yes
+
+ 
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
