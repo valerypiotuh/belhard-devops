@@ -1,6 +1,8 @@
 #!/bin/bash
 echo "hello, just install some instruments"
 #git init
+#git config --global user.email "megaton2011@gmail.com”
+#git config --global user.name "Dmitry Potapov"
 #git clone git@github.com:megaton20111/belhard-devops-1.git
 echo "git repo was cloned in locally folder"
 
