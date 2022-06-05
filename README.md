@@ -4,6 +4,8 @@
 
 ## Текущая рабочая ветка `bh-devops-02-22`
 
+## [Журнал выполнения ДЗ](https://docs.google.com/spreadsheets/d/1flsZzeHRW8DrcB4HtD0RM5bxaHBwR2_84XUUpL-AjtI/edit#gid=0)
+
 ### Для того, чтобы корректно загрузить свое домашнее задание в репозиторий нужно:
 1. Форкнуть себе в аккаунт этот репозиторий (см. правый верхний угол, кнопка *Fork*)
 2. Скачать себе на компьютер этот репозиторий командой `git clone git@github.com:YOUR_GITHUB_ACCOUNT/belhard-devops.git`
