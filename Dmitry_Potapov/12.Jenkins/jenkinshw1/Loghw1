@@ -1,0 +1,149 @@
+Console Output
+
+Started by an SCM change
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Still waiting to schedule task
+Waiting for next available executor
+Running on slave-1 in /home/vagrant/workspace/HW
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+slave-1 does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -u root -w /home/vagrant/workspace/HW -v /home/vagrant/workspace/HW:/home/vagrant/workspace/HW:rw,z -v /home/vagrant/workspace/HW@tmp:/home/vagrant/workspace/HW@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** alpine cat
+$ docker top 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Initial config)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] properties
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (install curl, wget, git, bash, speedtest-cli)
+[Pipeline] sh
++ apk update
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.15/community/x86_64/APKINDEX.tar.gz
+v3.15.4-49-g2d9f01a977 [https://dl-cdn.alpinelinux.org/alpine/v3.15/main]
+v3.15.4-50-g4e14d7ac94 [https://dl-cdn.alpinelinux.org/alpine/v3.15/community]
+OK: 15855 distinct packages available
++ apk add curl wget git bash speedtest-cli
+(1/25) Installing ncurses-terminfo-base (6.3_p20211120-r0)
+(2/25) Installing ncurses-libs (6.3_p20211120-r0)
+(3/25) Installing readline (8.1.1-r0)
+(4/25) Installing bash (5.1.16-r0)
+Executing bash-5.1.16-r0.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r5)
+(7/25) Installing nghttp2-libs (1.46.0-r0)
+(8/25) Installing libcurl (7.80.0-r0)
+(9/25) Installing curl (7.80.0-r0)
+(10/25) Installing expat (2.4.7-r0)
+(11/25) Installing pcre2 (10.39-r0)
+(12/25) Installing git (2.34.2-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.22-r0)
+(16/25) Installing xz-libs (5.2.5-r1)
+(17/25) Installing libgcc (10.3.1_git20211027-r0)
+(18/25) Installing libstdc++ (10.3.1_git20211027-r0)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.36.0-r0)
+(21/25) Installing python3 (3.9.7-r4)
+(22/25) Installing speedtest-cli (2.1.3-r1)
+(23/25) Installing libunistring (0.9.10-r1)
+(24/25) Installing libidn2 (2.3.2-r0)
+(25/25) Installing wget (1.21.2-r2)
+Executing busybox-1.34.1-r5.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 73 MiB in 39 packages
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Get Git)
+[Pipeline] git
+The recommended git tool is: git
+No credentials specified
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@67da3e8b; decorates RemoteLauncher[hudson.remoting.Channel@5c42013a:slave-1] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Cloning the remote Git repository
+Cloning repository https://github.com/megaton20111/belhard-devops-1.git
+ > git init /home/vagrant/workspace/HW # timeout=10
+Fetching upstream changes from https://github.com/megaton20111/belhard-devops-1.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/megaton20111/belhard-devops-1.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb (refs/remotes/origin/bh-devops-01-22)
+Commit message: "add screenshots jenkinshw2"
+ > git config remote.origin.url https://github.com/megaton20111/belhard-devops-1.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-01-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b bh-devops-01-22 ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
+ > git rev-list --no-walk ee74fa5b2932ba7795a77f1ca14a4c94dc84cdcb # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout folder with Git)
+[Pipeline] sh
++ ls -la
+total 44
+drwxrwxr-x   10 1000     1000          4096 Apr 20 19:02 .
+drwxr-xr-x    4 root     root          4096 Apr 20 19:00 ..
+drwxrwxr-x    8 1000     1000          4096 Apr 20 19:02 .git
+drwxrwxr-x    4 1000     1000          4096 Apr 20 19:02 Artsiom_Beladzedau
+drwxrwxr-x   10 1000     1000          4096 Apr 20 19:02 Dmitry_Potapov
+drwxrwxr-x    6 1000     1000          4096 Apr 20 19:02 Eduard_Danilov
+drwxrwxr-x    3 1000     1000          4096 Apr 20 19:02 Olga_Peisahovich
+-rw-rw-r--    1 1000     1000          2355 Apr 20 19:02 README.md
+drwxrwxr-x    6 1000     1000          4096 Apr 20 19:02 Viktor_Brilevich
+drwxrwxr-x    4 1000     1000          4096 Apr 20 19:02 avoloshchik
+drwxrwxr-x    2 1000     1000          4096 Apr 20 19:02 jenkins
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (run speedtest-cli)
+[Pipeline] sh
++ cd ..
++ speedtest-cli
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (178.120.68.177)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by TVK Hajnowka s.j. (Hajnowka) [71.84 km]: 37.947 ms
+Testing download speed................................................................................
+Download: 14.12 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 11.78 Mbit/s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c
+$ docker rm -f 5c2680d9096dad3700021d4d5187c15e72711a4b73e4e59a5008b6fe92ee540c
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+

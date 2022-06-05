@@ -1,0 +1,23 @@
+pipeline {
+   agent {
+        label 'slave-1'
+        }
+   stages {
+        stage("Pull and run homework 07.Docker from Dmitry1potapov repo and output docker ps -a") {
+            steps {
+            sh '''
+            docker pull dmitry1potapov/speedtest
+            docker run dmitry1potapov/speedtest
+            docker ps -a
+            '''
+          }
+      }
+      
+   }
+   post {
+       
+        always {
+            cleanWs()
+            }
+        }
+}
