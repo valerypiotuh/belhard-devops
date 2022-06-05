@@ -12,6 +12,9 @@
     - name: set hostname
       command: hostnamectl set-hostname {{ proj }}
 
+    - name: set TZ
+      shell: timedatectl set-timezone Europe/Minsk
+
     - name: Create octobercms directory
       file:
         path: /home/vagrant/project_octobercms
@@ -51,7 +54,7 @@
       become_user: vagrant
       shell: "cd ~/project_octobercms &&\
         sudo docker-compose down &&\
-        docker rmi $(docker images -q) -f"
+        if [ $(docker images -q | wc -l) -gt 1 ]; then docker rmi $(docker images -q) -f; fi;"
 
     - name: up db
       become_user: vagrant
