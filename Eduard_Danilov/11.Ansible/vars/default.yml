@@ -1,0 +1,5 @@
+---
+create_containers: 1
+default_container_name: speedtest
+default_container_image: eduarddanilov/speedtest:1.0
+#default_container_command: entrypoint.sh
