@@ -1,0 +1,103 @@
+Создайте у себя на локальной машине Git репозиторий со следующими ветками:
+
+mkdir homework
+cd homework/
+git init
+
+master - в ней 2 коммита
+
+vi test1
+git add test1
+git status
+git commit -m "file 1"
+vi test2
+git status
+git add test2
+git commit -m "file 2"
+
+staging - в ней 2 коммита из master + 2 дополнительных
+
+git checkout -b staging
+vi test3
+git add test3
+git commit -m "file 3"
+vi test4
+git add test4
+git commit -m "file 4"
+
+test - в ней 2 коммита из master + 2 дополнительных из staging + 1 дополнительный
+
+git checkout -b test
+vi test5
+git add test5
+git commit -m "file 5"
+git checkout master
+git branch
+
+fix/prod_is_down - в ней 2 коммита из master + 1 дополнительный
+
+git checkout -b fix/prod_is_down
+vi test6
+git add test6
+git commit -m "file 6"
+
+Релиз в production - все коммиты должны быть в ветке master (кроме коммитов в ветке fix/prod_is_down);
+
+git checkout master 
+git merge test
+
+Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках;
+
+git merge fix/prod_is_down
+git checkout staging 
+git merge fix/prod_is_down
+git checkout test
+git merge fix/prod_is_down
+
+
+
+
+user@ubuntu:~/gitwork/homework$ git log
+commit e4c18c5071a1e56b384903c7eeef5117123c8387 (HEAD -> test)
+Merge: 9c03027 f0fdcb8
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 16:01:09 2022 +0000
+
+    Merge branch 'fix/prod_is_down' into test
+
+commit f0fdcb8ec957ec42bf206265c7bca90b5855ccb9 (fix/prod_is_down)
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:22:46 2022 +0000
+
+    file 6
+
+commit 9c030272e001e1ff17c05ebe07a10b6a26e81a1b
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:17:52 2022 +0000
+
+    file 5
+
+commit c2bcb1b71a62abb8799c7b9af09b39ff46c4a42f
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:12:24 2022 +0000
+
+    file 4
+
+commit 5c59530d7434d5a6d810403d0f27982678af1c44
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:10:57 2022 +0000
+
+    file 3
+
+commit b7e33f5223fdbfcb71552239bd9321e803586315
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:09:50 2022 +0000
+
+    file 2
+
+commit f64413c8921074c850571bb5c13e2e1824f60e5a
+Author: Darya Kaptsiuh <dasha.kaptyug@yandex.ru>
+Date:   Mon Jun 6 15:08:25 2022 +0000
+
+    file 1
+
