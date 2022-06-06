@@ -1,6 +1,6 @@
-#04.GIT
-*Создание локального репозитория и двух коммитов в ветке master
-
+# 04.GIT
+* Создание локального репозитория и двух коммитов в ветке master
+```
 user@ubuntu:~$ mkdir homework
 user@ubuntu:~$ cd homework/
 user@ubuntu:~/homework$ git init
@@ -74,9 +74,9 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
-
-*Создание и переход в ветку staging, а также создание 2-ух коммитов в ней
-
+```
+* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней
+```
 user@ubuntu:~/homework$ git checkout -b staging
 Switched to a new branch 'staging'
 user@ubuntu:~/homework$ git log
@@ -171,10 +171,10 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
-    
-*Создание ветки test икоммита в ней
-    
-    user@ubuntu:~/homework$ git checkout -b test
+``` 
+* Создание ветки test икоммита в ней
+```    
+user@ubuntu:~/homework$ git checkout -b test
 Switched to a new branch 'test'
 user@ubuntu:~/homework$ git branch -a
   master
@@ -253,9 +253,9 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
-
-*Создание ветк fix/prod_is_down и коммита в ней
-
+```
+* Создание ветк fix/prod_is_down и коммита в ней
+```
 user@ubuntu:~/homework$ git checkout master
 Switched to branch 'master'
 user@ubuntu:~/homework$ git log
@@ -337,8 +337,9 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
-
-*Сценарий 1
+```
+* Сценарий 1
+```
 user@ubuntu:~/homework$ git checkout master
 user@ubuntu:~/homework$ git rebase test
 user@ubuntu:~/homework$ git log
@@ -371,8 +372,9 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
-
-*Сценарий 2
+```
+* Сценарий 2
+```
 user@ubuntu:~/homework$ git rebase fix/prod_is_down
 First, rewinding head to replay your work on top of it...
 Applying: Add file2, edit file1
@@ -502,6 +504,7 @@ Author: Stanislau Smeyanovich <ssmeyanovich@gmail.com>
 Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
+```
 
 
 
