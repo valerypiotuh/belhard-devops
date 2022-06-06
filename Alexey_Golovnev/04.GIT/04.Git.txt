@@ -1,0 +1,28 @@
+git init
+touch file1.txt
+git add .
+git commit -m "master/commit-01"
+touch file2.txt
+git add .
+git commit -m "master/commit-02"
+git checkout -b staging
+touch file3.txt
+git add .
+git commit -m "staging/commit-01"
+touch file4.txt
+git add .
+git commit -m "staging/commit-02"
+git checkout -b test
+touch file5.txt
+git add .
+git commit -m "test/commit-01"
+git checkout master
+git checkout -b fix/prod_is_down
+touch file6.txt
+git add .
+git commit -m "fix_prod_is_down/commit-01"
+git rebase staging master
+git rebase test master
+git rebase fix/prod_is_down master
+git rebase fix/prod_is_down staging
+git rebase fix/prod_is_down test
