@@ -37,7 +37,7 @@ e5c823b commit1_staging
 16fbf4a commit2
 57a1382 commit1
 ```
-## prodisdaun
+## prod is down
 ```
 [belhard@centos7 dz04]$ git checkout fix/prod_is_down
 Switched to branch 'fix/prod_is_down'
