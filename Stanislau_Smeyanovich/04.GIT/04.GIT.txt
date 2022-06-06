@@ -1,0 +1,44 @@
+#Создание локального репозитория и 2-ух коммитов
+mkdir homework
+cd homework/
+git init
+echo "Create file1" > file1
+git add .
+git commit -m "Creating file1"
+echo "Create fil2" > file2
+echo "Adding line" > file1
+git add .
+git commit -m "Add file2, edit file1"
+
+#Создание ветки staging и 2-ух коммитов в ней
+git checkout -b staging
+echo "Create file3" > file 3
+git add .
+git commit -m "Add file3"
+echo "Create file4" > file4
+git add .
+git commit -m "Add file4"
+
+#Создание ветки test и 1 коммита в ней
+git checkout -b test
+echo "Create file5" > file5
+git add .
+git commit -m "Add file5"
+
+#Создание ветки fix/prod_is_down и 1 коммита в ней
+git checkout master
+git checkout -b fix/prod_is_down
+echo "Create file6" > file6
+git add .
+git commit -m "Add file6"
+
+#Сценарий 1
+git checkout master
+git rebase test
+
+#Сценарий 2
+git rebase fix/prod_is_down
+git checkout staging
+git rebase fix/prod_is_down
+git checkout test
+git rebase fix/prod_is_down
