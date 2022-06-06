@@ -1,6 +1,6 @@
-#05.Git
-*Создал у себя на локальной машине Git репозиторий `test_rep`
-*Поочередно создал два файла и закомитил, создалась ветка `master`
+# 05.Git
+* Создал у себя на локальной машине Git репозиторий `test_rep`
+* Поочередно создал два файла и закомитил, создалась ветка `master`
 ```
 belhard@srv-ubuntu:~/test_rep$ git log
 commit 029a23dd4593809586da0e4c867f8deda5e0710c (HEAD -> master)
@@ -15,7 +15,7 @@ Date:   Mon Jun 6 14:59:04 2022 +0000
 
     create test1
 ```
-*Создал и перешел на ветку `staging`, также создал два файла и *сделал комиты
+* Создал и перешел на ветку `staging`, также создал два файла и *сделал комиты
 ```
 belhard@srv-ubuntu:~/test_rep$ git log
 commit c158e9bc6850a248e78e52e87d2104f5e2f2a6e7 (HEAD -> staging)
@@ -44,7 +44,7 @@ Date:   Mon Jun 6 14:59:04 2022 +0000
 belhard@srv-ubuntu:~/test_rep$ git checkout -b test
 Switched to a new branch 'test'
 ```
-*Создал и перешел на ветку `test`, создал файл и сделал комит
+* Создал и перешел на ветку `test`, создал файл и сделал комит
 ```
 belhard@srv-ubuntu:~/test_rep$ git log
 commit 55b83b7b463e51fb1d62166acca2f42482924462 (HEAD -> test)
@@ -77,8 +77,8 @@ Date:   Mon Jun 6 14:59:04 2022 +0000
 
     create test1
 ```
-*Перешел на ветку `master`
-*Создал и перешел на ветку `fix/prod_is_down`, создал файл, закомитил.
+* Перешел на ветку `master`
+* Создал и перешел на ветку `fix/prod_is_down`, создал файл, закомитил.
 ```
 belhard@srv-ubuntu:~/test_rep$ git log
 commit 00159038974a372fa784a84639596d49de8dcdf0 (HEAD -> fix/prod_is_down)
@@ -100,9 +100,9 @@ Date:   Mon Jun 6 14:59:04 2022 +0000
     create test1
 ```
 
-##Сценарии
+## Сценарии
 
-###1. Релиз в production - все коммиты должны быть в ветке master (кроме коммитов в ветке fix/prod_is_down)
+### 1. Релиз в production - все коммиты должны быть в ветке master (кроме коммитов в ветке fix/prod_is_down)
 
 Из ветки `master` смержил все остальные ветки кроме `fix/prod_is_down`
 
@@ -139,7 +139,7 @@ Date:   Mon Jun 6 14:59:04 2022 +0000
     create test1
 ```
 
-###2. Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках
+### 2. Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках
 
 Из каждой ветки смержил ветку `fix/prod_is_down`
 
