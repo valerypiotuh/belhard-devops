@@ -1,0 +1,71 @@
+#Команды..
+
+## первый кейс
+ 179  cd dz04
+  180  ls -lah
+  181  git init
+  182  nano test1
+  183  git add test1
+  184  git commit -m "commit1"
+  185  nano test1
+  186  git commit -m "commit1"
+  187  git status
+  188  git commit -a
+  189  git log
+  190  nano test1
+  191  git commit -m "commit2"
+  192  rm -f .git/index.lock
+  193  git commit -m "commit2"
+  194  git commit -a
+  195  git log
+  196  git add test1
+  197  rm -f .git/index.lock
+  198  git add test1
+  199  pwd
+  200  ll
+  201  git branch -a
+  202  git status
+  203  git commit -m "commit2"
+  204  git status
+  205  git log
+  206  git checkout --help
+  207  git checkout -b staging
+  208  ls -lah
+  209  nano test1
+  210  nano staging_2
+  211  git add staging_2
+  212  git commit -m "commit1_staging"
+  213  nano staging_2
+  214  git commit -m "commit2_staging"
+  215  git add staging_2
+  216  git commit -m "commit2_staging"
+  217  git log
+  218  git checkout -b test
+  219  nano test
+  220  git add test
+  221  git commit -m "test_commit1"
+  222  git log
+  223  git branch -a
+  224  git checkout master
+  225  git checkout -b fix/prod_is_down
+  226  ls -lah
+  227  nano test1
+  228  git add test1
+  229  git commit -m "fixproddown_commit1"
+  230  git log
+  231  git branch
+  232  git checkout master
+  233  git merge staging, test
+  234  git merge staging
+  235  git merge test
+
+##второй кейс
+  477  git log
+  478  git uninstall --help
+  479  ls -lah
+  480  git status
+  481  git rebase fix/prod_is_down master
+  482  git log
+  483  git rebase fix/prod_is_down staging
+  484  git rebase fix/prod_is_down test
+
