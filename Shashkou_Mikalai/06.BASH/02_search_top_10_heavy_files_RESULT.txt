@@ -1,0 +1,10 @@
+16728123 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_7_0_sh_mask.h
+16414003 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+14373916 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+14151728 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+12839488 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+12748346 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+11394491 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+11368060 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+8724349 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_4_3_0_sh_mask.h
+7561306 /home/belhard/teach/06.bash/core/linux-5.19-rc1/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
