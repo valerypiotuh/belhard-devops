@@ -505,8 +505,8 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-#05.Bash
-*1. Посчитать количество странных слов в ядре Linux, выполнение скрипта:
+# 05.Bash
+* 1. Посчитать количество странных слов в ядре Linux, выполнение скрипта:
 ```
 user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
 Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
@@ -529,7 +529,7 @@ Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3
 Please enter the word you are looking for:penguin
 96
 ```
-*2. 10 самых больших файлов в директории, выполнение скрипта:
+* 2. 10 самых больших файлов в директории, выполнение скрипта:
 ```
 user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw2.sh
 Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
