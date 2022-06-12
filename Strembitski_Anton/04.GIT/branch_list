@@ -1,0 +1,56 @@
+# Релиз в prod
+user@ubuntu:~/04.git_work$ git log
+commit 6d39e067090541d674ba58265e250dce6914d463 (HEAD -> master, test)
+Author: Anton Str <partyvik@gmail.com>
+Date:   Sun Jun 12 20:15:29 2022 +0000
+
+    test_add_1
+
+commit dfdfd3572d763b431292c8379432473586df8833 (staging)
+Author: Anton Str <partyvik@gmail.com>
+Date:   Sun Jun 12 20:14:12 2022 +0000
+
+    staging_add_2
+
+commit 5567f9f82610794351566ccd06bd4bce2852b2af
+Author: Anton Str <partyvik@gmail.com>
+Date:   Sun Jun 12 20:11:38 2022 +0000
+
+    staging_add_1
+
+commit 1e59ee9a54d243091c763cc7cf1359d040d43531
+Author: Anton Str <partyvik@gmail.com>
+Date:   Sun Jun 12 20:09:07 2022 +0000
+
+    master_add_2
+
+commit 733bbd75558c82666c59b8ede5f46d3e05b4d4b0
+Author: Anton Str <partyvik@gmail.com>
+Date:   Sun Jun 12 20:07:37 2022 +0000
+
+    master_add_1
+
+#Развёртывание в fix
+
+user@ubuntu:~/04.git_work$ git log --oneline
+4ee1a6a (HEAD -> master) fix_add_1
+6d39e06 test_add_1
+dfdfd35 staging_add_2
+5567f9f staging_add_1
+1e59ee9 master_add_2
+733bbd7 master_add_1
+
+user@ubuntu:~/04.git_work$ git log --oneline
+0e197ad (HEAD -> test) fix_add_1
+6d39e06 test_add_1
+dfdfd35 staging_add_2
+5567f9f staging_add_1
+1e59ee9 master_add_2
+733bbd7 master_add_1
+
+user@ubuntu:~/04.git_work$ git log --oneline
+52a39bb (HEAD -> staging) fix_add_1
+dfdfd35 staging_add_2
+5567f9f staging_add_1
+1e59ee9 master_add_2
+733bbd7 master_add_1#command list
