@@ -1,0 +1,5 @@
+fuck: 13
+shit: 99
+crap: 227
+bastard: 26
+penguin: 96
