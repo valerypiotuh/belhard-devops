@@ -1,79 +1,117 @@
- cd
-  git clone
-  git clone git@github.com:alexeybelarus/belhard-devops.git
-  git pull
-  git clone git@github.com:alexeybelarus/belhard-devops.git
-  cd belhard-devops/
-  git config --global user.name "Alexey_Khursevich"
-  git config --global user.email "jancker1@tut.by"
-  git init
-  git checkout bh-devops-02-22
-  git remote add upstream git@github.com:alexeybelarus/belhard-devops.git
-  git fetch upstream
-  git checkout bh-devops-02-22
-  git rebase upstream bh-devops-02-22
-  git rebase upstream/ bh-devops-02-22
-  git rebase upstream/bh-devops-02-22
-  git push -f origin bh-devops-02-22
-  mkdir Alexey_Khursevich
-  cd Alexey_Khursevich/
-  mkdir 04.Git
-  nano git_commands.txt
-  git add .
-  git commit -m "was created file git_commands"
-  git push
-  git status
-  cd 04.Git/
-  ls
-  ls -lah
-  nano GIT_commands.txt
-  git add .
-  git commit -m "was created file git_commands.txt"
-  git push
-  cd ..
-  touch readme.md
-  git add .
-  git commit -m "was created readme.md"
-  git push
-  git checkout master
-  cd ..
-  mkdir Alexey_Khursevich
-  cd Alexey_Khursevich/
-  mkdir 04.Git
-  cd 04.Git/
-  git branch -a
-  touch m1 m2
-  git add .
-  git commit -m "was added m1 m2"
-  git checkout -b staging
-  touch s1 s2
-  git add .
-  git commit -m "was added s1 s2"
-  touch t1
-  rm t1
-  git checkout -b test
-  touch t1
-  git add .
-  git commit -m "was added t1"
-  git checkout master
-  git checkout -b fix/proud_is_down
-  touch f1
-  git add .
-  git commit -m "was added f1"
-  git checkout master
-  git merge staging
-  git merge test
-  git log --oneline
-  git branch
-  git rebase
-  git rebase fix/proud_is_down staging
-  git rebase fix/proud_is_down test
-  git checkout master
-  git log --oneline
-  git checkout staging
-  got log --oneline
-  git log --oneline
-  git checkout test
-  git log --oneline
-  git checkout fix/proud_is_down
-  git log --oneline
+cd
+git clone
+git clone git@github.com:alexeybelarus/belhard-devops.git
+git pull
+git clone git@github.com:alexeybelarus/belhard-devops.git
+cd belhard-devops/
+git config --global user.name "Alexey_Khursevich"
+git config --global user.email "jancker1@tut.by"
+git init
+git checkout bh-devops-02-22
+git remote add upstream git@github.com:alexeybelarus/belhard-devops.git
+git fetch upstream
+git checkout bh-devops-02-22
+git rebase upstream/bh-devops-02-22
+git push -f origin bh-devops-02-22
+mkdir Alexey_Khursevich
+cd Alexey_Khursevich/
+mkdir 04.Git
+nano git_commands.txt
+git add .
+git commit -m "was created file git_commands"
+git push
+git status
+cd 04.Git/
+ls -lah
+nano GIT_commands.txt
+git add .
+git commit -m "was created file git_commands.txt"
+git push
+cd ..
+touch readme.md
+git add .
+git commit -m "was created readme.md"
+git push
+git checkout master
+cd ..
+mkdir Alexey_Khursevich
+cd Alexey_Khursevich/
+mkdir 04.Git
+cd 04.Git/
+git branch -a
+touch m1 m2
+git add .
+git commit -m "was added m1 m2"
+git checkout -b staging
+touch s1 s2
+git add .
+git commit -m "was added s1 s2"
+touch t1
+rm t1
+git checkout -b test
+touch t1
+git add .
+git commit -m "was added t1"
+git checkout master
+git checkout -b fix/proud_is_down
+touch f1
+git add .
+git commit -m "was added f1"
+
+------
+
+# Release production
+
+git checkout master
+git merge staging
+git merge test
+git log --oneline
+
+# Result
+
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git log --oneline
+a2c05a2e0 (HEAD -> master, test) was added t1
+4385b24e5 (staging) was added s1 s2
+89e867c24 was added m1 m2
+
+------
+
+# Deploy fix
+
+git rebase fix/proud_is_down staging
+git rebase fix/proud_is_down test
+
+# Result
+
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git checkout master
+Switched to branch 'master'
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git log --oneline
+dbe825c17 (HEAD -> master) was added t1
+d9efcd036 was added s1 s2
+36790f225 (fix/proud_is_down) was added f1
+89e867c24 was added m1 m2
+
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git checkout staging
+Switched to branch 'staging'
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git log --oneline
+d504ad6d6 (HEAD -> staging) was added s1 s2
+36790f225 (fix/proud_is_down) was added f1
+89e867c24 was added m1 m2
+
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git checkout test
+Switched to branch 'test'
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git log --oneline
+e53b80c50 (HEAD -> test) was added t1
+b41f63074 was added s1 s2
+36790f225 (fix/proud_is_down) was added f1
+89e867c24 was added m1 m2
+
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git checkout fix/proud_is_down
+Switched to branch 'fix/proud_is_down'
+alexey@ubuntu:~/belhard-devops/Alexey_Khursevich/04.Git$ git log --oneline
+36790f225 (HEAD -> fix/proud_is_down) was added f1
+89e867c24 was added m1 m2
+
+  
+  
+  
