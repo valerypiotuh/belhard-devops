@@ -1,0 +1,94 @@
+# GIT. Julia Petrova
+
+## Commands
+
+git checkout master
+nano master
+git add master
+git commit -m "Add master)"
+nano master2
+git add master2
+git commit -m "Add master2)"
+staging
+git checkout -b staging
+nano staging1
+git add staging1
+git commit -m "Add staging1)"
+nano staging2
+git add staging2
+git commit -m "Add staging2)"
+git checkout -b test
+nano test1
+git add test1
+git commit -m "Add test1"
+git checkout master
+git checkout -b fix/prod_is_down
+nano fixprod1
+git add fixprod1
+git commit -m "Add fixprod1"
+
+------------------
+
+## Release to production
+
+git checkout master
+git merge staging
+git merge test
+
+# Result
+
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git log --oneline
+523042256 (HEAD -> master, test) Add test1
+42c13453a (staging) Add staging2
+94407a9f7 Add staging1
+119db3006 Add master2
+cc6a15271 Add master
+
+------------------
+
+## Deploy fix/prod_is_down
+git rebase fix/prod_is_down master
+git rebase fix/prod_is_down staging
+git rebase fix/prod_is_down test
+
+# Result
+
+## Branch master:
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git checkout master
+Switched to branch 'master'
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git log --oneline
+8b7664e4f (HEAD -> master) Add test1
+b2276e407 Add staging2
+71571878f Add staging1
+d32ac0e8a (fix/prod_is_down) Add fixprod1
+119db3006 Add master2
+cc6a15271 Add master
+
+## Branch staging:
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git checkout staging
+Switched to branch 'staging'
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git log --oneline
+26fd81a3e (HEAD -> staging) Add staging2
+ac18cd3a3 Add staging1
+d32ac0e8a (fix/prod_is_down) Add fixprod1
+119db3006 Add master2
+cc6a15271 Add master
+
+## Branch test:
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git checkout test
+Switched to branch 'test'
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git log --oneline
+fb7a9e574 (HEAD -> test) Add test1
+d0eb2db7e Add staging2
+066402f7d Add staging1
+d32ac0e8a (fix/prod_is_down) Add fixprod1
+119db3006 Add master2
+cc6a15271 Add master
+
+## Branch fix/prod_is_down:
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git checkout fix/prod_is_down
+Switched to branch 'fix/prod_is_down'
+user@ubuntu:~/belhard-devops/Julia_Petrova/04.GIT$ git log --oneline
+d32ac0e8a (HEAD -> fix/prod_is_down) Add fixprod1
+119db3006 Add master2
+cc6a15271 Add master
