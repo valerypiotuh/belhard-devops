@@ -545,11 +545,67 @@ Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3
 7205628 dcn_2_0_0_sh_mask.h
 6831048 dce_12_0_sh_mask.h
 ```
-
-
-
-
-
-
+# 06.Docker
+* Создаем Dockerfile для контейнера:
+```
+user@ubuntu:~/06.docker/hw$ nano Dockerfile
+```
+* Содержимое Dockerfile:
+```
+FROM alpine:latest
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+```
+* Создаем скрипт entrypoint.sh с инструкцией для выполнения в контейнере:
+```
+user@ubuntu:~/06.docker/hw$ nano entrypoint.sh
+```
+* Содержимое entrypoint.sh:
+```
+#!/bin/sh
+apk update && apk add --no-cache  curl wget git bash speedtest-cli
+speedtest-cli > log.txt
+```
+* Назначаем права на выполнение для entrypoint.sh:
+```
+user@ubuntu:~/06.docker/hw$ chmod +x entrypoint.sh
+```
+* Создаем директорию на хосте, куда будут смонтирована рабочая директория контейнера:
+```
+user@ubuntu:~/06.docker/hw$ mkdir ~/log
+```
+* Билдим image:
+```
+docker build . -t speedtest
+```
+* Запускаем контейнер, указываем в какую папку будем монтировать директорию контейнера:
+```
+docker run -d -v ~/log:/app speedtest
+```
+* Проверяем содержимое файла log содержмиое:
+```
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich$ cat /home/user/log/log.txt
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.214.73.34)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by PinPro (Pinsk) [222.94 km]: 23.321 ms
+Testing download speed................................................................................
+Download: 52.44 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 28.12 Mbit/s 
+```
+* Выгружаем образ на DockerHub:
+```
+user@ubuntu:~/06.docker/hw$ docker login  -u [username] -p [password]
+user@ubuntu:~/06.docker/hw$ docker tag speedtest:latest stanislausmain/speedtest
+user@ubuntu:~/06.docker/hw$ docker push stanislausmain/speedtest
+```
+* Ссылка на образ:
+```
+https://hub.docker.com/repository/registry-1.docker.io/stanislausmain/speedtest/tags?page=1&ordering=last_updated
+```
 
 
