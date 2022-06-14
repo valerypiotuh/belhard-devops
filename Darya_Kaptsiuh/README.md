@@ -166,4 +166,40 @@ find ${testpath} -type f -exec ls -s {} \; | sort -n -r | head -10
 14373916-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
 16414003-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
 ```
+---
 
+### 06.Docker
+
+##### Содержимое Dockerfile_speedtest:
+```
+FROM alpine:latest
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint_speedtest.sh /entrypoint_speedtest.sh
+ENTRYPOINT ["/entrypoint_speedtest.sh"]
+```
+##### Содержимое entrypoint_speedtest.sh
+```
+#!/bin/sh
+apk update && apk add --no-cache curl wget git bash speedtest-cli
+speedtest > log_speedtest.txt
+```
+##### Команды для запуска:
+```
+mkdir ~/log_speedtest
+docker build . -f Dockerfile_speedtest -t speedtest
+docker run -d -v ~/log_speedtest:/app speedtest
+```
+##### Создание образа:
+```
+docker tag speedtest:latest daryakap/speedtest
+```
+##### Загрузка образа на Docker Hub:
+```
+docker login
+docker push daryakap/speedtest
+```
+##### Ссылка на образ в Docker Hub:
+```
+https://hub.docker.com/repository/docker/daryakap/speedtest
+```
