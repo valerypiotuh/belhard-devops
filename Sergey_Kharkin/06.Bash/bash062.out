@@ -1,0 +1,10 @@
+360K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/bpf/verifier.c
+316K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/events/core.c
+300K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/sched/fair.c
+236K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/trace/trace.c
+216K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/sched/core.c
+180K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/trace/ftrace.c
+176K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/cgroup/cgroup.c
+168K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/workqueue.c
+168K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/locking/lockdep.c
+156K	/home/veselchak/Devops-temp/linux-5.10.120/kernel/trace/ring_buffer.c
