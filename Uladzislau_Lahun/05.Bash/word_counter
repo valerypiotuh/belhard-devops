@@ -1,0 +1,6 @@
+#!/bin/bash
+for_search=~/for_test/linux-5.18.3/
+for word in fuck shit crap bastard penguin
+do
+echo "$word count:" $(grep $word* -airo $for_search | wc -l)
+done

@@ -1,0 +1,11 @@
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/05.Bash$ ./first10 ~/for_test/linux-5.18.3/
+657442  MAINTAINERS
+101311  CREDITS
+65151   Makefile
+22940   .mailmap
+16993   .clang-format
+1959    .gitignore
+1327    Kbuild
+727     README
+555     Kconfig
+496     COPYING

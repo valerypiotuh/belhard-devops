@@ -1,4 +1,4 @@
-# 05.Git
+# 04.Git
 * Создал у себя на локальной машине Git репозиторий `test_rep`
 * Поочередно создал два файла и закомитил, создалась ветка `master`
 ```
@@ -277,4 +277,50 @@ Author: Uladzislau Lahun <vladok.13.97@gmail.com>
 Date:   Mon Jun 6 14:59:04 2022 +0000
 
     create test1
+```
+# 05.Bash
+
+## 1. Посчитать количество странных слов в ядре Linux:
+
+Переменная `word` цикла принимает значения списка искомых слов `fuck shit crap bastard penguin`
+Передаю переменную `word` в `echo`. `grep $word* -airo $for_search` рекурсивно ищет совпадения в указанной директории, `wc -l` выдает количесво найденых строк
+```
+#!/bin/bash
+for_search=~/for_test/linux-5.18.3/
+for word in fuck shit crap bastard penguin
+do
+echo "$word count:" $(grep $word* -airo $for_search | wc -l)
+done
+```
+Вывод скрипта:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/05.Bash$ ./word_counter
+fuck count: 1688
+shit count: 1242897
+crap count: 48186
+bastard count: 34
+penguin count: 118
+```
+## 2. 10 самых больших файлов в директории:
+
+Ищу только файлы (-type f) в указанной директории $1 (первый параметр), и выводит размер и имя файла (-print f)
+После строится таблица и сортировка по размеру, выводятся первые 10 файлов (head -n 10)
+
+```
+#!/bin/bash
+find $1 -maxdepth 1 -type f -printf '%s %f \n' | column -t | sort -rn | head -n 10
+```
+Вывод скрипта:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/05.Bash$ ./first10 ~/for_test/linux-5.18.3/
+657442  MAINTAINERS
+101311  CREDITS
+65151   Makefile
+22940   .mailmap
+16993   .clang-format
+1959    .gitignore
+1327    Kbuild
+727     README
+555     Kconfig
+496     COPYING
 ```
