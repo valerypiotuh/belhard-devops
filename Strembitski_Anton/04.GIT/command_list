@@ -1,0 +1,48 @@
+#Создание
+#Master
+
+git init
+nano master_com1
+git add master_com1
+git commit -m "master_add_1"
+nano master_com2
+git add -A
+git commit -m "master_add_2"
+
+#staging
+
+git checkout -b staging
+nano staging_add_1
+git add -A
+git commit -m "staging_add_1"
+nano staging_add_2
+git add -A
+git commit -m "staging_add_2"
+
+#Test
+
+git checkout -b test
+nano test_add_1
+git add -A
+git commit -m "test_add_1"
+
+#fix/prod_is_down
+
+git checkout master
+git checkout -b fix/prod_is_down
+nano fix_add_1
+git add -A
+git commit -m "fix_add_1"
+
+#Релиз в prod
+
+git checkout master
+git merge test
+
+#Развертывание fix
+
+git cherry-pick fix/prod_is_down
+git checkout test
+git cherry-pick fix/prod_is_down
+git checkout staging
+git cherry-pick fix/prod_is_down
