@@ -15,7 +15,7 @@ Untracked files:
         file1
 
 nothing added to commit but untracked files present (use "git add" to track)
-user@ubuntu:~/homework$ git add .
+user@ubuntu:~/homework$ git add 
 user@ubuntu:~/homework$ git status
 On branch master
 
@@ -505,15 +505,107 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-
-
-
-
-
-
-
-
-
-
+# 05.Bash
+* Посчитать количество странных слов в ядре Linux, выполнение скрипта:
+```
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+Please enter the word you are looking for:fuck
+13
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+Please enter the word you are looking for:shit
+99
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+Please enter the word you are looking for:crap
+227
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+Please enter the word you are looking for:bastard
+26
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw1.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+Please enter the word you are looking for:penguin
+96
+```
+* 10 самых больших файлов в директории, выполнение скрипта:
+```
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich/05.Bash$ ./hw2.sh
+Please enter the path to the folder:/home/user/05.bash/linux_kernel/linux-5.18.3/
+[sudo] password for user:
+16414003        nbio_7_2_0_sh_mask.h
+14373916        dpcs_4_2_3_sh_mask.h
+14151728        nbio_6_1_sh_mask.h
+12839488        nbio_2_3_sh_mask.h
+12748346        nbio_7_0_sh_mask.h
+11394491        dpcs_4_2_2_sh_mask.h
+11368060        dpcs_4_2_0_sh_mask.h
+7561306 dcn_3_0_0_sh_mask.h
+7205628 dcn_2_0_0_sh_mask.h
+6831048 dce_12_0_sh_mask.h
+```
+# 06.Docker
+* Создаем Dockerfile для контейнера:
+```
+user@ubuntu:~/06.docker/hw$ nano Dockerfile
+```
+* Содержимое Dockerfile:
+```
+FROM alpine:latest
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+```
+* Создаем скрипт entrypoint.sh с инструкцией для выполнения в контейнере:
+```
+user@ubuntu:~/06.docker/hw$ nano entrypoint.sh
+```
+* Содержимое entrypoint.sh:
+```
+#!/bin/sh
+apk update && apk add --no-cache  curl wget git bash speedtest-cli
+speedtest-cli > log.txt
+```
+* Назначаем права на выполнение для entrypoint.sh:
+```
+user@ubuntu:~/06.docker/hw$ chmod +x entrypoint.sh
+```
+* Создаем директорию на хосте, куда будут смонтирована рабочая директория контейнера:
+```
+user@ubuntu:~/06.docker/hw$ mkdir ~/log
+```
+* Билдим image:
+```
+docker build . -t speedtest
+```
+* Запускаем контейнер, указываем в какую папку будем монтировать директорию контейнера:
+```
+docker run -d -v ~/log:/app speedtest
+```
+* Проверяем содержимое файла log содержмиое:
+```
+user@ubuntu:~/belhard-devops/Stanislau_Smeyanovich$ cat /home/user/log/log.txt
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.214.73.34)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by PinPro (Pinsk) [222.94 km]: 23.321 ms
+Testing download speed................................................................................
+Download: 52.44 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 28.12 Mbit/s 
+```
+* Выгружаем образ на DockerHub:
+```
+user@ubuntu:~/06.docker/hw$ docker login  -u [username] -p [password]
+user@ubuntu:~/06.docker/hw$ docker tag speedtest:latest stanislausmain/speedtest
+user@ubuntu:~/06.docker/hw$ docker push stanislausmain/speedtest
+```
+* Ссылка на образ:
+```
+https://hub.docker.com/repository/registry-1.docker.io/stanislausmain/speedtest/tags?page=1&ordering=last_updated
+```
 
 
