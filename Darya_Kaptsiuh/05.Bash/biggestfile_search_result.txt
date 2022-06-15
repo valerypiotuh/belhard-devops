@@ -1,0 +1,10 @@
+6831048-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dce/dce_12_0_sh_mask.h
+7205628-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_0_sh_mask.h
+7561306-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
+11368060-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+11394491-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+12748346-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+12839488-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+14151728-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+14373916-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+16414003-./linux/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
