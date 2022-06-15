@@ -1,0 +1,110 @@
+**Домашнее задание 2**
+
+Создал папку под локальный репозиторий на виртуалке debian
+
+    ~/belhard-git/belhard-local-repo$
+
+Поехали
+
+    git init
+    git add --all
+    git commit -m "Добавил скрипты для прошивки FLASH"
+    git add --all
+    git commit -m "Добавил скрипты для прошивки EEPROM"
+    git branch staging
+    git checkout staging
+    git add avrdude-fuse-program.sh avrdude-fuse-verify.sh 
+    git commit -m "Добавил скрипты для прошивки FUSE-битов"
+    git add avrdude-lock-program.sh
+    git commit -m "Добавил скрипты для защиты FLASH от чтения"
+    git branch test
+    git checkout test
+    git add readme.txt
+    git commit -m "Добавил readme"
+    
+Сценарий 1:
+
+    git checkout master
+    git merge test
+
+Вывод:
+
+    Updating 5dffdca..aa2cd71
+    Fast-forward
+     avrdude-fuse-program.sh |  8 ++++++++
+     avrdude-fuse-verify.sh  |  7 +++++++
+     avrdude-lock-program.sh | 22 ++++++++++++++++++++++
+     readme.txt              | 39 +++++++++++++++++++++++++++++++++++++++
+     4 files changed, 76 insertions(+)
+     create mode 100755 avrdude-fuse-program.sh
+     create mode 100755 avrdude-fuse-verify.sh
+     create mode 100755 avrdude-lock-program.sh
+     create mode 100755 readme.txt
+
+Сценарий 2:
+Нахожусь в ветке fix/prod_is_down
+
+    git log
+
+Вывод:
+
+`commit aa2cd7142af7a25ea13623c1c2c801ab7b3d5e61 (HEAD -> master, test)
+Author: sergkharkin@gmail.com <sergkharin@gmail.com>
+Date:   Tue Jun 7 12:46:24 2022 +0300
+    Добавил readme
+commit cf5eeb881222463e9ed52047231cdd6a97089d4f (staging)
+Author: sergkharkin@gmail.com <sergkharin@gmail.com>
+Date:   Tue Jun 7 12:40:59 2022 +0300
+    Добавил скрипты для защиты FLASH от чтения
+commit 9a5c98c7621d60112ce6af07d32dd128905a9c49
+Author: sergkharkin@gmail.com <sergkharin@gmail.com>
+Date:   Tue Jun 7 12:40:03 2022 +0300
+    Добавил скрипты для прошивки FUSE-битов
+commit 5dffdca6ccfc51b8af518ab235dc7b7546112936
+Author: sergkharkin@gmail.com <sergkharin@gmail.com>
+Date:   Tue Jun 7 12:37:47 2022 +0300
+    Добавил скрипты для прошивки EEPROM
+commit 29fef19e06e2a3fc87b4936a9418264d3325484a
+Author: sergkharkin@gmail.com <sergkharin@gmail.com>
+Date:   Tue Jun 7 12:36:50 2022 +0300
+    Добавил скрипты для прошивки FLASH
+`
+
+Интересует только последний коммит
+
+    git cherry-pick aa2cd7142af7a25ea13623c1c2c801ab7b3d5e61
+    git cherry-pick --continue
+    git commit --allow-empty
+
+Вывод:
+
+    [master 8cc812b] Добавил readme
+    Date: Tue Jun 7 12:46:24 2022 +0300
+
+    git checkout staging
+    git cherry-pick aa2cd7142af7a25ea13623c1c2c801ab7b3d5e61
+    [staging 492479f] Добавил readme
+     Date: Tue Jun 7 12:46:24 2022 +0300
+     1 file changed, 39 insertions(+)
+     create mode 100755 readme.txt
+
+    git checkout test
+
+    git cherry-pick aa2cd7142af7a25ea13623c1c2c801ab7b3d5e61
+    On branch test
+    You are currently cherry-picking commit aa2cd71.
+      (all conflicts fixed: run "git cherry-pick --continue")
+      (use "git cherry-pick --skip" to skip this patch)
+      (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+        nothing to commit, working tree clean
+    The previous cherry-pick is now empty, possibly due to conflict resolution.
+    If you wish to commit it anyway, use:
+        git commit --allow-empty
+    Otherwise, please use 'git cherry-pick --skip'
+
+    git commit --allow-empty
+
+Вывод:
+
+    [test 35b37be] Добавил readme
+     Date: Tue Jun 7 12:46:24 2022 +0300
