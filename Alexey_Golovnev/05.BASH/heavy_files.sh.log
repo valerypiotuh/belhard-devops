@@ -1,0 +1,11 @@
+[2022-06-12 20:46:26] Search dir: /home/belhard/devops/linux-kernel/linux-5.18.3/; Number of files: 10; Result: 
+16M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+14M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+14M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+13M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+13M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+11M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+11M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+7.3M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
+6.9M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_0_sh_mask.h
+6.6M /home/belhard/devops/linux-kernel/linux-5.18.3/drivers/gpu/drm/amd/include/asic_reg/dce/dce_12_0_sh_mask.h
