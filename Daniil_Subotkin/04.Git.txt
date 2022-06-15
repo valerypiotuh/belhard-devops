@@ -1,0 +1,63 @@
+команды
+git touch file
+git add file
+git commit -m
+git touch file
+git add file
+git commit -m
+git branch staging
+git checkout staging
+git touch file
+git add file
+git commit -m
+git touch file
+git add file
+git commit -m
+git branch test
+git touch file
+git add file
+git commit -m
+git checkout master
+git branch fix/prod_is_down
+git checkout fix/prod_is_down
+git touch file
+git add file
+git commit -m
+
+Сценарии:
+Релиз в poduction:
+[admin@localhost ~]$ git log --oneline
+daf2460 comm test1
+11e303a comm stag2
+bb0591a comm stag1
+16e5499 master com2
+ceb77e0 master com1
+
+Развертывание Fix:
+[admin@localhost ~]$ git log --oneline
+d70dd68 Merge branch 'fix/prod_is_down' into test
+ad198b0 comm fix_prod
+daf2460 comm test1
+11e303a comm stag2
+bb0591a comm stag1
+16e5499 master com2
+ceb77e0 master com1
+[admin@localhost ~]$ git checkout staging
+Switched to branch 'staging'
+[admin@localhost ~]$ git log --oneline
+2a250ac Merge branch 'fix/prod_is_down' into staging
+ad198b0 comm fix_prod
+11e303a comm stag2
+bb0591a comm stag1
+16e5499 master com2
+ceb77e0 master com1
+[admin@localhost ~]$ git checkout master
+Switched to branch 'master'
+[admin@localhost ~]$ git log --oneline
+2c7cd8d Merge branch 'fix/prod_is_down'
+ad198b0 comm fix_prod
+daf2460 comm test1
+11e303a comm stag2
+bb0591a comm stag1
+16e5499 master com2
+ceb77e0 master com1
