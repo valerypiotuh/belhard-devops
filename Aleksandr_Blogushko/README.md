@@ -1,46 +1,53 @@
-# Курс «DevOps. Системный инженер»
-
-Этот репозиторий будет хранить все практические домашние задания слушателей этого кура.
-
-## Текущая рабочая ветка `bh-devops-02-22`
-
-## [Журнал выполнения ДЗ](https://docs.google.com/spreadsheets/d/1flsZzeHRW8DrcB4HtD0RM5bxaHBwR2_84XUUpL-AjtI/edit#gid=0)
-
-### Для того, чтобы корректно загрузить свое домашнее задание в репозиторий нужно:
-1. Форкнуть себе в аккаунт этот репозиторий (см. правый верхний угол, кнопка *Fork*)
-2. Скачать себе на компьютер этот репозиторий командой `git clone git@github.com:YOUR_GITHUB_ACCOUNT/belhard-devops.git`
-3. Перейти на текущую рабочую ветку (см. выше), например `git checkout bh-devops-02-22`
-4. *Обязательно* нужно загрузить все изменения из главного репозитория ( вот пример https://stackoverflow.com/questions/7244321/how-do-i-update-or-sync-a-forked-repository-on-github )
-5. Создать папку с Вашими именем и фамилией (например, моя папка называлась бы Valery_Piotuh)
-6. Создать внутри папку с названием домашнего задания (например 05.GIT)
-7. Добавить в нее файлы, необходимые для выполнения ДЗ
-8. Добавить эти файлы в SCM командой `git add необходимые_файлы` или `git add --all` для всех файлов
-9. Добавить комментарий командой `git commit -m "краткое описание"` например `git commit -m "05.GIT vpiotuh"`
-10. Загрузить эти файлы на GitHub командой `git push`
-11. В веб интерфейсе Github создать Pull Request для загрузки изменений из своего форка в главный репозиторий
-11. Ждать пока проверится Ваше ДЗ
-
-
---result create--
-git checkout master
-git branch
-	fix/prod_is_down
-	* master
-	staging
-	test
---result create master--
+# ДЗ 05.GIT
+## Создане необходимой структуры файлов\коммитов для выполнения сценариев
+### Ветка `master`
+Использовались команды
+```
+git init
+touch master1
+git add master1
+git commit -m "add master1 file"
+touch master2
+git add master2
+git commit -m "add master2 file"
+```
+Результат
+```
 git checkout master
 git log --oneline
 	321d335 (HEAD -> master) add master2 file
 	34f87b8 add master1 file
---result create staging--
+```
+### Ветка `staging`
+Использовались команды
+```
+git checkout -b staging
+touch staging1
+git add staging1
+git commit -m "add staging1 file"
+touch staging2
+git add staging2
+git commit -m "add staging2 file"
+```
+Результат
+```
 git checkout staging
 git log --oneline
 	663c446 (HEAD -> staging) add staging2 file
 	bb44d6c add staging1 file
 	321d335 (master) add master2 file
 	34f87b8 add master1 file
---result create test--
+```
+### Ветка `test`
+Использовались команды
+```
+git checkout -b test
+touch test1
+git add test1
+git commit -m "add test1 file"
+```
+Результат
+```
 git checkout test
 git log --oneline
 	9cda287 (HEAD -> test) add test1 file
@@ -48,13 +55,35 @@ git log --oneline
 	bb44d6c add staging1 file
 	321d335 (master) add master2 file
 	34f87b8 add master1 file
---result create fix/prod_is_down--
+```
+### Ветка `create fix/prod_is_down`
+Использовались команды
+```
+git checkout master
+git checkout -b fix/prod_is_down
+touch fix1
+git add fix1
+git commit -m "add fix1 file"
+```
+Результат
+```
 git checkout fix/prod_is_down
 git log --oneline
 	ad1e5b5 (HEAD -> fix/prod_is_down) add fix1 file
 	321d335 (master) add master2 file
 	34f87b8 add master1 file
---result сценарий 1--
+```
+## Сценарии
+### Сценарий 1 `Релиз в production`
+Все коммиты из веток `staging` и `test` должны быть перенесены в ветку `master`
+
+Использовались команды
+```
+git rebase staging master
+git rebase test master
+```
+Результат
+```
 git checkout master
 git log --oneline
 	9cda287 (HEAD -> master, test) add test1 file
@@ -62,7 +91,18 @@ git log --oneline
 	bb44d6c add staging1 file
 	321d335 add master2 file
 	34f87b8 add master1 file
---result сценарий 2--
+```
+### Сценарий 2 `Развертывание fix`
+Все коммиты из ветки `fix/prod_is_down` должны быть перенесены в ветки `master` `staging` `test`
+
+Использовались команды
+```
+git rebase fix/prod_is_down master
+git rebase fix/prod_is_down staging
+git rebase fix/prod_is_down test
+```
+Результат
+```
 git checkout master
 git log --oneline
 	5a5f357 (HEAD -> master) add test1 file
@@ -71,6 +111,8 @@ git log --oneline
 	ad1e5b5 (fix/prod_is_down) add fix1 file
 	321d335 add master2 file
 	34f87b8 add master1 file
+```
+```
 git checkout staging
 git log --oneline
 	7bcb0f6 (HEAD -> staging) add staging2 file
@@ -78,6 +120,8 @@ git log --oneline
 	ad1e5b5 (fix/prod_is_down) add fix1 file
 	321d335 add master2 file
 	34f87b8 add master1 file
+```
+```
 git checkout test
 git log --oneline
 	68b1660 (HEAD -> test) add test1 file
@@ -86,3 +130,4 @@ git log --oneline
 	ad1e5b5 (fix/prod_is_down) add fix1 file
 	321d335 add master2 file
 	34f87b8 add master1 file
+```
