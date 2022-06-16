@@ -1,0 +1,22 @@
+server {
+	listen 8300;
+	
+
+	location / {
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_pass http://10.177.150.84:8100;
+	}
+}
+
+server {
+	listen 8400;
+
+
+	location / {
+		proxy_set_header Host $host;
+                proxy_set_header X-Real_IP $remote_addr;
+                proxy_pass http://10.177.150.84:8200;
+
+	}
+}
