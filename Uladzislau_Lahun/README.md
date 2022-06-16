@@ -324,3 +324,52 @@ belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/05.Bash$ ./first10 ~/for_te
 555     Kconfig
 496     COPYING
 ```
+
+# 06.Docker
+
+Создал файлы `dockerfile` и `entrypoint.sh`
+Содержание файлов:
+* dokerfile
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun$ cat 06.Docker/dockerfile
+FROM alpine:latest
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+```
+* entrypoint.sh
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun$ cat 06.Docker/entrypoint.sh
+#!/bin/sh
+apk update && apk add --no-cache curl wget git bash speedtest-cli
+speedtest > log.txt
+```
+Собрал образ:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker build . -f dockerfile -t speedtest
+```
+Запустил контейнер с выводом в `~/log`:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker run -d -v ~/log:/app speedtest
+```
+Содержимое log файла:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun$ cat ~/log/log.txt
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.215.10.208)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by JLLC "COSMOS TV" (Minsk) [0.29 km]: 73.546 ms
+Testing download speed................................................................................
+Download: 69.43 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 46.04 Mbit/s
+```
+Загрузил образ на DockerHub:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker login -u <login> -p <password>
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker tag speedtest:latest ldunicom/speedtest
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker push ldunicom/speedtest
+```
+Ссылка на образ: `https://hub.docker.com/repository/docker/ldunicom/speedtest/tags?page=1&ordering=last_updated`
