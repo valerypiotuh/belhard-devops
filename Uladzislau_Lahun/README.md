@@ -373,3 +373,65 @@ belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker tag speed
 belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/06.Docker$ docker push ldunicom/speedtest
 ```
 Ссылка на образ: `https://hub.docker.com/repository/docker/ldunicom/speedtest/tags?page=1&ordering=last_updated`
+
+# 07.Nginx
+Создал два файла html (по сути один, но id_docker будет менятся при сборке образа):
+```
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx on docker #id_docker!</h1>
+<p>If you see this page, the nginx web server on docker container #id_docker is successfully installed and
+working.</p>
+</body>
+</html>
+```
+Создал два `dockerfile`, при запуске перезаписывается дефолтный `index.html`:
+```
+FROM nginx:latest
+WORKDIR /usr/share/nginx/html/
+COPY /pattern /usr/share/nginx/html/pattern.html
+RUN cat ./pattern.html | sed "s/id_docker/first container/">./index.html
+```
+```
+FROM nginx:latest
+WORKDIR /usr/share/nginx/html/
+COPY /pattern /usr/share/nginx/html/pattern.html
+RUN cat ./pattern.html | sed "s/id_docker/second docker container/">./index.html
+```
+Собрал образы и запустил контейнеры:
+```
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/07.Nginx$ docker run -dit -p 8100:80 nginx_srv1
+e6e774733a0eba5c00e77f8156671c62e118791a4bf3f8c24a768646a652f5e3
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/07.Nginx$ docker run -dit -p 8200:80 nginx_srv2
+db3950e65537a64f22fa752ba7a5c5dc57343e8f31c2b3c8183c620f5bb98cd4
+belhard@srv-ubuntu:~/belhard-devops/Uladzislau_Lahun/07.Nginx$ docker ps -a
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+db3950e65537   nginx_srv2   "/docker-entrypoint.…"   9 seconds ago    Up 8 seconds    0.0.0.0:8200->80/tcp, :::8200->80/tcp   youthful_hermann
+e6e774733a0e   nginx_srv1   "/docker-entrypoint.…"   15 seconds ago   Up 14 seconds   0.0.0.0:8100->80/tcp, :::8100->80/tcp   tender_blackburn
+a34e623cc1bf   nginx        "/docker-entrypoint.…"   4 hours ago      Up 4 hours      0.0.0.0:8080->80/tcp, :::8080->80/tcp   exciting_goldberg
+```
+Добавил переадресацию в `/etc/nginx/sites-available/default`:
+```
+server {
+        listen 81;
+        location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://localhost:8100;
+        }
+}
+server {
+        listen 82;
+        location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://localhost:8200;
+        }
+}
+```
+На моей виртуалке сетевой мост, пробрасывать порты не нужно, при обращении на 81 и 82 порты идет переадресация на 8100 и 8200 порты соответственно, при обращении на 80 порт открывается стандартная страница nginx
