@@ -313,3 +313,141 @@ Upload: 4.62 Mbyte/s
 выполнил docker push mikola1911/belhard-shashkou-teach
 
 Общедоступный URL моего Image: https://hub.docker.com/r/mikola1911/belhard-shashkou-teach/tags
+# 08.NGINX
+
+## ЗАДАНИЕ
+
+    Создать 2 разные html страницы nginx для двух Docker контейнеров;
+    Написать два Dockerfile для запуска nginx с этими страницами;
+    Запустить 2 Docker контейнера c nginx:
+
+    на первый Docker контейнер можно попасть по порту 8100, сам контейнер слушает порт 80;
+    на второй Docker контейнер можно попасть по порту 8200, сам контейнер слушает порт 80;
+
+    Установить на виртуальную машину nginx и настроить его как прокси сервер для Docker контейнеров;
+    Пробросить порты с локальной машины на виртуальную так, чтобы в браузере:
+
+    на порту 8000 была стандартная конфигурация nginx виртуальной машины
+    на порту 8100 была конфигурация nginx из Docker контейнера №1
+    на порту 8200 была конфигурация nginx из Docker контейнера №2
+
+Конфигурационный файл для nginx на виртуальной машине, HTML файлы для Docker контейнеров, а также оба Dockerfile положить в свою директорию в папку 08.nginx, добавить README.md с описанием и создать Pull Request
+
+Дополнительно: сделать все тоже самое, только используя docker-compose и кастомную сеть
+
+## РЕШЕНИЕ
+
+Выполнил билд 2-х контейнеров, предварительно создав 2 директории, в которых разместил по 1 докерфайлу, а также index.html. В докерфайле запустил установку nginx, а также копирование index.html:
+
+docker build . -t nginx_1
+docker build . -t nginx_2
+
+Запустил 2 контейнера на портах локалхоста виртуалки 8100 и 8200 соответственно:
+
+docker run -d -p 8100:80 nginx_1
+docker run -d -p 8200:80 nginx_2
+
+Пробросил порты в настройках виртуалки, проверил в браузере - работает.
+
+Далее настраивал proxy
+
+Создал в NGINX конфиг-файл docker, в котором настроил подключение к докер-контейнерам (80 порты каждого контейнера), а также к 80 порту nginx
+
+Проверял на каком IP живут контейнеры командой docker inspect fe61f270e8c3 (ИД контейнера)
+
+Содержимое конфига:
+
+server {
+        listen 82;
+
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://172.17.0.2:8100;
+            }
+}
+
+
+server {
+        listen 83;
+
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http:172.17.0.3:8200;
+            }
+}
+
+server {
+        listen 80;
+
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:80;
+            }
+}
+
+Пробросил порты в настройках машины в соответствии с заданием. Проверил в браузере - работает.
+
+# 09.PostgreSQL
+
+## ЗАДАНИЕ
+
+
+
+    Поднять Docker контейнер с PostgreSQL сервером
+    Поднять Docker контейнер с pgAdmin и подключиться к PosgreSQL серверу
+    Создать БД под названием belhard
+    Создать таблицу под названием devops с полями FirstName, LastName, Email, Age
+    Заполнить таблицу данными (+- 10 строк)
+    Снять дамп с текущей БД и развернуть его в новом Docker контейнере
+
+В качестве отчета о выполненном домашнем задании предоставить файл дампа БД, а также скриншоты двух БД в pgAdmin c данными.
+
+Отчет поместить в своем рабочем каталоге в папку 09.PostgreSQL и создать Pull Request.
+
+
+## РЕШЕНИЕ
+
+Убил все действующие контейнеры (docker stop $(docker ps -aq) && docker rm $(docker ps -aq) && docker rmi $(docker images -q) && docker system prune --volumes -f).
+
+Поднял 2 контейнера с PostgreSQL (docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres), 1 с PGAdmin (docker run -p 8888:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4). Пробросил порты к PGAdmin, зашел в PGAdmin, добавил 2 сервера PostgreSQL.
+
+Перешел через консоль в 1 контейнер с БД, добавил БД, создал таблицу, сделал инсерт в таблицу:
+
+psql -U postgres
+
+CREATE DATABASE belhard;
+
+\c belhard;
+
+CREATE TABLE devops
+(
+    Id SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+
+INSERT INTO devops  (FirstName, LastName, Email, Age)
+VALUES
+('Devops1', 'Devopsov1', 'devops1@test.com', 30),
+('Devops2', 'Devopsov2', 'devops2@test.com', 31),
+('Devops3', 'Devopsov3', 'devops3@test.com', 32),
+('Devops4', 'Devopsov4', 'devops4@test.com', 33),
+('Devops5', 'Devopsov5', 'devops5@test.com', 34),
+('Devops6', 'Devopsov6', 'devops6@test.com', 35),
+('Devops7', 'Devopsov7', 'devops7@test.com', 36),
+('Devops8', 'Devopsov8', 'devops8@test.com', 37),
+('Devops9', 'Devopsov9', 'devops9@test.com', 38),
+('Devops10', 'Devopsov10', 'devops10@test.com', 39);
+
+select * from devops;
+
+Сделал дамп в файл pg_dumpall -U postgres > dump
+
+Перешел в другой контейнер, установил nano (apt update && apt install -y nano), создал dump, вставил в него содержимое dump из 1-го контейнера.
+
+Залил дамп psql -U postgres -f dump

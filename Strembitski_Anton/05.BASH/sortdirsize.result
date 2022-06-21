@@ -1,0 +1,32 @@
+user@ubuntu:~/belhard/Strembitski_Anton/05.BASH$ ./sortdirsize.sh ~/linux-5.18.5
+ Выберите режим сортировки в директории:
+ 1 - Без файлов поддиректорий
+ 2 - С файлами в поддиректориях
+ Ваш выбор: 1
+-rw-rw-r-- 1 root root 657442 Jun 16 11:32 /home/user/linux-5.18.5/MAINTAINERS
+-rw-rw-r-- 1 root root 101311 Jun 16 11:32 /home/user/linux-5.18.5/CREDITS
+-rw-rw-r-- 1 root root 65151 Jun 16 11:32 /home/user/linux-5.18.5/Makefile
+-rw-rw-r-- 1 root root 22940 Jun 16 11:32 /home/user/linux-5.18.5/.mailmap
+-rw-rw-r-- 1 root root 16993 Jun 16 11:32 /home/user/linux-5.18.5/.clang-format
+-rw-rw-r-- 1 root root 1959 Jun 16 11:32 /home/user/linux-5.18.5/.gitignore
+-rw-rw-r-- 1 root root 1327 Jun 16 11:32 /home/user/linux-5.18.5/Kbuild
+-rw-rw-r-- 1 root root 727 Jun 16 11:32 /home/user/linux-5.18.5/README
+-rw-rw-r-- 1 root root 555 Jun 16 11:32 /home/user/linux-5.18.5/Kconfig
+-rw-rw-r-- 1 root root 496 Jun 16 11:32 /home/user/linux-5.18.5/COPYING
+
+
+user@ubuntu:~/belhard/Strembitski_Anton/05.BASH$ ./sortdirsize.sh ~/linux-5.18.5
+ Выберите режим сортировки в директории:
+ 1 - Без файлов поддиректорий
+ 2 - С файлами в поддиректориях
+ Ваш выбор: 2
+-rw-rw-r-- 1 root root 16414003 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+-rw-rw-r-- 1 root root 14373916 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+-rw-rw-r-- 1 root root 14151728 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+-rw-rw-r-- 1 root root 12839488 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+-rw-rw-r-- 1 root root 12748346 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+-rw-rw-r-- 1 root root 11394491 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+-rw-rw-r-- 1 root root 11368060 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+-rw-rw-r-- 1 root root 7561306 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_0_sh_mask.h
+-rw-rw-r-- 1 root root 7205628 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_2_0_0_sh_mask.h
+-rw-rw-r-- 1 root root 6831048 Jun 16 11:32 /home/user/linux-5.18.5/drivers/gpu/drm/amd/include/asic_reg/dce/dce_12_0_sh_mask.h
