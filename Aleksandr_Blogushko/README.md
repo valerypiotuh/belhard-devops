@@ -163,3 +163,95 @@ echo "" >> top10files.log
 Флаги `-rh` приводят вывод команды `sort` в вид: 
 1. Сортировка от большего к меньшему
 2. Сортировка человеко читаемого размера файлов
+
+# ДЗ 08.NGINX
+## 1 контейнер
+Комманда запуска `docker run -d -p 8001:80 nginx1`
+`Dockerfile-nginx1`
+```
+ROM alpine:latest
+RUN apk update && apk add --no-cache nginx
+COPY ./docker-nginx1.html /var/www/docker-nginx/docker-nginx1.html
+COPY docker-nginx1.conf /etc/nginx/http.d/docker-nginx1.conf
+RUN rm /etc/nginx/http.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+```
+`docker-nginx1.conf`
+```
+server {
+        listen 80;
+	root /var/www/docker-nginx;
+	index docker-nginx1.html
+        location / ;
+}
+```
+`docker-nginx1.html`
+```
+<html>
+ <head>
+   <title>nginx-docker1</title>
+ </head>
+ <body>
+  <p>nginx-docker1</p>
+ </body>
+</html>
+```
+## 2 контейнер
+Комманда запуска `docker run -d -p 8002:80 nginx2`
+`Dockerfile-nginx2`
+```
+ROM alpine:latest
+RUN apk update && apk add --no-cache nginx
+COPY ./docker-nginx2.html /var/www/docker-nginx/docker-nginx2.html
+COPY docker-nginx2.conf /etc/nginx/http.d/docker-nginx2.conf
+RUN rm /etc/nginx/http.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+```
+`docker-nginx2.conf`
+```
+server {
+        listen 80;
+	root /var/www/docker-nginx;
+	index docker-nginx2.html
+        location / ;
+}
+```
+`docker-nginx2.html`
+```
+<html>
+ <head>
+   <title>nginx-docker1</title>
+ </head>
+ <body>
+  <p>nginx-docker2</p>
+ </body>
+</html>
+```
+## Локальный nginx
+`default`
+```
+Too large. See 08.nginx/default file
+```
+`nginx1.conf`
+```
+server {
+        listen 8100;
+        location / {
+		proxy_pass http://127.0.0.1:8001;
+		}
+}
+```
+`nginx2.conf`
+```
+server {
+        listen 8200;
+        location / {
+		proxy_pass http://127.0.0.1:8002;
+		}
+}
+```
+При обращении на localhost:8001 отдается страница 1 контейнера
+При обращении на localhost:8002 отдается страница 2 контейнера
+При обращении на localhost:8000 отдается страница локального nginx
+При обращении на localhost:8100 отдается страница 1 контейнера через локальный nginx
+При обращении на localhost:8200 отдается страница 2 контейнера через локальный nginx
