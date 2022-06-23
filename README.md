@@ -4,9 +4,11 @@
 
 ## Текущая рабочая ветка `bh-devops-02-22`
 
+## [Журнал выполнения ДЗ](https://docs.google.com/spreadsheets/d/1flsZzeHRW8DrcB4HtD0RM5bxaHBwR2_84XUUpL-AjtI/edit#gid=0)
+
 ### Для того, чтобы корректно загрузить свое домашнее задание в репозиторий нужно:
 1. Форкнуть себе в аккаунт этот репозиторий (см. правый верхний угол, кнопка *Fork*)
-2. Скачать себе на компьютер этот репозиторий командой `git clone https://github.com/YOUR_GITHUB_ACCOUNT/belhard-devops`
+2. Скачать себе на компьютер этот репозиторий командой `git clone git@github.com:YOUR_GITHUB_ACCOUNT/belhard-devops.git`
 3. Перейти на текущую рабочую ветку (см. выше), например `git checkout bh-devops-02-22`
 4. *Обязательно* нужно загрузить все изменения из главного репозитория ( вот пример https://stackoverflow.com/questions/7244321/how-do-i-update-or-sync-a-forked-repository-on-github )
 5. Создать папку с Вашими именем и фамилией (например, моя папка называлась бы Valery_Piotuh)
