@@ -1,0 +1,34 @@
+--create master--
+git init
+touch master1
+git add master1
+git commit -m "add master1 file"
+touch master2
+git add master2
+git commit -m "add master2 file"
+--create staging--
+git checkout -b staging
+touch staging1
+git add staging1
+git commit -m "add staging1 file"
+touch staging2
+git add staging2
+git commit -m "add staging2 file"
+--create test--
+git checkout -b test
+touch test1
+git add test1
+git commit -m "add test1 file"
+--create fix/prod_is_down--
+git checkout master
+git checkout -b fix/prod_is_down
+touch fix1
+git add fix1
+git commit -m "add fix1 file"
+--сценарий 1--
+git rebase staging master
+git rebase test master
+--сценарий 2--
+git rebase fix/prod_is_down master
+git rebase fix/prod_is_down staging
+git rebase fix/prod_is_down test
