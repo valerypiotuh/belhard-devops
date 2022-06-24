@@ -164,6 +164,25 @@ echo "" >> top10files.log
 1. Сортировка от большего к меньшему
 2. Сортировка человеко читаемого размера файлов
 
+# ДЗ 07.DOCKER
+
+Содержимое `Dockerfile`
+```
+FROM alpine:3.16.0
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint-speedtest.sh /entrypoint-speedtest.sh
+ENTRYPOINT ["/entrypoint-speedtest.sh"]
+```
+Содержимое `entrypoint-speedtest.sh`
+```
+#!/bin/sh
+apk update
+apk add --no-cache curl wget git bash speedtest-cli
+speedtest-cli > $(hostname -s)-speedtest.log
+```
+Ссылка на образ  `shadejant/speedtest` 
+
 # ДЗ 08.NGINX
 ## 1 контейнер
 Комманда запуска `docker run -d -p 8001:80 nginx1`

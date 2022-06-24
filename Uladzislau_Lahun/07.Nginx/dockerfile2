@@ -1,0 +1,7 @@
+FROM nginx:latest
+WORKDIR /usr/share/nginx/html/
+COPY /pattern /usr/share/nginx/html/pattern.html
+RUN cat ./pattern.html | sed "s/id_docker/second docker container/">./index.html
+
+
+
