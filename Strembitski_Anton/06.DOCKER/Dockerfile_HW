@@ -1,0 +1,5 @@
+FROM alpine:latest
+RUN mkdir /app
+WORKDIR /app
+COPY entrypoint_HW.sh /entrypoint_HW.sh
+ENTRYPOINT ["/entrypoint_HW.sh"]
