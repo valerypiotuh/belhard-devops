@@ -607,5 +607,325 @@ user@ubuntu:~/06.docker/hw$ docker push stanislausmain/speedtest
 ```
 https://hub.docker.com/repository/registry-1.docker.io/stanislausmain/speedtest/tags?page=1&ordering=last_updated
 ```
+# 07.Nginx
+* 1. Создаем 2 разные страницы для Docker контейнеров:
+```
+user@ubuntu:~/07.Nginx$ mkdir 1
+user@ubuntu:~/07.Nginx$ cd 1/
+user@ubuntu:~/07.Nginx/1$ nano index.html
+user@ubuntu:~/07.Nginx/1$ cat index.html
+<html>
+<head>
+<title>First Docker Container Page</title>
+</head>
+<body>
+This page is based on Docker container #1
+</body>
+</html>
+user@ubuntu:~/07.Nginx/1$ mkdir ../2
+user@ubuntu:~/07.Nginx$ cd 2/
+user@ubuntu:~/07.Nginx/2$ nano index.html
+user@ubuntu:~/07.Nginx/2$ cat index.html
+<html>
+<head>
+<title>Second Docker Container Page</title>
+</head>
+<body>
+This page is based on Docker container #2
+</body>
+</html>
+```
+* 2. Пишем два Dokerfile для работы контейнеров:
+```
+user@ubuntu:~/07.Nginx/1$ nano Dockerfile
+user@ubuntu:~/07.Nginx/1$ cat Dockerfile
+FROM nginx
+COPY index.html /usr/share/nginx/html/
+user@ubuntu:~/07.Nginx/1$ cd ../2
+user@ubuntu:~/07.Nginx/2$ nano Dockerfile
+user@ubuntu:~/07.Nginx/2$ cat Dockerfile
+FROM nginx
+COPY index.html /usr/share/nginx/html/
+```
+* 3. Билдим два образа на основе написанных Dokerfile и запускаем контейнеры с пробросом необходимых портов на хост:
+```
+user@ubuntu:~/07.Nginx/1$ docker build . -t nginx_1
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM nginx
+ ---> 0e901e68141f
+Step 2/2 : COPY index.html /usr/share/nginx/html/
+ ---> c06af9cd4457
+Successfully built c06af9cd4457
+Successfully tagged nginx_1:latest
+user@ubuntu:~/07.Nginx/1$ sudo docker run -d -p 8100:80 nginx_1
+e5b77bbe8878cef044c38b2cbc11721f380f447ff190501720b5c94722e69e16
+user@ubuntu:~/07.Nginx/1$ cd ../2
+user@ubuntu:~/07.Nginx/2$ docker build . -t nginx_2
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM nginx
+ ---> 0e901e68141f
+Step 2/2 : COPY index.html /usr/share/nginx/html/
+ ---> 4014563cb5da
+Successfully built 4014563cb5da
+Successfully tagged nginx_2:latest
+user@ubuntu:~/07.Nginx/2$ sudo docker run -d -p 8200:80 nginx_2
+eb1511cf342976803bf2bb6ddb3fe8588d866f35a5cc8ddaf992214f53cb3666
+user@ubuntu:~/07.Nginx/2$ docker ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED              STATUS                   PORTS                                   NAMES
+eb1511cf3429   nginx_2          "/docker-entrypoint.…"   23 seconds ago       Up 22 seconds            0.0.0.0:8200->80/tcp, :::8200->80/tcp   recursing_carson
+e5b77bbe8878   nginx_1          "/docker-entrypoint.…"   About a minute ago   Up About a minute        0.0.0.0:8100->80/tcp, :::8100->80/tcp   elegant_morse
+0a398da957a0   postgres         "docker-entrypoint.s…"   5 days ago           Exited (0) 7 hours ago                                           relaxed_nash
+ce7ec297434b   dpage/pgadmin4   "/entrypoint.sh"         5 days ago           Exited (0) 7 hours ago                                           jolly_lewin
+deb1e71eeb52   postgres         "docker-entrypoint.s…"   5 days ago           Exited (0) 7 hours ago                                           brave_maxwell
+d3e7b383331b   speedtest        "/entrypoint.sh"         7 days ago           Exited (0) 7 days ago
+```
+* После проброса портов 8100 и 8200 виртуальной машины в VirtualBox вводим в строку браузера 127.0.0.1:8100 (для первого контейнера) и смотрим результат вывода HTML страницы:
+```
+This page is based on Docker container #1 
+```
+* И 127.0.0.1:8200 для второго контейнера:
+```
+This page is based on Docker container #2 
+```
+* 4. Для использование Nginx на ВМ в качестве прокси сервера пробросим в контейнеры локальные порты 8881 и 8882:
+```
+user@ubuntu:~$ docker run -d -p 8881:80 nginx_1
+8dc4072c99fb7cb8ae737f1391c62e431e44c7711edc13be786f686e85f1b7fe
+user@ubuntu:~$ docker run -d -p 8882:80 nginx_2
+5d5e0e911213dc61e33ab124f42a2233ec94aa04cd98c69e9419db4d6c89ee58
+user@ubuntu:~$ docker ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS                    PORTS                                   NAMES
+5d5e0e911213   nginx_2          "/docker-entrypoint.…"   13 seconds ago   Up 12 seconds             0.0.0.0:8882->80/tcp, :::8882->80/tcp   wonderful_wing
+8dc4072c99fb   nginx_1          "/docker-entrypoint.…"   25 seconds ago   Up 24 seconds             0.0.0.0:8881->80/tcp, :::8881->80/tcp   heuristic_curie
+7d0801f9d285   nginx_2          "/docker-entrypoint.…"   18 hours ago     Exited (0) 4 hours ago                                            serene_jennings
+d3c5341ebd8a   nginx_1          "/docker-entrypoint.…"   18 hours ago     Exited (0) 4 hours ago                                            gifted_wiles
+0a398da957a0   postgres         "docker-entrypoint.s…"   5 days ago       Exited (0) 26 hours ago                                           relaxed_nash
+ce7ec297434b   dpage/pgadmin4   "/entrypoint.sh"         6 days ago       Exited (0) 26 hours ago                                           jolly_lewin
+deb1e71eeb52   postgres         "docker-entrypoint.s…"   6 days ago       Exited (0) 26 hours ago                                           brave_maxwell
+d3e7b383331b   speedtest        "/entrypoint.sh"         8 days ago       Exited (0) 8 days ago                                             flamboyant_ride
+```
+* 5. Редактируем файл  docker в /etc/nginx/sites-available где указываем на какие порты проксировать трафик от ВМ к контейнерам, проверяем есть ли ссылка на этот файл в /etc/nginx/sites-enabled:
+```
+user@ubuntu:~$ sudo nano /etc/nginx/sites-available/docker
+[sudo] password for user:
+user@ubuntu:~$ cat /etc/nginx/sites-available/docker
+server {
+ listen 8100;
+
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8881;
+            }
+}
 
 
+server {
+ listen 8200;
+
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8882;
+            }
+}
+user@ubuntu:~$ ll /etc/nginx/sites-enabled/
+total 8
+drwxr-xr-x 2 root root 4096 Jun 14 18:31 ./
+drwxr-xr-x 8 root root 4096 Jun 21 14:43 ../
+lrwxrwxrwx 1 root root   34 Jun 14 17:12 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 root root   33 Jun 14 18:31 docker -> /etc/nginx/sites-available/docker
+```
+* 6. Создаем HTML страницу для ВМ машины, которая будет выводится при указании порта 8000 + меняем в файле конфигурации значение порта, который будет прослушивать ВМ для отображения своей страницы:
+```
+user@ubuntu:~$ sudo nano /var/www/example.com/index.html
+user@ubuntu:~$ cat /var/www/example.com/index.html
+<html>
+<head>
+<title>VM WEB Page</title>
+</head>
+<body>
+This page is based on host VM
+</body>
+</html>
+user@ubuntu:~$ sudo nano /etc/nginx/sites-available/default
+[sudo] password for user:
+user@ubuntu:~$ cat /etc/nginx/sites-available/default
+server {
+        listen 8000;
+        listen [::]:8000;
+
+        server_name example.com;
+
+        root /var/www/example.com;
+        index index.html;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+```
+
+* 7. Пробрасывем нужные порта в VirtulBox и проверяем вывод страниц в браузере. Для ВМ 127.0.0.1:8000:
+```
+This page is based on host VM 
+```
+* 8. Для Docker #1 127.0.0.1:8100:
+```
+This page is based on Docker container #1 
+```
+* 9. Для Docker #2 127.0.0.1:8200:
+```
+This page is based on Docker container #2 
+```
+# 08.PostgreSQL
+* 1. Поднимаем Docker контейнер с PostgreSQL сурвером:
+```
+user@ubuntu:~$ docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+dde7d7db1bbb29e9f02c80ae2cfc0f7ea20fcfe879a91df7b0287679d1060fc0
+user@ubuntu:~$ docker ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED             STATUS                    PORTS                                   NAMES
+dde7d7db1bbb   postgres         "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes              5432/tcp                                inspiring_margulis
+```
+* 2. Поднимаем Docer контейнер с pgAdmin:
+```
+user@ubuntu:~$ docker run -p 8888:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4
+43be235065234cda8de95fda6236b16ecd742951502558213a283babbddcadc8
+user@ubuntu:~$ docker ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS                    PORTS                                            NAMES
+43be23506523   dpage/pgadmin4   "/entrypoint.sh"         6 seconds ago    Up 6 seconds              443/tcp, 0.0.0.0:8888->80/tcp, :::8888->80/tcp   confident_brahmagupta
+dde7d7db1bbb   postgres         "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes             5432/tcp                                         inspiring_margulis
+```
+* 3. Создаем БД под названием belhard:
+```
+user@ubuntu:~$ docker exec -it dde7d7db1bbb bash
+root@dde7d7db1bbb:/# psql -U postgres
+postgres=# CREATE DATABASE belhard;
+CREATE DATABASE
+```
+* 4. Создаем таблицу под названием devops с полями FirstName, LastName, Email, Age:
+```
+postgres=# \c belhard
+You are now connected to database "belhard" as user "postgres".
+belhard=# CREATE TABLE devops
+(
+    Id SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+CREATE TABLE
+```
+* 5. Заполняем таблицу данными:
+```
+belhard=# INSERT INTO devops  (FirstName, LastName, Email, Age)
+VALUES
+('Vasiliy', 'Pupkin', 'pupkin@belhard.com', 29),
+('Igor', 'Buskin', 'buskin@belhard.com', 36),
+('Vadim', 'Lapko', 'lapko@belhard.com', 28),
+('Sergey', 'Kukish', 'kukish@belhard.com', 32),
+('Artur', 'Kazulin', 'razulin@belhard.com', 25),
+('Nikita', 'Varenik', 'varenik@belhard.com', 35),
+('Roman', 'Sumarin', 'sumarin@belhard.com', 33),
+('Makar', 'Rubin', 'rubin@belhard.com', 28),
+('Kupriyan', 'Osokin', 'osokin@belhard.com', 45),
+('Pavel', 'Hmyz', 'hmyz@test.com', 40);
+INSERT 0 10
+```
+* 6. Снимаем дамп с текущей БД, запускаем новый контейнер postgres и разворачиваем на нем базу из дампа:
+```
+root@dde7d7db1bbb:/app# pg_dumpall -U postgres > dump
+root@dde7d7db1bbb:/app#exit
+exit
+user@ubuntu:~/08.PostgreSQL$ docker run -d -v ~/log:/app -e POSTGRES_HOST_AUTH_METHOD=trust postgre_1
+1ed48e6cadcdf2788654a241c18315ec8e1bdda8caac5fcf16ddecc6769c3f05
+user@ubuntu:~/08.PostgreSQL$ docker ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS                    PORTS                                            NAMES
+1ed48e6cadcd   postgre_1        "docker-entrypoint.s…"   3 seconds ago   Up 3 seconds              5432/tcp                                         elastic_lalande
+43be23506523   dpage/pgadmin4   "/entrypoint.sh"         15 hours ago    Up 15 hours               443/tcp, 0.0.0.0:8888->80/tcp, :::8888->80/tcp   confident_brahmagupta
+dde7d7db1bbb   postgres         "docker-entrypoint.s…"   15 hours ago    Up 15 hours               5432/tcp                                         inspiring_margulis
+user@ubuntu:~/08.PostgreSQL$ docker exec -it 1ed48e6cadcd bash
+root@1ed48e6cadcd:/app# psql -U postgres -f dump
+SET
+SET
+SET
+psql:dump:14: ERROR:  role "postgres" already exists
+ALTER ROLE
+You are now connected to database "template1" as user "postgres".
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
+
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
+
+(1 row)
+
+SET
+SET
+SET
+SET
+CREATE DATABASE
+ALTER DATABASE
+You are now connected to database "belhard" as user "postgres".
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
+
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER TABLE
+ALTER SEQUENCE
+ALTER TABLE
+COPY 10
+ setval
+--------
+     10
+(1 row)
+
+ALTER TABLE
+You are now connected to database "postgres" as user "postgres".
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
+
+(1 row)
+
+SET
+SET
+SET
+SET
+```

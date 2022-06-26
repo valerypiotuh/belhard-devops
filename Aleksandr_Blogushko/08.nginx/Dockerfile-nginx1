@@ -1,0 +1,6 @@
+FROM alpine:latest
+RUN apk update && apk add --no-cache nginx
+COPY ./docker-nginx1.html /var/www/docker-nginx/docker-nginx1.html
+COPY docker-nginx1.conf /etc/nginx/http.d/docker-nginx1.conf
+RUN rm /etc/nginx/http.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
