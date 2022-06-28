@@ -1,0 +1,2 @@
+FROM nginx:latest
+COPY ./dockernginx1/index.html /usr/share/nginx/html/

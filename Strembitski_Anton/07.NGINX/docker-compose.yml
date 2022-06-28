@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  nginxF:
+    image: nginx
+    container_name: nginxfirst
+    build: ./dockernginx1
+    restart:
+      always
+    ports:
+      - "8101:80"
+    networks:
+      nginx_net:
+#        ipv4_address: 172.16.1.10
+
+  nginxS:
+    image: nginx
+    container_name: nginxsecond
+    build: ./dockernginx2
+    restart:
+      always
+    ports:
+      - "8201:80"
+    networks:
+      nginx_net:
+#        ipv4_address: 172.16.1.11
+
+networks:
+  nginx_net:
+   driver: bridge
+#   ipam:
+#    config:
+#    - subnet: 172.16.1.0/24
