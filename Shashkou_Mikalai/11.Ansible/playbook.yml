@@ -1,0 +1,83 @@
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user for ansible"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDnfHBY7OpYIFS6Ld154HMVLpdCDcHMz2K8ILAZ3k/8q9+U6YBrtJAPlwbnNI8HNv+B74CJ7/CEW9Cl/b4jd2ulAD5ndklvslLHs5N3p1gBLspoGMAI/X3YtdM/dP9V+rmeS0AAviFfuoEIMnzW+X9DOnL8zWmj8bZ2Bh6VCcqXppk7OvVe8Jf6C9NnEA/CGDNzRoUoMv4sWuDr9mVNPRfzxIPmxop0rSw/GqO9K2J18wz05Rtl27+eTBz5Oh3JMOkfxYWJHJiEUy4fgQ6pUF8YVUXcmYUxGDVJ1lkCa4kJY1r++61dzzQ42T5m8/hKNBd0kPQoWkkKLlOO6jQds36F+ufDj7AaRbk9AnAvp5PfW7KqQGQ5755bzJD48tC3uSeHgYcOyShigdi5Br0OgKWP9J3WfOO4eYEBT4PDTBEQlXfivkDUgRq0+//K6SvD8P8jjqc2IexE2oOeXzFcKYTyVK+09CU1CMumzbm+jWg6fE3F6q7mk4ll8qnhyxSCvw8= user@ansible-master
+      become: yes
+    
+    - name: install pkg
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+    - name: update
+      apt: update_cache=yes
+      become: yes 
+   
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == "ansible-2"
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes

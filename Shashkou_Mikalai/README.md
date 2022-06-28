@@ -468,3 +468,28 @@ select * from devops;
 
 выполнил terraform apply, завершилось с ошибками, но 3 машины создались
 
+#11.Ansible
+
+##ЗАДАНИЕ
+
+    Поднять 3 виртуальные машины (можете использовать из прошлого ДЗ по Terraform)
+    Установить на одну из них Ansible и изменить hostname на ansible-master
+    На остальных двух виртуальных машинах изменить hostname на ansible-1 и ansible-2
+    сгенерировать на ansible-master новую пару SSH ключей
+    Закинуть public ключ на ansible-1 и ansible-2 и проверить, что можно подключиться по SSH с ansible-master на ansible-1 и ansible-2
+    Написать ansible playbook, в котором:
+        отдельный inventory файл с группами
+        создается группа devops и пользователь belhard на ansible-1 и ansible-2
+        устанавливаются пакеты curl, wget, unzip, zip на ansible-1 и ansible-2
+        устанавливается Java 11 на ansible-1
+        устанавливается nginx на ansible-2
+
+В качестве отчета о выполненном ДЗ предоставить рабочий playbook и inventory файл, а также команды для запуска playbook. Отчет поместить в своем рабочем каталоге в папку 11.Ansible и создать Pull Request.
+
+##РЕШЕНИЕ
+
+Развернул 3 машины на Debian 11. Всех добавил в nat-сеть. Пробросил порты. Зашел в master, установил пакет sudo, добавил текущего юзера в sudoers, обновил python, установил ansible. Сгенерил пару ключей, загрузил их на ansible-1, 2 (хосты переименовал). Пользователей по-умолчанию в ansible-1, 2 добавил в sudoers, сделал применение sudo без пароля.
+
+В master создал директорию ansible, в которой создал директории inventory и для playbook. В inventory добавил файл hosts, в котором создал 2 группы, в которые добавил по 1 машине - ansible-1 и 2 соответственно. Пинганул машины командой ansible -i ~/ansible/inventory/hosts -m ping all. 
+
+Создал playbook файл в директории playbook. Файл составил в соответствии с заданием. Запустил командой ansible-playbook -i ansible/inventory/hosts ansible/playbook/playbook.yml.
