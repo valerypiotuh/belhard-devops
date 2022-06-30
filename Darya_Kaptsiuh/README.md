@@ -320,6 +320,7 @@ INSERT INTO devops (FirstName, LastName, Email, Age) VALUES
 pg_dumpall -U postgres > belhard_dump - на текущем контейнере
 psql -U postgres -f belhard_dump - на новом контейнере
 ```
+---
 
 ### 08.Terraform
 
@@ -388,7 +389,7 @@ variable "interface" {
 ```
 ---
 
-### 08.Ansible
+### 09.Ansible
 
 ##### Рабочий Playbook
 ```
