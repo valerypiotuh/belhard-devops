@@ -202,4 +202,121 @@ docker push daryakap/speedtest
 ##### Ссылка на образ в Docker Hub:
 ```
 https://hub.docker.com/repository/docker/daryakap/speedtest
+
+```
+---
+
+### 07.Nginx
+
+##### Содержимое DockerFile и index.html для контейнера №1
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html
+```
+```
+<html>
+        <title>My NGINX Homework 1!!!</title>
+        </head>
+        <body>
+        My NGINX Homework 1
+        </body>
+</html> 
+```
+##### Содержимое DockerFile и index.html для контейнера №2
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html
+```
+```
+<html>
+        <head>
+        <title>My NGINX Homework 2!!!</title>
+        </head>
+        <body>
+        My NGINX Homework 2
+        </body>
+</html>
+```
+##### Команды для создания образов
+```
+docker build . -t nginx_hm1
+docker build . -t nginx_hm2
+```
+##### Команды для запуска контейнеров
+```
+docker run -d -p 8100:80 nginx_hm1
+docker run -d -p 8200:80 nginx_hm2
+```
+##### Конфигурационный файл для nginx на виртуальной машине
+```
+server {
+        listen 84;
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8100;
+            }
+}
+server {
+        listen 85;
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8200;
+            }
+}
+```
+##### Делаем символьную ссылку на наш конфигурационный файл docker_hw
+```
+sudo ln -s /etc/nginx/sites-available/docker_hw /etc/nginx/sites-enabled/
+```
+##### Рестарт  сервиса nginx
+```
+sudo systemctl restart nginx.service
+```
+---
+
+### 08.PostgreSQL
+
+##### Поднять Docker контейнер с PostgreSQL сервером
+```
+docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+```
+##### Поднять Docker контейнер с pgAdmin и подключиться к PosgreSQL серверу
+```
+docker run -p 8899:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4
+```
+##### Создать БД под названием  `belhard`
+```
+CREATE DATABASE belhard;
+```
+##### Создать таблицу под названием  `devops`  с полями  `FirstName`,  `LastName`,  `Email`,  `Age`
+```\c belhard
+CREATE TABLE devops_new
+(
+    Id SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+```
+##### Заполнить таблицу данными (+- 10 строк)
+```
+INSERT INTO devops (FirstName, LastName, Email, Age) VALUES
+('Ivan', 'Ivanov', 'ivanov@test.com', 30),
+('Petr', 'Petrov', 'petrov@test.com', 35),
+('Ivan', 'Sidorov', 'sidorov@test.com', 40),
+('Aleksey', 'Ivanov', 'ivanov@test.com', 30),
+('Sergey', 'Petrov', 'petrov@test.com', 35),
+('Alexandr', 'Sidorov', 'sidorov@test.com', 40),
+('Natalya', 'Ivanova', 'ivanov@test.com', 30),
+('Anna', 'Petrova', 'petrov@test.com', 35),
+('Kate', 'Sidorova', 'sidorov@test.com', 40)
+('Julya', 'Ivanova', 'ivanov@test.com', 30);
+```
+##### Снять дамп с текущей БД и развернуть его в новом Docker контейнере
+```
+pg_dumpall -U postgres > belhard_dump - на текущем контейнере
+psql -U postgres -f belhard_dump - на новом контейнере
 ```
