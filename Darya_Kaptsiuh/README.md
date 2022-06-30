@@ -322,7 +322,7 @@ psql -U postgres -f belhard_dump - на новом контейнере
 ```
 ---
 
-### 08.Terraform
+### 09.Terraform
 
 ##### Файл с описанием ВМ
 ```
@@ -389,7 +389,7 @@ variable "interface" {
 ```
 ---
 
-### 09.Ansible
+### 10.Ansible
 
 ##### Рабочий Playbook
 ```
