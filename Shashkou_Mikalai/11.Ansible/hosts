@@ -1,0 +1,5 @@
+[VM_ANSIBLE_01]
+ansible_1 ansible_ssh_host=10.0.2.15 ansible_ssh_user=user
+
+[VM_ANSIBLE_02]
+ansible_2 ansible_ssh_host=10.0.2.8 ansible_ssh_user=user
