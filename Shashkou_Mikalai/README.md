@@ -1,4 +1,4 @@
-#\\ДЗ//#
+#\\ДЗ//#      
 
 #05.GIT#
 
@@ -493,3 +493,5 @@ select * from devops;
 В master создал директорию ansible, в которой создал директории inventory и для playbook. В inventory добавил файл hosts, в котором создал 2 группы, в которые добавил по 1 машине - ansible-1 и 2 соответственно. Пинганул машины командой ansible -i ~/ansible/inventory/hosts -m ping all. 
 
 Создал playbook файл в директории playbook. Файл составил в соответствии с заданием. Запустил командой ansible-playbook -i ansible/inventory/hosts ansible/playbook/playbook.yml.
+
+TEST JENKINS
