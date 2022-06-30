@@ -321,3 +321,12 @@ pg_dumpall -U postgres > /db/pg1.dump
 ```
 psql -U postgres -f /db/pg1.dump
 ```
+
+# ДЗ 10.TERRAFORM
+Файл `providers.tf` содержит необходимый провайдер;
+
+Файл `vars-def.tf` содержит определение переменных;
+
+Файл `terraform.tfvars`содержит значения переменных;
+
+Файл `main.tf` содержит описание создаваемых контейнеров.
