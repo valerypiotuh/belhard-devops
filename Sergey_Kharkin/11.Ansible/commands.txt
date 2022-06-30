@@ -1,0 +1,68 @@
+
+Пользовался одной командой:
+ansible-playbook -i ansible/inventory/hosts ansible/playbook/playbook.yml 
+
+Итоговый вывод:
+
+vagrant@ansible-master:~$ ansible-playbook -i ansible/inventory/hosts ansible/playbook/playbook.yml 
+
+PLAY [Setting up our VMs] *********************************************************************************************************
+
+TASK [Gathering Facts] ************************************************************************************************************
+[DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ansible-1 should use /usr/bin/python3, but is using /usr/bin/python for 
+backward compatibility with prior Ansible releases. A future Ansible release will default to using the discovered platform python 
+for this host. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+ok: [ansible-1]
+[DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ansible-2 should use /usr/bin/python3, but is using /usr/bin/python for 
+backward compatibility with prior Ansible releases. A future Ansible release will default to using the discovered platform python 
+for this host. See https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information. This
+ feature will be removed in version 2.12. Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+ok: [ansible-2]
+
+TASK [Create group "devops"] ******************************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [Add user "belhard"] *********************************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [Create .ssh directory] ******************************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [Add belhard user to the sudoers] ********************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [Add local SSH key] **********************************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [install 4packets] ***********************************************************************************************************
+ok: [ansible-1]
+ok: [ansible-2]
+
+TASK [install java] ***************************************************************************************************************
+skipping: [ansible-2]
+changed: [ansible-1]
+
+TASK [update] *********************************************************************************************************************
+changed: [ansible-1]
+changed: [ansible-2]
+
+TASK [Install Nginx] **************************************************************************************************************
+skipping: [ansible-1]
+changed: [ansible-2]
+
+RUNNING HANDLER [restart nginx] ***************************************************************************************************
+changed: [ansible-2]
+
+PLAY RECAP ************************************************************************************************************************
+ansible-1                  : ok=9    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+ansible-2                  : ok=10   changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+

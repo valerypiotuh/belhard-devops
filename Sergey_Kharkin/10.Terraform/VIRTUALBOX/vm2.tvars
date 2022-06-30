@@ -1,0 +1,3 @@
+number_of_vms = "1"
+cpus = 2
+ram = "256 mib"
