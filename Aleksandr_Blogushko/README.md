@@ -330,3 +330,5 @@ psql -U postgres -f /db/pg1.dump
 Файл `terraform.tfvars`содержит значения переменных;
 
 Файл `main.tf` содержит описание создаваемых контейнеров.
+
+# jenkins webhoot test
