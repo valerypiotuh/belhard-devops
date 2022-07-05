@@ -330,3 +330,16 @@ psql -U postgres -f /db/pg1.dump
 Файл `terraform.tfvars`содержит значения переменных;
 
 Файл `main.tf` содержит описание создаваемых контейнеров.
+
+# ДЗ 11.ANSIBLE
+Файл `hosts`:
+```
+[java]
+java1 ansible_ssh_host=node1 ansible_ssh_user=node
+
+[nginx]
+nginx1 ansible_ssh_host=node2 ansible_ssh_user=node
+```
+Файл `dz.yml` содержит необходимый код для выполнения задания (сам файл слишком большой чтобы его копировать в readme.md). Файл сделан так что при добавлении хостов в группу `java` они все будут подходить под условия для установки пакета.
+
+Команда для запуска плейбука `ansible-playbook -i inventory/hosts playbooks/dz.yml`
