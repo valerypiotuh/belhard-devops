@@ -89,8 +89,7 @@
 
     - name: install nginx
       apt:
-        pkg:
-        - nginx
+        pkg: nginx
         autoclean: yes
         autoremove: yes
       when: inventory_hostname == "nginx1"
