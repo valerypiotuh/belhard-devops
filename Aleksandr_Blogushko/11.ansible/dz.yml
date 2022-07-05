@@ -1,0 +1,97 @@
+---
+- name: Setup belhard_devops user
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group devops
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user belhard
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: Belhard DevOps user
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: /etc/sudoers.d/belhard
+        content: 'belhard ALL=(ALL:ALL) NOPASSWD:ALL'
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: /home/belhard/.ssh/authorized_keys
+        content:
+          public ssh-key
+      become: yes
+
+- name: Install pkg
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: update
+      apt: update_cache=yes
+      become: yes
+
+    - name: install curl
+      apt:
+        pkg: curl
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install wget
+      apt:
+        pkg: wget
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install unzip
+      apt:
+        pkg: unzip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install zip
+      apt:
+        pkg: zip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install java
+      apt:
+        pkg: openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when: inventory_hostname in groups['java']
+      become: yes
+
+    - name: install nginx
+      apt:
+        pkg:
+        - nginx
+        autoclean: yes
+        autoremove: yes
+      when: inventory_hostname == "nginx1"
+      become: yes
