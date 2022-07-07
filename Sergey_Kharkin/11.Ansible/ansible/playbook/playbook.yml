@@ -1,0 +1,88 @@
+---
+
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+  become: yes
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC64jJwU+pPP+nLFBou+rtMHZrfChxeLaMRwL/3MrU1ZU8yvlJKMLlsMrYHtjObc/Y4PFejfMgyou2/WZm35XYzB7/TyFnSU23V5UP1SnC4DHZbUt2Dq3pWiwki68QFdEj27Sap4nYTiw4D+PT1j90KJcBFlYALIiweGPEZ5jlkRpkMxmEEWRJZ6yzCXMxN8SAOYunpwYV/ZD3Kk8VyaJyjV1voUOZ7yheC2kduBXDcoakU1a/tPC4LOyK6rfvQ30v3uYFmYEEGVSixXU8POyP8fv3QIlHhnsHJvFat3eYzqnSbiwzdUstGmLx2k8095CQQkDj28qRoFuB7zcl4TUnF vagrant@ansible-master
+      become: yes
+
+    - name: install 4packets
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      #when:
+      #  - ansible_hostname == "ansible1-1"
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+    - name: update
+      apt: update_cache=yes
+      become: yes 
+   
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == "ansible-2"
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes

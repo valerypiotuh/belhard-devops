@@ -1,0 +1,5 @@
+[java]
+java1 ansible_ssh_host=node1 ansible_ssh_user=node
+
+[nginx]
+nginx1 ansible_ssh_host=node2 ansible_ssh_user=node

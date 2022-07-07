@@ -202,4 +202,269 @@ docker push daryakap/speedtest
 ##### Ссылка на образ в Docker Hub:
 ```
 https://hub.docker.com/repository/docker/daryakap/speedtest
+
+```
+---
+
+### 07.Nginx
+
+##### Содержимое DockerFile и index.html для контейнера №1
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html
+```
+```
+<html>
+        <title>My NGINX Homework 1!!!</title>
+        </head>
+        <body>
+        My NGINX Homework 1
+        </body>
+</html> 
+```
+##### Содержимое DockerFile и index.html для контейнера №2
+```
+FROM nginx
+COPY index.html /usr/share/nginx/html
+```
+```
+<html>
+        <head>
+        <title>My NGINX Homework 2!!!</title>
+        </head>
+        <body>
+        My NGINX Homework 2
+        </body>
+</html>
+```
+##### Команды для создания образов
+```
+docker build . -t nginx_hm1
+docker build . -t nginx_hm2
+```
+##### Команды для запуска контейнеров
+```
+docker run -d -p 8100:80 nginx_hm1
+docker run -d -p 8200:80 nginx_hm2
+```
+##### Конфигурационный файл для nginx на виртуальной машине
+```
+server {
+        listen 84;
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8100;
+            }
+}
+server {
+        listen 85;
+            location / {
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://127.0.0.1:8200;
+            }
+}
+```
+##### Делаем символьную ссылку на наш конфигурационный файл docker_hw
+```
+sudo ln -s /etc/nginx/sites-available/docker_hw /etc/nginx/sites-enabled/
+```
+##### Рестарт  сервиса nginx
+```
+sudo systemctl restart nginx.service
+```
+---
+
+### 08.PostgreSQL
+
+##### Поднять Docker контейнер с PostgreSQL сервером
+```
+docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+```
+##### Поднять Docker контейнер с pgAdmin и подключиться к PosgreSQL серверу
+```
+docker run -p 8899:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4
+```
+##### Создать БД под названием  `belhard`
+```
+CREATE DATABASE belhard;
+```
+##### Создать таблицу под названием  `devops`  с полями  `FirstName`,  `LastName`,  `Email`,  `Age`
+```\c belhard
+CREATE TABLE devops_new
+(
+    Id SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+```
+##### Заполнить таблицу данными (+- 10 строк)
+```
+INSERT INTO devops (FirstName, LastName, Email, Age) VALUES
+('Ivan', 'Ivanov', 'ivanov@test.com', 30),
+('Petr', 'Petrov', 'petrov@test.com', 35),
+('Ivan', 'Sidorov', 'sidorov@test.com', 40),
+('Aleksey', 'Ivanov', 'ivanov@test.com', 30),
+('Sergey', 'Petrov', 'petrov@test.com', 35),
+('Alexandr', 'Sidorov', 'sidorov@test.com', 40),
+('Natalya', 'Ivanova', 'ivanov@test.com', 30),
+('Anna', 'Petrova', 'petrov@test.com', 35),
+('Kate', 'Sidorova', 'sidorov@test.com', 40)
+('Julya', 'Ivanova', 'ivanov@test.com', 30);
+```
+##### Снять дамп с текущей БД и развернуть его в новом Docker контейнере
+```
+pg_dumpall -U postgres > belhard_dump - на текущем контейнере
+psql -U postgres -f belhard_dump - на новом контейнере
+```
+---
+
+### 09.Terraform
+
+##### Файл с описанием ВМ
+```
+terraform {
+  required_providers {
+    virtualbox = {
+      source = "terra-farm/virtualbox"
+      version = "0.2.2-alpha.1"
+    }
+  }
+}
+```
+##### Файл с описанием провайдера
+```
+resource "virtualbox_vm" "node" {
+  count     = var.count_vm
+  name      = format(var.name, count.index + 1)
+  image     = var.image
+  cpus      = var.cpu
+  memory    = var.memory
+
+  network_adapter {
+    type           = var.type
+    host_interface = var.interface
+  }
+}
+```
+##### Файл с переменными
+```
+variable "count_vm" {
+  type    = number
+  default = "3"
+
+}
+variable "name" {
+  type    = string
+  default = "hm_node-%02d"
+
+}
+variable "image" {
+  type    = string
+  default = "https://app.vagrantup.com/ubuntu/boxes/bionic64/versions/20180903.0.0/providers/virtualbox.box"
+
+}
+variable "cpu" {
+  type    = number
+  default = "2"
+
+}
+variable "memory" {
+  type    = number
+  default = "512"
+
+}  
+variable "type" {
+  type    = string
+  default = "hostonly"
+
+}
+variable "interface" {
+  type    = string
+  default = "vboxnet1"
+}
+```
+---
+
+### 10.Ansible
+
+##### Рабочий Playbook
+```
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: install packages
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+    - name: update
+      apt: update_cache=yes
+      become: yes
+
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == "ansible-2"
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes
+```
+##### Содержимое файла hosts
+```
+[db]
+ansible-1 ansible_ssh_host=10.0.2.5 ansible_ssh_user=vagrant
+
+[web]
+ansible-2 ansible_ssh_host=10.0.2.6 ansible_ssh_user=vagrant
+```
+##### Команда для запуска playbook
+```
+ansible-playbook -i /home/vagrant/.ansible/inventory/hosts /home/vagrant/.ansible/my_playbook.yaml
 ```
