@@ -1,0 +1,80 @@
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: test_groups_servers
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+#        gid: 1666
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Ansible Test User"
+        state: present
+#        uid: 1666
+      become: yes
+
+    - name: Install curl wget unzip zip Ubuntu or Debian
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - curl
+        - wget
+        - unzip
+        - zip
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      become: yes
+
+
+    - name: Install curl wget unzip zip CentOS or RHEL
+      yum:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - curl
+        - wget
+        - unzip
+        - zip
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+      become: yes
+
+    - name: Install Java11 on testcentos
+      yum:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - java-11-openjdk
+        - java-11-openjdk-devel
+      become: yes
+      when:
+        - ansible_hostname == "testcentos"
+
+
+    - name: Install nginx testdebian
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+      become: yes
+      notify:
+        - restart nginx
+      when:
+        - ansible_hostname == "testdebian"
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: reloaded
+      become: yes
