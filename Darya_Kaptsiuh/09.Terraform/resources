@@ -1,0 +1,12 @@
+resource "virtualbox_vm" "node" {
+  count     = var.count_vm
+  name      = format(var.name, count.index + 1)
+  image     = var.image
+  cpus      = var.cpu
+  memory    = var.memory
+
+  network_adapter {
+    type           = var.type
+    host_interface = var.interface
+  }
+}
