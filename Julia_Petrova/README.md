@@ -48,7 +48,7 @@ COPY index.html /usr/share/nginx/html
 		<title>NGINX page 1</title>
 	</head>
 	<body>
-	Welcome to NGINX home page 1!
+		Welcome to NGINX home page 1!
 	</body>
 </html>
 ````
@@ -64,7 +64,7 @@ COPY index.html /usr/share/nginx/html
 		<title>NGINX page 2</title>
 	</head>
 	<body>
-	Welcome to NGINX home page 2!
+		Welcome to NGINX home page 2!
 	</body>
 </html>
 ````
