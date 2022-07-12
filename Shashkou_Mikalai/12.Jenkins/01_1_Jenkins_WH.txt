@@ -3,6 +3,7 @@ pipeline{
         docker {
             image 'alpine'
             args '-u root'
+            label 'slave-test'
         }
     }
     stages {
