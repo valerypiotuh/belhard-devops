@@ -3,7 +3,7 @@
 ## Выполненные задания:
 
 #### 04. GIT
----
+
 #### Создать у себя на локальной машине Git репозиторий со следующими ветками:
 
 * master - в ней 2 коммита
@@ -18,13 +18,13 @@
 ---
 
 #### 05. Bash
----
+
 1. Посчитать количество странных слов в ядре Linux.
 2. 10 самых больших файлов в директории.
 ---
 
 #### 06. Docker
----
+
 1. Зарегистрировать на Docker Hub;
 2. Создать Dockerfile:
    * базовый образ - Alpine Linux;
@@ -44,6 +44,7 @@
 FROM nginx
 COPY index.html /usr/share/nginx/html
 
+````
 <html>
 	<head>
 		<title>NGINX page 1</title>
@@ -52,12 +53,14 @@ COPY index.html /usr/share/nginx/html
 	Welcome to NGINX home page 1!
 	</body>
 </html>
+````
 
 * Содержимое Dockerfile и index.html (контейнер nginx_hw2):
-
+````
 FROM nginx
 COPY index.html /usr/share/nginx/html
-
+````
+````
 <html>
 	<head>
 		<title>NGINX page 2</title>
@@ -66,17 +69,22 @@ COPY index.html /usr/share/nginx/html
 	Welcome to NGINX home page 2!
 	</body>
 </html>
-
+````
 * Создание образов:
+````
 docker build . -t nginx_hw1
 docker build . -t nginx_hw2
+````
 
 * Запуск контенеров:
+````
 docker run -d -p 8100:80 nginx_hw1
 docker run -d -p 8200:80 nginx_hw2
+````
 
 * Настройка прокси на Docker контейнеры на локальной машине:
 
+````
 /etc/nginx/sites-available/nginx
 
 server {
@@ -98,13 +106,20 @@ server {
         proxy_pass http://127.0.0.1:8200;
     }
 }
+````
 
 * Проверка синтаксиса файла nginx:
+````
 nginx -t
+````
 
 * Создание символьной ссылки для конфигурационного файла nginx:
+````
 ln -s /etc/nginx/sites-available/nginx /etc/nginx/sites-enabled/
+````
 
 * Перезапуск службы nginx для применения изменений в конфигурации:
+````
 systemctl reload nginx
+````
 ---
