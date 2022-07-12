@@ -1,6 +1,6 @@
 ## Выполненные задания:
 
-#### 04. GIT
+### 04. GIT
 
 #### Создать у себя на локальной машине Git репозиторий со следующими ветками:
 
@@ -15,13 +15,13 @@
 * Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках;
 ---
 
-#### 05. Bash
+### 05. Bash
 
 1. Посчитать количество странных слов в ядре Linux.
 2. 10 самых больших файлов в директории.
 ---
 
-#### 06. Docker
+### 06. Docker
 
 1. Зарегистрировать на Docker Hub;
 2. Создать Dockerfile:
@@ -35,7 +35,7 @@
 3. Загрузить рабочий Docker образ на Docker Hub.
 ---
 
-#### 07. Nginx
+### 07. Nginx
 
 #### Содержимое Dockerfile и index.html (контейнер nginx_hw1):
 ````
@@ -123,18 +123,16 @@ systemctl reload nginx
 ````
 ---
 
-#### 08. PostgreSQL
+### 08. PostgreSQL
 
 #### Поднять Docker контейнер с PostgreSQL сервером:
 
-#### Содержание Dockerfile:
+##### Содержимое Dockerfile и создание образа:
 ````
 FROM postgres
 ENV POSTGRES_HOST_AUTH_METHOD=trust
 RUN mkdir /dumps
 ````
-
-#### Создание образа:
 ````
 docker build . -t postgresql
 ````
