@@ -39,11 +39,11 @@
 
 #### 07. Nginx
 
-* Содержимое Dockerfile и index.html (контейнер nginx_hw1):
-
+#### Содержимое Dockerfile и index.html (контейнер nginx_hw1):
+````
 FROM nginx
 COPY index.html /usr/share/nginx/html
-
+````
 ````
 <html>
 	<head>
@@ -55,7 +55,7 @@ COPY index.html /usr/share/nginx/html
 </html>
 ````
 
-* Содержимое Dockerfile и index.html (контейнер nginx_hw2):
+#### Содержимое Dockerfile и index.html (контейнер nginx_hw2):
 ````
 FROM nginx
 COPY index.html /usr/share/nginx/html
@@ -70,19 +70,20 @@ COPY index.html /usr/share/nginx/html
 	</body>
 </html>
 ````
-* Создание образов:
+
+#### Создание образов:
 ````
 docker build . -t nginx_hw1
 docker build . -t nginx_hw2
 ````
 
-* Запуск контенеров:
+#### Запуск контенеров:
 ````
 docker run -d -p 8100:80 nginx_hw1
 docker run -d -p 8200:80 nginx_hw2
 ````
 
-* Настройка прокси на Docker контейнеры на локальной машине:
+#### Настройка прокси на Docker контейнеры на локальной машине:
 
 ````
 /etc/nginx/sites-available/nginx
@@ -108,17 +109,17 @@ server {
 }
 ````
 
-* Проверка синтаксиса файла nginx:
+#### Проверка синтаксиса файла nginx:
 ````
 nginx -t
 ````
 
-* Создание символьной ссылки для конфигурационного файла nginx:
+#### Создание символьной ссылки для конфигурационного файла nginx:
 ````
 ln -s /etc/nginx/sites-available/nginx /etc/nginx/sites-enabled/
 ````
 
-* Перезапуск службы nginx для применения изменений в конфигурации:
+#### Перезапуск службы nginx для применения изменений в конфигурации:
 ````
 systemctl reload nginx
 ````
