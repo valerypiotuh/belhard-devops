@@ -1,0 +1,72 @@
+# git Ilya Kechko
+
+## Command
+
+
+ git init
+ nano one_file
+ git add one_file
+ git status
+ git commit -m "one commit"
+ nano two_commit
+ git add two_commit
+ git commit -m "two commit"
+ git status
+ git checkout -b staging
+ nano one_file_staging
+ git add one_file_staging
+ git commit -m "one file commit staging"
+ nano two_file_staging
+ git add two_file_staging
+ git commit -m "two file commit staging"
+ git checkout -b test
+ nano test_branch
+ git add test_branch
+ git commit -m "test branch commit"
+ git checkout master
+ git checkout fix/prod_is_down
+ nano fix_file
+ git checkout fix/prod_is_down
+ git add fix_file
+ git commit -m "fix commit file"
+
+
+
+## Result task 1 and 2
+----------------------------
+git checkout master
+Switched to branch 'master'
+ ls -lsh
+total 8,0K
+4,0K -rw-rw-r-- 1 ilya ilya 10 июл 11 15:51 one_file
+4,0K -rw-rw-r-- 1 ilya ilya 11 июл 11 15:53 two_commit
+ git rebase staging
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to staging.
+ ls -lsh
+total 16K
+4,0K -rw-rw-r-- 1 ilya ilya 10 июл 11 15:51 one_file
+4,0K -rw-rw-r-- 1 ilya ilya 17 июл 11 16:10 one_file_staging
+4,0K -rw-rw-r-- 1 ilya ilya 11 июл 11 15:53 two_commit
+4,0K -rw-rw-r-- 1 ilya ilya 18 июл 11 16:10 two_file_staging
+ git rebase test
+First, rewinding head to replay your work on top of it...
+Fast-forwarded master to test.
+ ls -lsh
+total 20K
+4,0K -rw-rw-r-- 1 ilya ilya 10 июл 11 15:51 one_file
+4,0K -rw-rw-r-- 1 ilya ilya 17 июл 11 16:10 one_file_staging
+4,0K -rw-rw-r-- 1 ilya ilya 12 июл 11 16:10 test_branch
+4,0K -rw-rw-r-- 1 ilya ilya 11 июл 11 15:53 two_commit
+4,0K -rw-rw-r-- 1 ilya ilya 18 июл 11 16:10 two_file_staging
+
+
+
+
+
+
+
+
+
+
+

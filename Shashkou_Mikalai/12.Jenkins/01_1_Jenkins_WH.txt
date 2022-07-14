@@ -1,0 +1,50 @@
+pipeline{
+    agent {
+        docker {
+            image 'alpine'
+            args '-u root'
+            label 'slave-test'
+        }
+    }
+    stages {
+        stage ("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+
+        }
+        stage ("install apk") {
+            steps {
+                sh '''
+                apk update && apk add curl wget git bash speedtest-cli
+                '''
+            }
+        }
+        stage ("git clone"){
+            steps {
+                git branch: 'main', url: 'https://gitlab.com/Mikola1911/test-belhard.git'
+            }
+        }
+        stage ("ls -lah my GIT") {
+            steps {
+                sh '''
+                ls -lah
+                '''
+            }
+        }
+        stage ("speedtest") {
+            steps{
+                sh '''
+                speedtest-cli
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
