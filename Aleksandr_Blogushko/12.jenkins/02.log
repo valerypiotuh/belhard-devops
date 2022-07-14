@@ -1,0 +1,107 @@
+Started by an SCM change
+Started by user blogushko
+Obtained 02.Jenkinsfile from git https://github.com/shadejant/belhard-devops-fp.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on bh-worker in /home/worker/workspace/12.02
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Avoid second fetch
+Checking out Revision 5ec80fb64789c6b07088664501ea668a671c855d (origin/master)
+Commit message: "2/2 02.Jenkinsfile fix5"
+Cloning repository https://github.com/shadejant/belhard-devops-fp.git
+ > git init /home/worker/workspace/12.02 # timeout=10
+Fetching upstream changes from https://github.com/shadejant/belhard-devops-fp.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/shadejant/belhard-devops-fp.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/shadejant/belhard-devops-fp.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5ec80fb64789c6b07088664501ea668a671c855d # timeout=10
+ > git rev-list --no-walk cffdc342647e743a95f999385eb20139a9463ef3 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (pull image)
+[Pipeline] sh
++ docker pull shadejant/speedtest:latest
+latest: Pulling from shadejant/speedtest
+Digest: sha256:8593de53d99157f3d2def3323381fd49a5b4210df215b8f14995d1a79ece8202
+Status: Image is up to date for shadejant/speedtest:latest
+docker.io/shadejant/speedtest:latest
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (run image)
+[Pipeline] sh
++ docker run shadejant/speedtest:latest
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+v3.16.0-325-g954c0a986d [https://dl-cdn.alpinelinux.org/alpine/v3.16/main]
+v3.16.0-328-g9432077365 [https://dl-cdn.alpinelinux.org/alpine/v3.16/community]
+OK: 17031 distinct packages available
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+(1/25) Installing ncurses-terminfo-base (6.3_p20220521-r0)
+(2/25) Installing ncurses-libs (6.3_p20220521-r0)
+(3/25) Installing readline (8.1.2-r0)
+(4/25) Installing bash (5.1.16-r2)
+Executing bash-5.1.16-r2.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r6)
+(7/25) Installing nghttp2-libs (1.47.0-r0)
+(8/25) Installing libcurl (7.83.1-r2)
+(9/25) Installing curl (7.83.1-r2)
+(10/25) Installing expat (2.4.8-r0)
+(11/25) Installing pcre2 (10.40-r0)
+(12/25) Installing git (2.36.2-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.23-r0)
+(16/25) Installing xz-libs (5.2.5-r1)
+(17/25) Installing libgcc (11.2.1_git20220219-r2)
+(18/25) Installing libstdc++ (11.2.1_git20220219-r2)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.38.5-r0)
+(21/25) Installing python3 (3.10.4-r0)
+(22/25) Installing speedtest-cli (2.1.3-r2)
+(23/25) Installing libunistring (1.0-r0)
+(24/25) Installing libidn2 (2.3.2-r2)
+(25/25) Installing wget (1.21.3-r0)
+Executing busybox-1.35.0-r13.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 75 MiB in 39 packages
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (ps)
+[Pipeline] sh
++ docker ps -a
+CONTAINER ID   IMAGE                        COMMAND                  CREATED              STATUS                     PORTS     NAMES
+c40af7295752   shadejant/speedtest:latest   "/entrypoint-speedte…"   About a minute ago   Exited (0) 5 seconds ago             blissful_dhawan
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
