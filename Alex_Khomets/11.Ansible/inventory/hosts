@@ -1,0 +1,4 @@
+[db]
+db-1 ansible_ssh_host=10.0.2.6 ansible_ssh_user=pivanaivy
+[web]
+web1 ansible_ssh_host=10.0.2.15 ansible_ssh_user=pivanaivy
