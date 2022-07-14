@@ -929,3 +929,51 @@ SET
 SET
 SET
 ```
+
+# 09.Terraform
+
+* Для VirtualBox файлы конфигурации Terraform provider.tf/variables.tf/vm's.tf находятся в папке 09.Terraform/VirtualBox.
+* Для VirtualBox файлы конфигурации Terraform provider.tf/variables.tf/containers.tf находятся в папке 09.Terraform/Docker.
+* Следующие команды использовались при выполнении задяния:
+```
+# Подготовка директории для дальнейшей работы с Terraform
+terraform init
+# Просмотр текущих изменений
+terraform plan
+# Проверка валидности конфигурации
+terraform validate
+# Создаем инфраструктуру
+terraform apply
+```
+
+# 10.Ansible
+
+* Меняем hostname для основной ВМ и перелогиниваемся для применения настройки: 
+```
+vagrant@node-01:~$ sudo hostnamectl set-hostname ansible-master 
+
+```
+* Ту же операцию проделываем и на двух слейв нодах:
+```
+vagrant@node-02:~$ sudo hostnamectl set-hostname ansible-1
+vagrant@node-03:~$ sudo hostnamectl set-hostname ansible-2
+```
+* Генерируем пару ssh ключей на ansible-master:
+```
+vagrant@ansible-master:~$ ssh-keygen
+ 
+```
+* Размещаем public key на слейв нодах и проверяем подключение с master на них:
+```
+vagrant@ansible-master:~$ ssh-copy-id vagrant@10.10.0.5
+vagrant@ansible-master:~$ ssh-copy-id vagrant@10.10.0.4
+```
+* Создаем файл hosts и пишем ansible playbook (сами файлы доступены в директории 10.Ansible):
+```
+vagrant@ansible-master:~/ansible/playbook/hw$ nano playbook.yml
+vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/inventory/hw/hosts
+```
+* Запускаем playbook следующей командой:
+```
+vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
+```
