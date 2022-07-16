@@ -1,0 +1,4 @@
+
+[test_groups_servers]
+testcentos    ansible_host=192.168.137.128   ansible_user=user
+testdebian    ansible_host=192.168.137.130   ansible_user=usertest

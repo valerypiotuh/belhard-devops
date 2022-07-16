@@ -1,0 +1,62 @@
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: install packages
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ansible-1"
+      become: yes
+
+    - name: update
+      apt: update_cache=yes
+      become: yes 
+   
+    - name: Install Nginx
+      apt: name=nginx state=latest
+      when:
+        - ansible_hostname == "ansible-2"
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes

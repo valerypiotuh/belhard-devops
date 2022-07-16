@@ -1,0 +1,5 @@
+[GR1]
+GR1-1 ansible_ssh_host=10.10.0.5 ansible_ssh_user=vagrant
+
+[GR2]
+GR2-1 ansible_ssh_host=10.10.0.4 ansible_ssh_user=vagrant
