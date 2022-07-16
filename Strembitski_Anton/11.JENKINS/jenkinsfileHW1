@@ -1,0 +1,47 @@
+pipeline{
+    agent {
+        docker {
+            image 'alpine'
+            args '-u root'
+            label 'slave_1debian'
+        }
+    }
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'main', name: 'BRANCH', type: 'PT_BRANCH'
+    }
+    stages {
+        stage ("Configure") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+
+        }
+        stage ("install packages") {
+            steps {
+                sh "apk update && apk add curl wget git bash speedtest-cli"
+            }
+        }
+        stage ("git clone"){
+            steps {
+                git branch: "${params.BRANCH}", url: 'https://github.com/StopGameZz/jenkins_test.git'
+            }
+        }
+        stage ("Dir") {
+            steps {
+                sh "ls -lah"
+            }
+        }
+        stage ("speedtest") {
+            steps{
+                sh "speedtest-cli"
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

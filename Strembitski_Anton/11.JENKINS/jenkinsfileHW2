@@ -1,0 +1,23 @@
+pipeline {
+   agent {
+        label 'master'
+        }
+        
+   stages {
+        
+        stage("Pull and run docker") {
+            steps {
+            sh '''
+			docker pull stopgamezz/speedtest:latest
+            docker run stopgamezz/speedtest:latest
+            docker ps -a
+            '''
+          }
+      }
+   }
+   post {
+        always {
+            cleanWs()
+        }
+    }
+}
