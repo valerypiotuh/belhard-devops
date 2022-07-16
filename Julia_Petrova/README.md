@@ -1,6 +1,6 @@
 ## Выполненные задания:
 
-#### 04. GIT
+### 04. GIT
 
 #### Создать у себя на локальной машине Git репозиторий со следующими ветками:
 
@@ -15,13 +15,13 @@
 * Развертывание fix - коммит из ветки fix/prod_is_down должен быть во всех ветках;
 ---
 
-#### 05. Bash
+### 05. Bash
 
 1. Посчитать количество странных слов в ядре Linux.
 2. 10 самых больших файлов в директории.
 ---
 
-#### 06. Docker
+### 06. Docker
 
 1. Зарегистрировать на Docker Hub;
 2. Создать Dockerfile:
@@ -35,7 +35,7 @@
 3. Загрузить рабочий Docker образ на Docker Hub.
 ---
 
-#### 07. Nginx
+### 07. Nginx
 
 #### Содержимое Dockerfile и index.html (контейнер nginx_hw1):
 ````
@@ -48,7 +48,7 @@ COPY index.html /usr/share/nginx/html
 		<title>NGINX page 1</title>
 	</head>
 	<body>
-	Welcome to NGINX home page 1!
+		Welcome to NGINX home page 1!
 	</body>
 </html>
 ````
@@ -64,7 +64,7 @@ COPY index.html /usr/share/nginx/html
 		<title>NGINX page 2</title>
 	</head>
 	<body>
-	Welcome to NGINX home page 2!
+		Welcome to NGINX home page 2!
 	</body>
 </html>
 ````
@@ -123,6 +123,7 @@ systemctl reload nginx
 ````
 ---
 
+<<<<<<< HEAD
 #### 09. Terraform
 
 #### Провайдер:
@@ -227,3 +228,88 @@ pgadmin_port  = "8081"
 
 
 
+=======
+### 08. PostgreSQL
+
+#### Поднять Docker контейнер с PostgreSQL сервером:
+
+##### Содержимое Dockerfile и создание образа:
+````
+FROM postgres
+ENV POSTGRES_HOST_AUTH_METHOD=trust
+RUN mkdir /dumps
+````
+````
+docker build . -t postgresql
+````
+
+#### Запуск контейнеров с PostgreSQL:
+````
+docker run --name psql1 -d -v ~/dumps:/dumps postgresql
+docker run --name psql2 -d -v ~/dumps:/dumps postgresql
+````
+
+#### Проверка ip адресов контейнеров:
+````
+user@ubuntu:~/belhard/08.PostgreSQL$ docker inspect psql1 | grep IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAddress": "172.17.0.2",
+user@ubuntu:~/belhard/08.PostgreSQL$ docker inspect psql2 | grep IPAddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.3",
+                    "IPAddress": "172.17.0.3",
+````
+
+#### Поднять Docker контейнер с pgAdmin и подключиться к PosgreSQL серверу
+````
+docker run --name pgadmin -p 8888:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4
+````
+
+#### Запуск PostgreSQL в контейнере:
+````
+docker exec -it dcf168aa2739 psql -U postgres
+````
+
+#### Создание БД под названием `belhard` и таблицы `devops` с полями (`FirstName`, `LastName`, `Email`, `Age`):
+````
+CREATE DATABASE belhard;
+\c belhard
+use belhard;
+
+CREATE TABLE devops
+(
+    ID SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+````
+
+#### Наполнение таблицы данными:
+```
+INSERT INTO devops (FirstName, LastName, Email, Age) VALUES
+('Ivan', 'Ivanov', 'ivanov@test.com', 30),
+('Aleksey', 'Ivanov', 'ivanov@test.com', 30),
+('Sergey', 'Petrov', 'petrov@test.com', 35),
+('Alexey', 'Medvedev', 'medvedev@test.com', 40),
+('Nikolay', 'Ivanov', 'ivanov@test.com', 30),
+('Marina', 'Petrova', 'petrova@test.com', 35),
+('Petr', 'Petrov', 'petrov@test.com', 35),
+('Ivan', 'Sidorov', 'sidorov@test.com', 40),
+('Anna', 'Sidorova', 'sidorova@test.com', 40),
+('Juri', 'Fedorov', 'fedorov@test.com', 30);
+````
+
+#### Снятие дампа с текущей БД и развертывание его в новом Docker контейнере:
+##### Контейнер `psql1`:
+````
+pg_dumpall -U postgres > /dumps/dump.sql
+````
+
+##### Контейнер `psql2`:
+```
+psql -U postgres -f /dumps/dump.sql
+````
+>>>>>>> 5edec2538e79521f52cc3ecd81067fa29f07902a
