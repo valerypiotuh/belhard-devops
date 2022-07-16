@@ -1,0 +1,5 @@
+[slave_group_1]
+ansible-1 ansible_ssh_host=10.0.2.5 ansible_ssh_user=vagrant
+
+[slave_group_2]
+ansible-2 ansible_ssh_host=10.0.2.6 ansible_ssh_user=vagrant

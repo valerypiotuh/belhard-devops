@@ -1,0 +1,69 @@
+- name: Add group and user for all
+  gather_facts: true
+  hosts: all
+
+  tasks:
+    - name: Create group
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        state: present
+        uid: 1500
+      become: yes
+
+- name: Install required packages for all
+  hosts: all
+
+  tasks:
+    - name: Install packages
+      apt:
+        update_cache: yes
+        pkg:
+        - curl
+        - wget
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+- name: Install Java for group 1
+  hosts: slave_group_1
+
+  tasks:
+    - name: Install Java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      become: yes
+
+- name: Install Nginx for group 2
+  hosts: slave_group_2
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        update_cache: yes
+        pkg:
+        - nginx
+        autoclean: yes
+        autoremove: yes
+      become: yes
+      notify:
+        - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=reloaded
+      become: yes
