@@ -7,3 +7,4 @@
 - [08.PostgreSQL](./08.POSTGRESQL/README.md)
 - [09.Terraform](./09.TERRAFORM/README.md)
 - [10.Ansible](./10.ANSIBLE/README.md)
+- [12.K8s](./12.K8S/README.md)
