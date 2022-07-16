@@ -1,0 +1,89 @@
+Started by user user
+Obtained Jenkinsfile from git https://gitlab.com/Mikola1911/test-belhard.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave in /home/user/jenkins/workspace/01_2.Jenkins_WH
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://gitlab.com/Mikola1911/test-belhard.git
+ > git init /home/user/jenkins/workspace/01_2.Jenkins_WH # timeout=10
+Fetching upstream changes from https://gitlab.com/Mikola1911/test-belhard.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- https://gitlab.com/Mikola1911/test-belhard.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision eadc6123f2fc2c75abc8f52e84061c616d1c3970 (refs/remotes/origin/main)
+Commit message: "add Jenkinsfile"
+ > git config remote.origin.url https://gitlab.com/Mikola1911/test-belhard.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f eadc6123f2fc2c75abc8f52e84061c616d1c3970 # timeout=10
+ > git rev-list --no-walk eadc6123f2fc2c75abc8f52e84061c616d1c3970 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (pull from dockerhub my image)
+[Pipeline] sh
++ docker pull mikola1911/belhard-shashkou-teach:latest
+latest: Pulling from mikola1911/belhard-shashkou-teach
+Digest: sha256:554692bb4008c4261541af187a5d9a2e61fbdcce64145c4f5d0158ca6ca9febf
+Status: Image is up to date for mikola1911/belhard-shashkou-teach:latest
+docker.io/mikola1911/belhard-shashkou-teach:latest
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (run my image)
+[Pipeline] sh
++ docker run -v --name mikola1911/belhard-shashkou-teach:latest
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+v3.16.0-286-g30edee2642 [https://dl-cdn.alpinelinux.org/alpine/v3.16/main]
+v3.16.0-293-gce7fda3927 [https://dl-cdn.alpinelinux.org/alpine/v3.16/community]
+OK: 17033 distinct packages available
+(1/10) Installing libbz2 (1.0.8-r1)
+(2/10) Installing libffi (3.4.2-r1)
+(3/10) Installing gdbm (1.23-r0)
+(4/10) Installing xz-libs (5.2.5-r1)
+(5/10) Installing libgcc (11.2.1_git20220219-r2)
+(6/10) Installing libstdc++ (11.2.1_git20220219-r2)
+(7/10) Installing mpdecimal (2.5.1-r1)
+(8/10) Installing sqlite-libs (3.38.5-r0)
+(9/10) Installing python3 (3.10.4-r0)
+(10/10) Installing speedtest-cli (2.1.3-r2)
+Executing busybox-1.35.0-r13.trigger
+OK: 75 MiB in 39 packages
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (docker ps -a)
+[Pipeline] sh
++ docker ps -a
+CONTAINER ID   IMAGE                                      COMMAND                  CREATED          STATUS                     PORTS     NAMES
+08243d01d1f8   mikola1911/belhard-shashkou-teach:latest   "/entrypoint_Shashko…"   36 seconds ago   Exited (0) 2 seconds ago             nervous_sinoussi
+55c8870bb7e3   hello-world                                "/hello"                 6 hours ago      Exited (0) 6 hours ago               stupefied_keller
+1251988b5996   hello-world                                "/hello"                 6 hours ago      Exited (0) 6 hours ago               relaxed_lederberg
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

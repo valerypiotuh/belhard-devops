@@ -1,0 +1,32 @@
+pipeline {
+  agent any
+    stages {
+
+        stage ("pull from dockerhub my image") {
+            steps {
+                sh '''
+                docker pull mikola1911/belhard-shashkou-teach:latest
+                '''
+            }
+        }
+        stage ("run my image"){
+            steps {
+                sh '''
+                docker run -v --name mikola1911/belhard-shashkou-teach:latest
+                '''
+            }
+        }
+        stage ("docker ps -a") {
+            steps {
+                sh '''
+                docker ps -a
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

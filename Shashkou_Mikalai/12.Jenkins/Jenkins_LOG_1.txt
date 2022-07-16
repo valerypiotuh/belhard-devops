@@ -1,0 +1,140 @@
+Started by an SCM change
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave in /home/user/jenkins/workspace/01_1.Jenkins_WH@2
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+slave does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -u root -w /home/user/jenkins/workspace/01_1.Jenkins_WH@2 -v /home/user/jenkins/workspace/01_1.Jenkins_WH@2:/home/user/jenkins/workspace/01_1.Jenkins_WH@2:rw,z -v /home/user/jenkins/workspace/01_1.Jenkins_WH@2@tmp:/home/user/jenkins/workspace/01_1.Jenkins_WH@2@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** alpine cat
+$ docker top 7651394b6448e64617009cfeab847c165edf7097b57eebc24d5556a1f8820d15 -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Initial config)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] properties
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (install apk)
+[Pipeline] sh
++ apk update
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+v3.16.0-302-g62bf0b8f5a [https://dl-cdn.alpinelinux.org/alpine/v3.16/main]
+v3.16.0-307-g579240d46d [https://dl-cdn.alpinelinux.org/alpine/v3.16/community]
+OK: 17030 distinct packages available
++ apk add curl wget git bash speedtest-cli
+(1/25) Installing ncurses-terminfo-base (6.3_p20220521-r0)
+(2/25) Installing ncurses-libs (6.3_p20220521-r0)
+(3/25) Installing readline (8.1.2-r0)
+(4/25) Installing bash (5.1.16-r2)
+Executing bash-5.1.16-r2.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r6)
+(7/25) Installing nghttp2-libs (1.47.0-r0)
+(8/25) Installing libcurl (7.83.1-r2)
+(9/25) Installing curl (7.83.1-r2)
+(10/25) Installing expat (2.4.8-r0)
+(11/25) Installing pcre2 (10.40-r0)
+(12/25) Installing git (2.36.1-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.23-r0)
+(16/25) Installing xz-libs (5.2.5-r1)
+(17/25) Installing libgcc (11.2.1_git20220219-r2)
+(18/25) Installing libstdc++ (11.2.1_git20220219-r2)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.38.5-r0)
+(21/25) Installing python3 (3.10.4-r0)
+(22/25) Installing speedtest-cli (2.1.3-r2)
+(23/25) Installing libunistring (1.0-r0)
+(24/25) Installing libidn2 (2.3.2-r2)
+(25/25) Installing wget (1.21.3-r0)
+Executing busybox-1.35.0-r13.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 75 MiB in 39 packages
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (git clone)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@1527921c; decorates RemoteLauncher[hudson.remoting.Channel@5988755f:slave] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Cloning the remote Git repository
+Cloning repository https://gitlab.com/Mikola1911/test-belhard.git
+ > git init /home/user/jenkins/workspace/01_1.Jenkins_WH@2 # timeout=10
+Fetching upstream changes from https://gitlab.com/Mikola1911/test-belhard.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- https://gitlab.com/Mikola1911/test-belhard.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision bd4a43cc73b34d570a035f78c16f67491235f270 (refs/remotes/origin/main)
+Commit message: "test jenkins"
+ > git config remote.origin.url https://gitlab.com/Mikola1911/test-belhard.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f bd4a43cc73b34d570a035f78c16f67491235f270 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b main bd4a43cc73b34d570a035f78c16f67491235f270 # timeout=10
+ > git rev-list --no-walk eadc6123f2fc2c75abc8f52e84061c616d1c3970 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (ls -lah my GIT)
+[Pipeline] sh
++ ls -lah
+total 32K
+drwxr-xr-x    5 1000     1000        4.0K Jul 12 18:00 .
+drwxr-xr-x    4 root     root        4.0K Jul 12 18:00 ..
+drwxr-xr-x    8 1000     1000        4.0K Jul 12 18:00 .git
+-rw-r--r--    1 1000     1000         662 Jul 12 18:00 Jenkinsfile
+-rw-r--r--    1 1000     1000        6.1K Jul 12 18:00 README.md
+drwxr-xr-x    2 1000     1000        4.0K Jul 12 18:00 first_commit
+drwxr-xr-x    2 1000     1000        4.0K Jul 12 18:00 test_main
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (speedtest)
+[Pipeline] sh
++ speedtest-cli
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (178.127.224.233)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by GLOBALONEBEL (Minsk) [0.29 km]: 21.451 ms
+Testing download speed................................................................................
+Download: 42.12 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 13.40 Mbit/s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 7651394b6448e64617009cfeab847c165edf7097b57eebc24d5556a1f8820d15
+$ docker rm -f 7651394b6448e64617009cfeab847c165edf7097b57eebc24d5556a1f8820d15
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
