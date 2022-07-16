@@ -281,3 +281,65 @@ server {
 При обращении на localhost:8100 отдается страница 1 контейнера через локальный nginx
 
 При обращении на localhost:8200 отдается страница 2 контейнера через локальный nginx
+
+# ДЗ 09.POSTGRES
+Необходимые контейнеры:
+```
+docker run -d --name pg1 -v /home/jant/bh/dz/09.postgresql/:/db -e POSTGRES_HOST_AUTH_METHOD=trust postgres:14
+docker run -d --name pg2 -v /home/jant/bh/dz/09.postgresql/:/db -e POSTGRES_HOST_AUTH_METHOD=trust postgres:14
+docker run -p 8888:80 -d -e PGADMIN_DEFAULT_EMAIL=admin@admin.co -e PGADMIN_DEFAULT_PASSWORD=root dpage/pgadmin4
+```
+Создание бд, заполнение и дамп (выполняется в контейнере `pg1`):
+```
+psql -U postgres
+CREATE DATABASE belhard;
+\c belhard
+CREATE TABLE devops
+(
+    Id SERIAL PRIMARY KEY,
+    FirstName CHARACTER VARYING(30),
+    LastName CHARACTER VARYING(30),
+    Email CHARACTER VARYING(30),
+    Age INTEGER
+);
+INSERT INTO devops  (FirstName, LastName, Email, Age)
+VALUES
+('FirstName1', 'LastName1', '1@e.mail', 10),
+('FirstName2', 'LastName2', '2@e.mail', 9),
+('FirstName3', 'LastName3', '3@e.mail', 8),
+('FirstName4', 'LastName4', '4@e.mail', 7),
+('FirstName5', 'LastName5', '5@e.mail', 6),
+('FirstName6', 'LastName6', '6@e.mail', 5),
+('FirstName7', 'LastName7', '7@e.mail', 4),
+('FirstName8', 'LastName8', '8@e.mail', 3),
+('FirstName9', 'LastName9', '9@e.mail', 2),
+('FirstName10', 'LastName10', '10@e.mail', 1);
+
+pg_dumpall -U postgres > /db/pg1.dump
+```
+Разворачиваение дампа в контейнере `pg2` выполняется командой
+```
+psql -U postgres -f /db/pg1.dump
+```
+
+# ДЗ 10.TERRAFORM
+Файл `providers.tf` содержит необходимый провайдер;
+
+Файл `vars-def.tf` содержит определение переменных;
+
+Файл `terraform.tfvars`содержит значения переменных;
+
+Файл `main.tf` содержит описание создаваемых контейнеров.
+
+# ДЗ 11.ANSIBLE
+Файл `hosts`:
+```
+[java]
+java1 ansible_ssh_host=node1 ansible_ssh_user=node
+
+[nginx]
+nginx1 ansible_ssh_host=node2 ansible_ssh_user=node
+```
+Файл `dz.yml` содержит необходимый код для выполнения задания (сам файл слишком большой чтобы его копировать в readme.md). Файл сделан так что при добавлении хостов в группу `java` они все будут подходить под условия для установки пакета.
+
+Команда для запуска плейбука `ansible-playbook -i inventory/hosts playbooks/dz.yml`

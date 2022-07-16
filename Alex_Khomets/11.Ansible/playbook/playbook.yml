@@ -1,0 +1,79 @@
+- name: Setting up our VMs
+  gather_facts: true
+  hosts: all
+
+  tasks:
+
+    - name: Create group "devops"
+      ansible.builtin.group:
+        name: devops
+        state: present
+        gid: 1400
+      become: yes
+
+    - name: Add user "belhard"
+      ansible.builtin.user:
+        name: belhard
+        group: devops
+        shell: /bin/bash
+        comment: "Belhard DevOps user"
+        state: present
+        uid: 1500
+      become: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/belhard/.ssh
+        state: directory
+      become: yes
+
+    - name: Add belhard user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/belhard"
+        content: |
+          belhard ALL = NOPASSWD: ALL
+          belhard ALL = (ALL) NOPASSWD:ALL
+      become: yes
+
+    - name: Add local SSH key
+      copy:
+        dest: "/home/belhard/.ssh/authorized_keys"
+        content:
+          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDeLg+PJP3TNDtPcSzxyZXhvw8R222uiiQI8x8YZ95QlHw8VEcvD1wjAju+peIsjbXcuNEV/awjCEH3laQcnrXoYmeSpu0LiOWlfOksAIqWG5kvRrUtx+e4V0CATFOVUPpiVp0HNwHnmbgZMZzkOMLOdbzCFhEN0I7Nyp3j1MglUSRCJJLEIaz9i2O7R8jfKaaZVPnHCrpTGzl33Men/axE5mF8hXLiFWQ+HqPNurrkB8vQCcj6VsgeXsBxwhECLb5hJ9ej8h65Jj5dNdEBevEkJfM2jZlPZkwAQi1DihL8ygLLhtiU+kbb3ZKGCTlkQtr793vSYDWKupfcA4TNNVuNqUnhHohxsq6TXC/5bJcthRdIE+jKfNA2YMdaEBAUAmXmIoc1e7TligPiZlMAXNoMfyaJQWQ5Uw/cuS78JF6fNQ/MFFqZ1CZyExEI3YDYkEHRCmvkbySmJm/GM18IuYNYbUQ2CnINmH7m2pj2e11aG4QwUQp4glMZFG8TqzH1WLs= pivanaivy@camp
+      become: yes
+
+    - name: install all packeg
+      apt:
+        update_cache: yes
+        pkg:
+        - wget
+        - curl
+        - unzip
+        - zip
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "all"
+      become: yes
+
+    - name: install java
+      apt:
+        update_cache: yes
+        pkg:
+        - openjdk-11-jdk
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ubuntu2"
+      become: yes
+
+    - name: install nginx
+      apt:
+        update_cache: yes
+        pkg:
+        - nginx
+        autoclean: yes
+        autoremove: yes
+      when:
+        - ansible_hostname == "ubuntu3"
+      become: yes
