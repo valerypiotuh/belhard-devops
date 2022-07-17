@@ -1,32 +1,24 @@
 pipeline { 
-  agent { 
-        docker {  
-            image 'alpine' 
-        } 
-    } 
+  agent any 
   stages { 
-        stage("Initial config") { 
-            steps { 
-                script { 
-                    properties([pipelineTriggers([pollSCM('* * * * *')])]) 
-                } 
+       stage ("Pull image from dockerhub") { 
+           steps { 
+               docker pull daryakap/speedtest 
             } 
         } 
-        stage("Checkout Git") { 
+        stage ("Run image"){ 
             steps { 
-                git branch: 'bh-devops-02-22', url: 'https://github.com/DaryaKap/belhard-devops.git'  
+                docker run daryakap/speedtest:latest 
             } 
         } 
-        stage("List repository") { 
+        stage ("docker ps -a") { 
             steps { 
-                sh ''' 
-                ls -la 
-                ''' 
+                docker ps -a 
             } 
         } 
     } 
-    post {  
-        always {  
+    post { 
+        always { 
             cleanWs() 
         } 
     } 
