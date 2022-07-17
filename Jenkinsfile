@@ -2,18 +2,24 @@ pipeline {
   agent any 
   stages { 
        stage ("Pull image from dockerhub") { 
-           steps { 
-               docker pull daryakap/speedtest 
+           steps {
+               sh '''
+               docker pull daryakap/speedtest
+               ''' 
             } 
         } 
         stage ("Run image"){ 
-            steps { 
-                docker run daryakap/speedtest:latest 
+            steps {
+                sh '''
+                docker run daryakap/speedtest:latest
+                ''' 
             } 
         } 
         stage ("docker ps -a") { 
-            steps { 
-                docker ps -a 
+            steps {
+                sh '''
+                docker ps -a
+                ''' 
             } 
         } 
     } 
