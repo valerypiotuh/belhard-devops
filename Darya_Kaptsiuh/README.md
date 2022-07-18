@@ -468,3 +468,217 @@ ansible-2 ansible_ssh_host=10.0.2.6 ansible_ssh_user=vagrant
 ```
 ansible-playbook -i /home/vagrant/.ansible/inventory/hosts /home/vagrant/.ansible/my_playbook.yaml
 ```
+---
+
+### 10.Jenkins
+
+##### Jenkinsfile 1
+-   запускается только на слейве в Docker Alpine по Push в репозиторий
+-   устанавливаются пакеты  `curl`,  `wget`,  `git`,  `bash`,  `speedtest-cli`
+-   клонируется свой репозиторий
+-   показывает список файлов в репозитории
+-   запустить  `speedtest-cli`
+```
+pipeline { 
+ agent { 
+        docker {  
+            image 'alpine' 
+   args '-u root' 
+        } 
+    } 
+ stages { 
+  stage("Initial config") { 
+            steps { 
+                script { 
+                    properties([pipelineTriggers([pollSCM('* * * * *')])]) 
+                } 
+            } 
+        } 
+  stage ("Install packages") { 
+   steps { 
+    sh ''' 
+    apk update && apk add curl wget git bash speedtest-cli 
+    ''' 
+   } 
+  }   
+        stage("Checkout Git") { 
+            steps { 
+                git branch: 'bh-devops-02-22', url: 'https://github.com/DaryaKap/belhard-devops.git'  
+            } 
+        } 
+        stage("List repository") { 
+            steps { 
+                sh ''' 
+                ls -la 
+                ''' 
+            } 
+        } 
+  stage ("Run Speedtest") {  
+   steps {  
+    sh "speedtest-cli"  
+   } 
+  }  
+    } 
+    post {  
+        always {  
+            cleanWs() 
+        } 
+    } 
+}
+```
+##### Jenkinsfile 2
+-   запускается локально на слейве
+-   лежит в GitHub
+-   запускает Docker контейнер из ДЗ 07.Docker
+-   показывает вывод  `docker ps -a`
+```
+pipeline {
+  agent any
+  stages {
+       stage ("Pull image from dockerhub") {
+           steps {
+               sh '''
+               docker pull daryakap/speedtest
+               '''
+            }
+        }
+        stage ("Run image"){
+            steps {
+                sh '''
+                docker run daryakap/speedtest:latest
+                '''
+            }
+        }
+        stage ("docker ps -a") {
+            steps {
+                sh '''
+                docker ps -a
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+```
+---
+
+### 10.K8S
+
+##### Задание
+-   Установить minikube
+-   Написать helm чарт для деплоя контейнера из ДЗ по Docker
+
+##### Установка minikube
+```
+choco install minikube
+```
+##### Запуск minikube
+```
+minikube start --vm-driver=virtualbox
+```
+##### Установка helm
+```
+choco install kubernetes-helm
+```
+##### Создание namespace hm_speedest
+```
+kubectl create namespace hm_speedtest
+```
+##### Создание helm чарта
+```
+helm create speedtest 
+```
+##### Установка helm чарта
+```
+helm install speedtest-helm speedtest/ --values speedtest/values.yaml -n speedtest-hm
+```
+##### Содеержание values.yaml
+```
+# Default values for speedtest.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: daryakap/speedtest
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: "speedtest-helm"
+fullnameOverride: "speedtest-hm-docker-image"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 801
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+   limits:
+     cpu: 100m
+     memory: 512Mi
+   requests:
+     cpu: 100m
+     memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+```
+
