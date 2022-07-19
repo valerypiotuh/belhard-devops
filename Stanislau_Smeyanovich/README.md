@@ -973,7 +973,8 @@ vagrant@ansible-master:~$ ssh-copy-id vagrant@10.10.0.4
 vagrant@ansible-master:~/ansible/playbook/hw$ nano playbook.yml
 vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/inventory/hw/hosts
 ```
-* Запускаем playbook следующей командой:
+* Запускаем playbook следующей командой: 
 ```
 vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
 ```
+
