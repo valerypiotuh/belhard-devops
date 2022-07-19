@@ -1,5 +1,5 @@
 # 04.GIT
-* Создание локального репозитория и двух коммитов в ветке master
+* Создание локального репозитория и двух коммитов в ветке master:
 ```
 user@ubuntu:~$ mkdir homework
 user@ubuntu:~$ cd homework/
