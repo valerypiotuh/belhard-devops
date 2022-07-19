@@ -978,3 +978,4 @@ vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/invento
 vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
 ```
 
+
