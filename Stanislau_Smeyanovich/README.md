@@ -75,7 +75,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней
+* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней:
 ```
 user@ubuntu:~/homework$ git checkout -b staging
 Switched to a new branch 'staging'
