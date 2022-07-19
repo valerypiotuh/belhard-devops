@@ -172,7 +172,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ``` 
-* Создание ветки test икоммита в ней
+* Создание ветки test икоммита в ней:
 ```    
 user@ubuntu:~/homework$ git checkout -b test
 Switched to a new branch 'test'
