@@ -12,15 +12,29 @@ pipeline {
                 }
             }
         }
-        stage("Checkout Git") {
+	stage("Installing Packages") {
+            steps {
+                sh '''
+                apt update && apt install curl wget git bash speedtest-cli -y
+                '''
+            }
+        }
+        stage("GIT Clone") {
             steps {
                 git branch: 'bh-devops-02-22', url: 'https://github.com/stanislausmain/belhard-devops.git' 
             }
         }
-        stage("List repository") {
+        stage("Repository Content") {
             steps {
                 sh '''
                 ls -la
+                '''
+            }
+        }
+	stage("Speed Test") {
+            steps {
+                sh '''
+                speedtest-cli
                 '''
             }
         }
