@@ -254,7 +254,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Создание ветк fix/prod_is_down и коммита в ней
+* Создание ветк fix/prod_is_down и коммита в ней:
 ```
 user@ubuntu:~/homework$ git checkout master
 Switched to branch 'master'
