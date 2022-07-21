@@ -1,0 +1,165 @@
+Started by an SCM change
+Obtained Stanislau_Smeyanovich/11.Jenkins/Jenkins_#1/Jenkinsfile_#1 from git https://github.com/stanislausmain/belhard-devops.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on slave in /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/stanislausmain/belhard-devops.git
+ > git init /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2 # timeout=10
+Fetching upstream changes from https://github.com/stanislausmain/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/stanislausmain/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b (refs/remotes/origin/bh-devops-02-22)
+Commit message: "Test Jenkins"
+ > git config remote.origin.url https://github.com/stanislausmain/belhard-devops.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-02-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b # timeout=10
+ > git rev-list --no-walk b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ docker inspect -f . alpine
+.
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] withDockerContainer
+slave does not seem to be running inside a container
+$ docker run -t -d -u 1000:1000 -u root -w /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2 -v /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2:/home/vagrant/jenkins/workspace/11.Jenkins_HW1@2:rw,z -v /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2@tmp:/home/vagrant/jenkins/workspace/11.Jenkins_HW1@2@tmp:rw,z -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** alpine cat
+$ docker top cb140c0b02bdbfc1d39d39e611eb06fbaf079f14f5b40c456968ff522f1b5a91 -eo pid,comm
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Initial config)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] properties
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Installing Packages)
+[Pipeline] sh
++ apk update
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.16/community/x86_64/APKINDEX.tar.gz
+v3.16.1-5-ge692d8f074 [https://dl-cdn.alpinelinux.org/alpine/v3.16/main]
+v3.16.1-16-gfdd7486a32 [https://dl-cdn.alpinelinux.org/alpine/v3.16/community]
+OK: 17025 distinct packages available
++ apk add curl wget git bash speedtest-cli
+(1/25) Installing ncurses-terminfo-base (6.3_p20220521-r0)
+(2/25) Installing ncurses-libs (6.3_p20220521-r0)
+(3/25) Installing readline (8.1.2-r0)
+(4/25) Installing bash (5.1.16-r2)
+Executing bash-5.1.16-r2.post-install
+(5/25) Installing ca-certificates (20211220-r0)
+(6/25) Installing brotli-libs (1.0.9-r6)
+(7/25) Installing nghttp2-libs (1.47.0-r0)
+(8/25) Installing libcurl (7.83.1-r2)
+(9/25) Installing curl (7.83.1-r2)
+(10/25) Installing expat (2.4.8-r0)
+(11/25) Installing pcre2 (10.40-r0)
+(12/25) Installing git (2.36.2-r0)
+(13/25) Installing libbz2 (1.0.8-r1)
+(14/25) Installing libffi (3.4.2-r1)
+(15/25) Installing gdbm (1.23-r0)
+(16/25) Installing xz-libs (5.2.5-r1)
+(17/25) Installing libgcc (11.2.1_git20220219-r2)
+(18/25) Installing libstdc++ (11.2.1_git20220219-r2)
+(19/25) Installing mpdecimal (2.5.1-r1)
+(20/25) Installing sqlite-libs (3.38.5-r0)
+(21/25) Installing python3 (3.10.4-r0)
+(22/25) Installing speedtest-cli (2.1.3-r2)
+(23/25) Installing libunistring (1.0-r0)
+(24/25) Installing libidn2 (2.3.2-r2)
+(25/25) Installing wget (1.21.3-r0)
+Executing busybox-1.35.0-r15.trigger
+Executing ca-certificates-20211220-r0.trigger
+OK: 75 MiB in 39 packages
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (GIT Clone)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Warning: JENKINS-30600: special launcher org.jenkinsci.plugins.docker.workflow.WithContainerStep$Decorator$1@38ff3f73; decorates RemoteLauncher[hudson.remoting.Channel@325c3699:slave] will be ignored (a typical symptom is the Git executable not being run inside a designated container)
+Fetching changes from the remote Git repository
+Checking out Revision b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b (refs/remotes/origin/bh-devops-02-22)
+ > git rev-parse --resolve-git-dir /home/vagrant/jenkins/workspace/11.Jenkins_HW1@2/.git # timeout=10
+ > git config remote.origin.url https://github.com/stanislausmain/belhard-devops.git # timeout=10
+Fetching upstream changes from https://github.com/stanislausmain/belhard-devops.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/stanislausmain/belhard-devops.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/bh-devops-02-22^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b bh-devops-02-22 b8b9fac2026a7648ca1c025a31d1aa3ba4d2526b # timeout=10
+Commit message: "Test Jenkins"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Repository Content)
+[Pipeline] sh
++ ls -la
+total 28
+drwxrwxr-x    6 1000     1000          4096 Jul 21 13:20 .
+drwxr-xr-x    4 root     root          4096 Jul 21 13:20 ..
+drwxrwxr-x    8 1000     1000          4096 Jul 21 13:28 .git
+drwxrwxr-x    3 1000     1000          4096 Jul 21 13:20 Alexey_Golovnev
+-rw-rw-r--    1 1000     1000          2287 Jul 21 13:20 README.md
+drwxrwxr-x    3 1000     1000          4096 Jul 21 13:20 Shashkou_Mikalai
+drwxrwxr-x   10 1000     1000          4096 Jul 21 13:20 Stanislau_Smeyanovich
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Speed Test)
+[Pipeline] sh
++ speedtest-cli
+Retrieving speedtest.net configuration...
+Testing from Beltelecom (37.214.43.110)...
+Retrieving speedtest.net server list...
+Selecting best server based on ping...
+Hosted by MGTS (Minsk) [0.29 km]: 5.978 ms
+Testing download speed................................................................................
+Download: 94.06 Mbit/s
+Testing upload speed......................................................................................................
+Upload: 25.08 Mbit/s
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+$ docker stop --time=1 cb140c0b02bdbfc1d39d39e611eb06fbaf079f14f5b40c456968ff522f1b5a91
+$ docker rm -f cb140c0b02bdbfc1d39d39e611eb06fbaf079f14f5b40c456968ff522f1b5a91
+[Pipeline] // withDockerContainer
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

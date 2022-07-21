@@ -1,0 +1,48 @@
+pipeline {
+  agent {
+        docker { 
+            image 'alpine'
+	        args '-u root'
+        }
+    }
+  stages {
+        stage("Initial config") {
+            steps {
+                script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }
+	stage("Installing Packages") {
+            steps {
+                sh '''
+                apk update && apk add curl wget git bash speedtest-cli
+                '''
+            }
+        }
+        stage("GIT Clone") {
+            steps {
+                git branch: 'bh-devops-02-22', url: 'https://github.com/stanislausmain/belhard-devops.git' 
+            }
+        }
+        stage("Repository Content") {
+            steps {
+                sh '''
+                ls -la
+                '''
+            }
+        }
+	stage("Speed Test") {
+            steps {
+                sh '''
+                speedtest-cli
+                '''
+            }
+        }
+    }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+}

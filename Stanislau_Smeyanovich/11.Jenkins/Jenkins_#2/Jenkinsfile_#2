@@ -1,0 +1,24 @@
+pipeline {
+  agent any
+  stages {
+	stage("Starting The Container") {
+            steps {
+                sh '''
+                docker run stanislausmain/speedtest
+                '''
+            }
+        }
+        stage("List Containers") {
+            steps {
+                sh '''
+                docker ps -a
+                '''
+            }
+        }
+    }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
+}

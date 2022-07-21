@@ -1,5 +1,5 @@
 # 04.GIT
-* Создание локального репозитория и двух коммитов в ветке master
+* Создание локального репозитория и двух коммитов в ветке master:
 ```
 user@ubuntu:~$ mkdir homework
 user@ubuntu:~$ cd homework/
@@ -75,7 +75,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней
+* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней:
 ```
 user@ubuntu:~/homework$ git checkout -b staging
 Switched to a new branch 'staging'
@@ -172,7 +172,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ``` 
-* Создание ветки test икоммита в ней
+* Создание ветки test икоммита в ней:
 ```    
 user@ubuntu:~/homework$ git checkout -b test
 Switched to a new branch 'test'
@@ -254,7 +254,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Создание ветк fix/prod_is_down и коммита в ней
+* Создание ветк fix/prod_is_down и коммита в ней:
 ```
 user@ubuntu:~/homework$ git checkout master
 Switched to branch 'master'
@@ -338,7 +338,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Сценарий 1
+* Сценарий 1:
 ```
 user@ubuntu:~/homework$ git checkout master
 user@ubuntu:~/homework$ git rebase test
@@ -973,7 +973,16 @@ vagrant@ansible-master:~$ ssh-copy-id vagrant@10.10.0.4
 vagrant@ansible-master:~/ansible/playbook/hw$ nano playbook.yml
 vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/inventory/hw/hosts
 ```
-* Запускаем playbook следующей командой:
+* Запускаем playbook следующей командой: 
 ```
 vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
 ```
+
+# 11. Jenkins
+
+* Написать 2 Jenkinsfile:
+
+```
+Файлы Jenkins, log файлы, а также скриншоты конфигурации и выполнения пайплайнов на ходятся в репозитории bh-devops-02-22 в папках Stanislau_Smeyanovich/11.Jenkins/Jenkins_#1 и Jenkins_#2 соответственно.
+```
+
