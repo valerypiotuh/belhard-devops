@@ -978,4 +978,11 @@ vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/invento
 vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
 ```
 
+# 11. Jenkins
+
+* Написать 2 Jenkinsfile:
+
+```
+Файлы Jenkins, log файлы, а также скриншоты конфигурации и выполнения пайплайнов на ходятся в репозитории bh-devops-02-22 в папках Stanislau_Smeyanovich/11.Jenkins/Jenkins_#1 и Jenkins_#2 соответственно.
+```
 
