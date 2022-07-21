@@ -16,7 +16,7 @@ pipeline {
 	stage("Installing Packages") {
             steps {
                 sh '''
-                sudo apk update && sudo apk add curl wget git bash speedtest-cli
+                apk update && apk add curl wget git bash speedtest-cli
                 '''
             }
         }
