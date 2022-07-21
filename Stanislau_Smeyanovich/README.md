@@ -338,7 +338,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Сценарий 1
+* Сценарий 1:
 ```
 user@ubuntu:~/homework$ git checkout master
 user@ubuntu:~/homework$ git rebase test
