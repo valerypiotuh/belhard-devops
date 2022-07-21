@@ -1,5 +1,5 @@
 # 04.GIT
-* Создание локального репозитория и двух коммитов в ветке master
+* Создание локального репозитория и двух коммитов в ветке master:
 ```
 user@ubuntu:~$ mkdir homework
 user@ubuntu:~$ cd homework/
@@ -75,7 +75,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ```
-* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней
+* Создание и переход в ветку staging, а также создание 2-ух коммитов в ней:
 ```
 user@ubuntu:~/homework$ git checkout -b staging
 Switched to a new branch 'staging'
@@ -172,7 +172,7 @@ Date:   Mon Jun 6 15:28:08 2022 +0000
 
     Creating file1
 ``` 
-* Создание ветки test икоммита в ней
+* Создание ветки test икоммита в ней:
 ```    
 user@ubuntu:~/homework$ git checkout -b test
 Switched to a new branch 'test'
@@ -973,7 +973,9 @@ vagrant@ansible-master:~$ ssh-copy-id vagrant@10.10.0.4
 vagrant@ansible-master:~/ansible/playbook/hw$ nano playbook.yml
 vagrant@ansible-master:~/ansible/playbook/hw$ nano /home/vagrant/ansible/inventory/hw/hosts
 ```
-* Запускаем playbook следующей командой:
+* Запускаем playbook следующей командой: 
 ```
 vagrant@ansible-master:~/ansible/playbook/hw$ ansible-playbook -i/home/vagrant/ansible/inventory/hw/hosts /home/vagrant/ansible/playbook/hw/playbook.yml
 ```
+
+
