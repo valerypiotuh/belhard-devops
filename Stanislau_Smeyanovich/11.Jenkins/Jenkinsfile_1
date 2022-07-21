@@ -2,7 +2,6 @@ pipeline {
   agent {
         docker { 
             image 'alpine'
-	    args '-u root'
         }
     }
   stages {
@@ -16,7 +15,7 @@ pipeline {
 	stage("Installing Packages") {
             steps {
                 sh '''
-                apt update && apt install curl wget git bash speedtest-cli -y
+                apk update && apk add curl wget git bash speedtest-cli
                 '''
             }
         }
