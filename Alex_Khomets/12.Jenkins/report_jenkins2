@@ -1,0 +1,21 @@
+pipeline { agent any stages { stage("Initial config") { steps { script {
+                    properties([pipelineTriggers([pollSCM('* * * * *')])])
+                }
+            }
+        }
+        stage('Checkout') { steps{ git branch: 'master', url:
+                    'https://github.com/pivanaivy/belhard-devops.git'
+                }
+        }
+        stage('Test') { steps{ sh 'pwd' sh 'ls -la' sh "cd Alex_Khomets/06.Docker/" sh "ls -la"
+                }
+            }
+        stage('Build docker image') { steps{ dir('Alex_Khomets/06.Docker/') { sh 'docker build . -f
+                    ./Homework_khomets -t pivanaivy/jenkins-images:01'
+                }
+            }
+        }
+        stage('Run docker image') { steps{ sh 'docker run -d pivanaivy/jenkins-images:01'
+                            }
+        }
+
