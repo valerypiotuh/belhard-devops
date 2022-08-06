@@ -1,7 +1,7 @@
 # Курс «DevOps. Системный инженер»
 
 Этот репозиторий будет хранить все практические домашние задания слушателей этого кура. GHJDTHRF
-
+klklklk
 ## Текущая рабочая ветка `bh-devops-02-22`
 
 ## [Журнал выполнения ДЗ](https://docs.google.com/spreadsheets/d/1flsZzeHRW8DrcB4HtD0RM5bxaHBwR2_84XUUpL-AjtI/edit#gid=0)
