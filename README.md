@@ -2,7 +2,7 @@
 
 Этот репозиторий будет хранить все практические домашние задания слушателей этого кура. GHJDTHRF
 
-## Текущая рабочая ветка `bh-devops-02-22`
+## Текущая рабочая ветка `bh-devops-02-22` 766767
 
 ## [Журнал выполнения ДЗ](https://docs.google.com/spreadsheets/d/1flsZzeHRW8DrcB4HtD0RM5bxaHBwR2_84XUUpL-AjtI/edit#gid=0)
 
