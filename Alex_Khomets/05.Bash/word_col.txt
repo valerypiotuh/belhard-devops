@@ -1,0 +1,6 @@
+'fuck' count:  43
+'shit' count:  0
+'shit' count:  183
+'crap' count:  202
+'bastard' count:  27
+'penguin' count:  121

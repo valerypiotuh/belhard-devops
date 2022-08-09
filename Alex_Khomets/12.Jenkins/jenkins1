@@ -1,0 +1,27 @@
+pipeline { agent { label 'docker'} { docker { image 'alpine' args '-u root'
+        }
+    }
+  stages { stage("Initial config") { steps { script { properties([pipelineTriggers([pollSCM('* * * * 
+                    *')])])
+                }
+           }
+        }
+        stage("install packages") { steps { sh ''' apk update && apk add curl wget git bash 
+                speedtest-cli '''
+                }
+            }        
+                stage("Checkout Git") { steps { git branch: 'master', url: 
+                'https://github.com/pivanaivy/belhard-devops.git'
+            }
+        }
+        stage("List repository") { steps { sh ''' ls -la '''
+            }
+        }
+         stage("Speedtest test") { steps { sh ''' speedtest-cli '''
+            }
+        }
+    }
+    post { always { cleanWs()
+        }
+    }
+}
